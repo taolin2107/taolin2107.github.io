@@ -39,13 +39,13 @@ relative_link: false
 future: true
 highlight:
   enable: true
-  line_number: true
+  line_number: false
   auto_detect: false
   tab_replace:
 
 # Category & Tag
-default_category: uncategorized
-category_map:
+default_category: android
+category_map: [android, java, front-end, life]
 tag_map:
 
 # Date / Time format
@@ -69,6 +69,6 @@ theme: hexo-theme-next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/taolin2107/taolin2107.github.io
+  repo: git@github.com:taolin2107/taolin2107.github.io
   branch: master
   message: "Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }}"

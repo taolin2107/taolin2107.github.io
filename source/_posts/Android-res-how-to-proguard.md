@@ -10,9 +10,7 @@ categories: android
 
 下面介绍如何用AndResGuard对资源文件进行混淆
 
-详情参考：https://github.com/shwenzhang/AndResGuard
-
-### 1. 添加依赖包
+### 添加依赖包
 在Project根目录下build.gradle中添加dependency：
 
 ```xml
@@ -36,7 +34,7 @@ apply plugin: 'AndResGuard'    //添加AndResGuard插件
 ...
 ```
 
-### 2. 配置AndResGuard
+### 配置AndResGuard
 在app目录下的build.gradle中添加：
 
 ```xml
@@ -77,7 +75,7 @@ dependencies {
 比如我上面指定的文件位置"../mapping/resource_mapping_app-release.txt"，下次代码混淆就会以这个映射文件为基础。
 ```
 
-### 3. 运行混淆命令
+### 运行混淆命令
 在Project根目录下执行命令：
 ```
 ./gradlew resguard
@@ -92,3 +90,4 @@ appname_signed_7zip_aligned.apk    //签名压缩对齐后的apk，可供发布
 resource_mapping_name.txt      //生成的映射文件，请保留，下次混淆指定mappingFile为此文件
 ```
 
+详情参考：https://github.com/shwenzhang/AndResGuard

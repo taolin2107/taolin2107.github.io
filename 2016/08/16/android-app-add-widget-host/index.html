@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Android,widget-host,插件容器,widget," />
 
 
 
@@ -84,15 +84,21 @@
 
 
 
-<meta name="description" content="工作总结 | 个人感想">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Taolin的个人博客">
-<meta property="og:url" content="http://taolin.me/index.html">
+<meta name="description" content="项目中遇到这样的问题，我们有一款大屏Android设备，为了充分利用大屏的优势，我们开发了一套操作界面(Launcher)，所有的功能都在这个Launcher界面的一个个独立的panel中，要使用哪个功能，直接操作对应的panel，panel可以随意拖动。（如下图所示）
+随着功能模块越来越多，代码结构变得复杂，不好维护，后面我们就规划把其中一些模块用widget的方式实现。那么Launcher就要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android应用添加插件容器widget host功能">
+<meta property="og:url" content="http://taolin.me/2016/08/16/android-app-add-widget-host/index.html">
 <meta property="og:site_name" content="Taolin的个人博客">
-<meta property="og:description" content="工作总结 | 个人感想">
+<meta property="og:description" content="项目中遇到这样的问题，我们有一款大屏Android设备，为了充分利用大屏的优势，我们开发了一套操作界面(Launcher)，所有的功能都在这个Launcher界面的一个个独立的panel中，要使用哪个功能，直接操作对应的panel，panel可以随意拖动。（如下图所示）
+随着功能模块越来越多，代码结构变得复杂，不好维护，后面我们就规划把其中一些模块用widget的方式实现。那么Launcher就要">
+<meta property="og:image" content="http://taolin.me/2016/08/16/android-app-add-widget-host/img1.png">
+<meta property="og:updated_time" content="2016-08-16T12:30:11.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Taolin的个人博客">
-<meta name="twitter:description" content="工作总结 | 个人感想">
+<meta name="twitter:title" content="Android应用添加插件容器widget host功能">
+<meta name="twitter:description" content="项目中遇到这样的问题，我们有一款大屏Android设备，为了充分利用大屏的优势，我们开发了一套操作界面(Launcher)，所有的功能都在这个Launcher界面的一个个独立的panel中，要使用哪个功能，直接操作对应的panel，panel可以随意拖动。（如下图所示）
+随着功能模块越来越多，代码结构变得复杂，不好维护，后面我们就规划把其中一些模块用widget的方式实现。那么Launcher就要">
+<meta name="twitter:image" content="http://taolin.me/2016/08/16/android-app-add-widget-host/img1.png">
 
 
 
@@ -113,9 +119,9 @@
 
 
 
-  <link rel="canonical" href="http://taolin.me/"/>
+  <link rel="canonical" href="http://taolin.me/2016/08/16/android-app-add-widget-host/"/>
 
-  <title> Taolin的个人博客 </title>
+  <title> Android应用添加插件容器widget host功能 | Taolin的个人博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -136,9 +142,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -215,9 +219,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -237,10 +241,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/08/16/android-app-add-widget-host/" itemprop="url">
-                  Android应用添加插件容器widget host功能
-                </a>
+                Android应用添加插件容器widget host功能
               
             
           </h1>
@@ -306,9 +307,7 @@
       
 
       
-        
-          
-            <p>项目中遇到这样的问题，我们有一款大屏Android设备，为了充分利用大屏的优势，我们开发了一套操作界面(Launcher)，所有的功能都在这个Launcher界面的一个个独立的panel中，要使用哪个功能，直接操作对应的panel，panel可以随意拖动。（如下图所示）<br><img src="/2016/08/16/android-app-add-widget-host/img1.png" alt="module panels" title="module panels"></p>
+        <p>项目中遇到这样的问题，我们有一款大屏Android设备，为了充分利用大屏的优势，我们开发了一套操作界面(Launcher)，所有的功能都在这个Launcher界面的一个个独立的panel中，要使用哪个功能，直接操作对应的panel，panel可以随意拖动。（如下图所示）<br><img src="/2016/08/16/android-app-add-widget-host/img1.png" alt="module panels" title="module panels"></p>
 <p>随着功能模块越来越多，代码结构变得复杂，不好维护，后面我们就规划把其中一些模块用widget的方式实现。<br>那么Launcher就要实现widget容器的功能，使得这些功能模块可以通过widget的方式添加进来，比如天气模块是可以通过widget的方式添加的。</p>
 <p>下面介绍如何让Android app支持widget容器功能</p>
 <h2 id="初始化Widget-host"><a href="#初始化Widget-host" class="headerlink" title="初始化Widget host"></a>初始化Widget host</h2><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">//系统 Launcher的host id 一般为1024，这里选个跟它不冲突的id就可以</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> APPWIDGET_HOST_ID = <span class="number">2039</span>;</div><div class="line"><span class="keyword">private</span> AppWidgetManager mAppWidgetManager;</div><div class="line"><span class="keyword">private</span> AppWidgetHost mAppWidgetHost;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">    initWidgetHost();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initWidgetHost</span><span class="params">()</span> </span>&#123;</div><div class="line">    mAppWidgetManager = AppWidgetManager.getInstance(<span class="keyword">this</span>);</div><div class="line">    mAppWidgetHost = <span class="keyword">new</span> AppWidgetHost(<span class="keyword">this</span>, APPWIDGET_HOST_ID);</div><div class="line">    mAppWidgetHost.startListening();   <span class="comment">//监听widget变化事件，没有这句widget不能刷新</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>.onDestroy();</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        mAppWidgetHost.stopListening();   <span class="comment">//退出时停止监听</span></div><div class="line">    &#125; <span class="keyword">catch</span> (NullPointerException ex) &#123;</div><div class="line">        ex.printStackTrace();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -329,274 +328,65 @@
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> REQUEST_CREATE_APPWIDGET = <span class="number">2</span>;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (resultCode == RESULT_OK) &#123;</div><div class="line">        <span class="keyword">switch</span> (requestCode) &#123;</div><div class="line">            <span class="keyword">case</span> REQUEST_PICK_APPWIDGET:</div><div class="line">                addAppWidget(data);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line"></div><div class="line">            <span class="keyword">case</span> REQUEST_CREATE_APPWIDGET:</div><div class="line">                completeAddAppWidget(data);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ((requestCode == REQUEST_PICK_APPWIDGET || requestCode == REQUEST_CREATE_APPWIDGET)</div><div class="line">            &amp;&amp; resultCode == RESULT_CANCELED &amp;&amp; data != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="comment">// Clean up the appWidgetId if we canceled</span></div><div class="line">        <span class="keyword">int</span> appWidgetId = data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);</div><div class="line">        <span class="keyword">if</span> (appWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) &#123;</div><div class="line">            mAppWidgetHost.deleteAppWidgetId(appWidgetId);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//判断添加widget前是否需要对widget进行配置</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addAppWidget</span><span class="params">(Intent data)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> appWidgetId = data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -<span class="number">1</span>);</div><div class="line">    AppWidgetProviderInfo appWidget = mAppWidgetManager.getAppWidgetInfo(appWidgetId);</div><div class="line">    <span class="keyword">if</span> (appWidget.configure != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="comment">// Launch over to configure widget, if needed</span></div><div class="line">        Intent intent = <span class="keyword">new</span> Intent(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE);</div><div class="line">        intent.setComponent(appWidget.configure);</div><div class="line">        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);</div><div class="line">        <span class="comment">// 需要配置就打开widget配置的activity</span></div><div class="line">        startActivityForResult(intent, REQUEST_CREATE_APPWIDGET);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// 不需要配置就直接添加</span></div><div class="line">        onActivityResult(REQUEST_CREATE_APPWIDGET, Activity.RESULT_OK, data);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//将widget添加到界面中显示出来，除了widget id外，其他和默认显示的widget一样</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">completeAddAppWidget</span><span class="params">(Intent data)</span> </span>&#123;</div><div class="line">    Bundle extras = data.getExtras();</div><div class="line">    <span class="keyword">int</span> appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -<span class="number">1</span>);</div><div class="line">    AppWidgetProviderInfo widgetInfo = mAppWidgetManager.getAppWidgetInfo(appWidgetId);</div><div class="line">    AppWidgetHostView widgetView = mAppWidgetHost.createView(<span class="keyword">this</span>, appWidgetId, widgetInfo);</div><div class="line"></div><div class="line">    <span class="comment">//计算widget的宽高</span></div><div class="line">    <span class="keyword">int</span> widgetWidth = widgetInfo.minWidth + widgetView.getPaddingLeft() + widgetView.getPaddingRight();</div><div class="line">    <span class="keyword">int</span> widgetHeight = widgetInfo.minHeight + widgetView.getPaddingTop() + widgetView.getPaddingBottom();</div><div class="line"></div><div class="line">    RelativeLayout.LayoutParams layoutParams = <span class="keyword">new</span> RelativeLayout.LayoutParams(widgetWidth, widgetHeight);</div><div class="line">    layoutParams.leftMargin = <span class="number">300</span>;</div><div class="line">    layoutParams.topMargin = <span class="number">300</span>;</div><div class="line">    widgetView.setId(mWidgetCount + <span class="number">100</span>); </div><div class="line">    mViewContainer.addView(widgetView, layoutParams);</div><div class="line">    mWidgetCount++;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>上面介绍了如何在Android app中显示widget的两种方法，至于如何处理widget的显示位置、所占用的尺寸大小、尺寸缩放等问题，需另外讨论，可以参考Android系统的Launcher处理方式。</p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/15/Android-res-how-to-proguard/" itemprop="url">
-                  Android res资源文件如何混淆
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-15T20:47:56+08:00" content="2016-08-15">
-              2016-08-15
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
+            <a href="/tags/Android/" rel="tag">#Android</a>
           
-
+            <a href="/tags/widget-host/" rel="tag">#widget-host</a>
           
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/15/Android-res-how-to-proguard/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/15/Android-res-how-to-proguard/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
+            <a href="/tags/插件容器/" rel="tag">#插件容器</a>
           
-
-          
-
-          
-          
-
+            <a href="/tags/widget/" rel="tag">#widget</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>由于apk的反编译比较简单，发布没有混淆过的apk，基本就等于把源码公开了。<br>对于release版的app，对代码进行混淆是有必要的，市场上发布的apk大部分也都进行了混淆，不过一般都只是对java代码进行混淆。通过没有混淆的资源文件，代码也很容易被破解，为了提高apk的破解难度，res资源文件也应该进行混淆。</p>
-<p>下面介绍如何用AndResGuard对资源文件进行混淆</p>
-<h3 id="添加依赖包"><a href="#添加依赖包" class="headerlink" title="添加依赖包"></a>添加依赖包</h3><p>在Project根目录下build.gradle中添加dependency：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">buildscript &#123;</div><div class="line">    repositories &#123;</div><div class="line">        jcenter()</div><div class="line">    &#125;</div><div class="line">    dependencies &#123;</div><div class="line">        classpath 'com.android.tools.build:gradle:2.1.0'</div><div class="line">        //添加AndResGuard依赖</div><div class="line">        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.1.9'</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在app目录下的build.gradle中添加AndResGuard插件：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">apply plugin: 'com.android.application'</div><div class="line">apply plugin: 'AndResGuard'    //添加AndResGuard插件</div><div class="line">...</div></pre></td></tr></table></figure>
-<h3 id="配置AndResGuard"><a href="#配置AndResGuard" class="headerlink" title="配置AndResGuard"></a>配置AndResGuard</h3><p>在app目录下的build.gradle中添加：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">andResGuard &#123;</div><div class="line">    //使用指定的映射文件进行混淆，详细解释见下面注释</div><div class="line">    mappingFile = file("../mapping/resource_mapping_app-release.txt")</div><div class="line">    if (!mappingFile.exists()) &#123;</div><div class="line">        mappingFile = null    //为null时表示不keepmapping，否则keepmapping</div><div class="line">    &#125;</div><div class="line">    use7zip = true     //是否使用7z重新压缩签名后的apk包</div><div class="line">    useSign = true     //是否使用签名</div><div class="line">    keepRoot = false   //是否将res/drawable混淆成r/s</div><div class="line">    // because the launcher will get the icon with his name</div><div class="line">    whiteList = [      //混淆白名单，比如通过getIdentifier加载的资源是不能混淆的</div><div class="line">            "R.drawable.ic_launcher",</div><div class="line">            "R.string.app_name"</div><div class="line">    ]</div><div class="line">    compressFilePattern = [    //需要压缩的文件类型</div><div class="line">            "*.png",</div><div class="line">            "*.jpg",</div><div class="line">            "*.jpeg",</div><div class="line">            "*.gif",</div><div class="line">            "resources.arsc"</div><div class="line">    ]</div><div class="line">    sevenzip &#123;       //指定使用的7z命令</div><div class="line">        artifact = 'com.tencent.mm:SevenZip:1.1.9'</div><div class="line">        //path = "/usr/local/bin/7za"</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">dependencies &#123;</div><div class="line">    compile fileTree(dir: 'libs', include: ['*.jar'])</div><div class="line">...</div><div class="line"></div><div class="line">注：keepmapping 可以保持所有版本混淆的一致性，比如资源ic_back混淆后映射为d。</div><div class="line">如果不keepmapping，那么再次混淆可能映射为e，为了兼容之前的版本，会产生一些映射冗余。</div><div class="line">通过AndResGuard 代码混淆完后会生成一个 resource_mapping开头的文件，将此文件保存下来。</div><div class="line">比如我上面指定的文件位置"../mapping/resource_mapping_app-release.txt"，下次代码混淆就会以这个映射文件为基础。</div></pre></td></tr></table></figure>
-<h3 id="运行混淆命令"><a href="#运行混淆命令" class="headerlink" title="运行混淆命令"></a>运行混淆命令</h3><p>在Project根目录下执行命令：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">./gradlew resguard</div><div class="line"></div><div class="line">在AndResGuard开头的目录下会生成如下6个文件：</div><div class="line"></div><div class="line">appname_unsigned.apk        //混淆完，未签名</div><div class="line">appname_signed.apk          //签名后的apk</div><div class="line">appname_signed_7zip.apk     //签名压缩后的apk</div><div class="line">appname_signed_aligned.apk         //签名对齐后的apk</div><div class="line">appname_signed_7zip_aligned.apk    //签名压缩对齐后的apk，可供发布</div><div class="line">resource_mapping_name.txt      //生成的映射文件，请保留，下次混淆指定mappingFile为此文件</div></pre></td></tr></table></figure></p>
-<p>详情参考：<a href="https://github.com/shwenzhang/AndResGuard" target="_blank" rel="external">https://github.com/shwenzhang/AndResGuard</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/08/15/Android-res-how-to-proguard/" rel="next" title="Android res资源文件如何混淆">
+                <i class="fa fa-chevron-left"></i> Android res资源文件如何混淆
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2016/07/20/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-20T16:21:47+08:00" content="2016-07-20">
-              2016-07-20
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/20/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/20/hello-world/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -604,6 +394,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/16/android-app-add-widget-host/"
+           data-title="Android应用添加插件容器widget host功能" data-url="http://taolin.me/2016/08/16/android-app-add-widget-host/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -623,8 +421,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -674,6 +481,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化Widget-host"><span class="nav-number">1.</span> <span class="nav-text">初始化Widget host</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#显示默认添加的widget"><span class="nav-number">2.</span> <span class="nav-text">显示默认添加的widget</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在AndroidManifest中添加权限"><span class="nav-number">2.1.</span> <span class="nav-text">在AndroidManifest中添加权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#widget容器的布局"><span class="nav-number">2.2.</span> <span class="nav-text">widget容器的布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加默认显示的widget"><span class="nav-number">2.3.</span> <span class="nav-text">添加默认显示的widget</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译、签名、安装"><span class="nav-number">2.4.</span> <span class="nav-text">编译、签名、安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现动态添加widget功能"><span class="nav-number">3.</span> <span class="nav-text">实现动态添加widget功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#发送widget-pick的Intent"><span class="nav-number">3.1.</span> <span class="nav-text">发送widget pick的Intent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理widget-pick返回的结果"><span class="nav-number">3.2.</span> <span class="nav-text">处理widget pick返回的结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#说明"><span class="nav-number">4.</span> <span class="nav-text">说明</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -770,6 +588,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 

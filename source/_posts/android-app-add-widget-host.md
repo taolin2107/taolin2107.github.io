@@ -5,15 +5,15 @@ tags: [Android, widget-host, 插件容器, widget]
 categories: android
 ---
 
-项目中遇到这样的问题，我们有一款大屏Android设备，为了充分利用大屏的优势，我们开发了一套操作界面(Launcher)，所有的功能都在这个Launcher界面的一个个独立的panel中，要使用哪个功能，直接操作对应的panel，panel可以随意拖动。（如下图所示）
+项目中遇到这样的问题，我们有一款大屏Android设备，为了充分利用大屏的优势，我们开发了一套操作界面(Launcher)，所有的功能都在这个Launcher界面的一个个独立的panel中，要使用哪个功能，直接操作对应的panel就可以了，panel可以随意拖动。（如下图所示）
 {% asset_img img1.png module panels %}
 
-随着功能模块越来越多，代码结构变得复杂，不好维护，后面我们就规划把其中一些模块用widget的方式实现。
-那么Launcher就要实现widget容器的功能，使得这些功能模块可以通过widget的方式添加进来，比如天气模块是可以通过widget的方式添加的。
+随着功能模块越来越多，代码结构变得复杂，不好维护，后面我们就规划把其中一些模块用widget的方式实现，这样差不多有一半的模块可以分离出来，但整体效果不变。
+这些功能模块要想通过widget的方式添加进来，Launcher就得实现widget容器的功能。
 
 下面介绍如何让Android app支持widget容器功能
 
-## 初始化Widget host
+## 1. 初始化Widget host
 
 ```java
 //系统 Launcher的host id 一般为1024，这里选个跟它不冲突的id就可以
@@ -44,15 +44,15 @@ public void onDestroy() {
 }
 ```
 
-## 显示默认添加的widget
+## 2. 显示默认添加的widget
 有一些widget我们希望一打开Launcher就显示，不用用户手动添加，方法如下：
 
-### 在AndroidManifest中添加权限
+### 2.1. 在AndroidManifest中添加权限
 ```xml
 <uses-permission android:name="android.permission.BIND_APPWIDGET" />
 ```
 
-### widget容器的布局
+### 2.2. widget容器的布局
 ```xml
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_container"
@@ -61,7 +61,7 @@ public void onDestroy() {
     android:layout_height="match_parent"/>
 ```
 
-### 添加默认显示的widget
+### 2.3. 添加默认显示的widget
 ```java
 private RelativeLayout mWidgetContainer;
 // 添加的widget个数，方便给widget设置id
@@ -100,17 +100,17 @@ private void addDefaultWidget() {
 
 ```
 
-### 编译、签名、安装
+### 2.4. 编译、签名、安装
 默认显示widget需要的权限比较高，要求用系统签名和放到system/app目录下面
 1. 编译生成apk文件，如widget-host-demo.apk。
 2. 用系统的platformkey对apk签名，命令：java -jar signapk.jar platform.x509.pem platform.pk8 widget-host-demo.apk widget-host-demo_signed.apk
 3. push到system/app下面，adb push widget-host-demo_signed.apk /system/app。（需要adb有root权限）
 4. 重启设备，打开app就能看到默认显示的widget。
 
-## 实现动态添加widget功能
+## 3. 实现动态添加widget功能
 动态添加widget需要的权限就比较低，不需要系统签名和放到system/app目录下面。
 
-### 发送widget pick的Intent
+### 3.1. 发送widget pick的Intent
 ```java
 private static final int REQUEST_PICK_APPWIDGET = 1;
 
@@ -124,7 +124,7 @@ private void doWidgetPick() {
 }
 ```
 
-### 处理widget pick返回的结果
+### 3.2. 处理widget pick返回的结果
 
 重写Activity的onActivityResult方法
 
@@ -192,5 +192,5 @@ private void completeAddAppWidget(Intent data) {
 
 ```
 
-## 说明
-上面介绍了如何在Android app中显示widget的两种方法，至于如何处理widget的显示位置、所占用的尺寸大小、尺寸缩放等问题，需另外讨论，可以参考Android系统的Launcher处理方式。
+## 4. 总结
+上面介绍了在Android app中显示widget的两种方法，要做好widget容器的功能，还应该处理好widget的显示位置、尺寸大小、尺寸缩放等问题，需另外讨论，可以参考Android系统的Launcher处理方式。

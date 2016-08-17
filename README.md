@@ -21,7 +21,7 @@ npm install --save
 ##博客本地预览
 ```js
 cd myblog
-hexo server
+hexo server   // https://hexo.io/docs/server.html
 ```
 默认预览网址：http://localhost:4000/
 
@@ -54,8 +54,8 @@ deploy:
 ```js
 hexo new page "about"   //添加新的页面模板
 hexo new <页面模板名> "文章名"   //使用指定页面模板创建一遍文章，模板名不指定则用post模板
-hexo generate | g    //生成文章
-hexo deploy | d    //发布文章
+hexo generate | g    //生成文章, g为简写
+hexo deploy | d    //发布文章, https://hexo.io/docs/deployment.html
 ```
 完成这些步骤后，打开网址 test.github.io，即可看到效果
 

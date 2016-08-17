@@ -6,12 +6,13 @@ categories: android
 ---
 
 项目中遇到这样的问题，我们有一款大屏Android设备，为了充分利用大屏的优势，我们开发了一套操作界面(Launcher)，所有的功能都在这个Launcher界面的一个个独立的panel中，要使用哪个功能，直接操作对应的panel就可以了，panel可以随意拖动。（如下图所示）
-{% asset_img img1.png module panels %}
+{% asset_img img1.png %}
 
 随着功能模块越来越多，代码结构变得复杂，不好维护，后面我们就规划把其中一些模块用widget的方式实现，这样差不多有一半的模块可以分离出来，但整体效果不变。
 这些功能模块要想通过widget的方式添加进来，Launcher就得实现widget容器的功能。
 
 下面介绍如何让Android app支持widget容器功能
+<!-- more -->
 
 ## 1. 初始化Widget host
 

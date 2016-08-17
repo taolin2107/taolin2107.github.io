@@ -25,6 +25,7 @@ buildscript {
     }
 }
 ```
+<!-- more -->
 
 在app目录下的build.gradle中添加AndResGuard插件：
 

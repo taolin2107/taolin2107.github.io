@@ -94,7 +94,7 @@
 <meta property="og:description" content="由于apk的反编译比较简单，发布没有混淆过的apk，基本就等于把源码公开了。对于release版的app，对代码进行混淆是有必要的，市场上发布的apk大部分也都进行了混淆，不过一般都只是对java代码进行混淆。通过没有混淆的资源文件，代码也很容易被破解，为了提高apk的破解难度，res资源文件也应该进行混淆。
 下面介绍如何用AndResGuard对资源文件进行混淆
 1. 添加依赖包在Project">
-<meta property="og:updated_time" content="2016-08-17T01:32:33.000Z">
+<meta property="og:updated_time" content="2016-08-17T15:12:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android res资源文件如何混淆">
 <meta name="twitter:description" content="由于apk的反编译比较简单，发布没有混淆过的apk，基本就等于把源码公开了。对于release版的app，对代码进行混淆是有必要的，市场上发布的apk大部分也都进行了混淆，不过一般都只是对java代码进行混淆。通过没有混淆的资源文件，代码也很容易被破解，为了提高apk的破解难度，res资源文件也应该进行混淆。
@@ -312,6 +312,7 @@
 <p>下面介绍如何用AndResGuard对资源文件进行混淆</p>
 <h3 id="1-添加依赖包"><a href="#1-添加依赖包" class="headerlink" title="1. 添加依赖包"></a>1. 添加依赖包</h3><p>在Project根目录下build.gradle中添加dependency：</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">buildscript &#123;</div><div class="line">    repositories &#123;</div><div class="line">        jcenter()</div><div class="line">    &#125;</div><div class="line">    dependencies &#123;</div><div class="line">        classpath 'com.android.tools.build:gradle:2.1.0'</div><div class="line">        //添加AndResGuard依赖</div><div class="line">        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.1.9'</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
 <p>在app目录下的build.gradle中添加AndResGuard插件：</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">apply plugin: 'com.android.application'</div><div class="line">apply plugin: 'AndResGuard'    //添加AndResGuard插件</div><div class="line">...</div></pre></td></tr></table></figure>
 <h3 id="2-配置AndResGuard"><a href="#2-配置AndResGuard" class="headerlink" title="2. 配置AndResGuard"></a>2. 配置AndResGuard</h3><p>在app目录下的build.gradle中添加：</p>
@@ -433,7 +434,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -450,7 +451,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

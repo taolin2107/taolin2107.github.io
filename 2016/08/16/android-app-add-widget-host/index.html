@@ -93,7 +93,7 @@
 <meta property="og:description" content="项目中遇到这样的问题，我们有一款大屏Android设备，为了充分利用大屏的优势，我们开发了一套操作界面(Launcher)，所有的功能都在这个Launcher界面的一个个独立的panel中，要使用哪个功能，直接操作对应的panel就可以了，panel可以随意拖动。（如下图所示）
 随着功能模块越来越多，代码结构变得复杂，不好维护，后面我们就规划把其中一些模块用widget的方式实现，这样差不多有一半">
 <meta property="og:image" content="http://taolin.me/2016/08/16/android-app-add-widget-host/img1.png">
-<meta property="og:updated_time" content="2016-08-17T01:19:55.000Z">
+<meta property="og:updated_time" content="2016-08-17T15:12:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android应用添加插件容器widget host功能">
 <meta name="twitter:description" content="项目中遇到这样的问题，我们有一款大屏Android设备，为了充分利用大屏的优势，我们开发了一套操作界面(Launcher)，所有的功能都在这个Launcher界面的一个个独立的panel中，要使用哪个功能，直接操作对应的panel就可以了，panel可以随意拖动。（如下图所示）
@@ -307,9 +307,9 @@
       
 
       
-        <p>项目中遇到这样的问题，我们有一款大屏Android设备，为了充分利用大屏的优势，我们开发了一套操作界面(Launcher)，所有的功能都在这个Launcher界面的一个个独立的panel中，要使用哪个功能，直接操作对应的panel就可以了，panel可以随意拖动。（如下图所示）<br><img src="/2016/08/16/android-app-add-widget-host/img1.png" alt="module panels" title="module panels"></p>
+        <p>项目中遇到这样的问题，我们有一款大屏Android设备，为了充分利用大屏的优势，我们开发了一套操作界面(Launcher)，所有的功能都在这个Launcher界面的一个个独立的panel中，要使用哪个功能，直接操作对应的panel就可以了，panel可以随意拖动。（如下图所示）<br><img src="/2016/08/16/android-app-add-widget-host/img1.png" alt="img1.png" title=""></p>
 <p>随着功能模块越来越多，代码结构变得复杂，不好维护，后面我们就规划把其中一些模块用widget的方式实现，这样差不多有一半的模块可以分离出来，但整体效果不变。<br>这些功能模块要想通过widget的方式添加进来，Launcher就得实现widget容器的功能。</p>
-<p>下面介绍如何让Android app支持widget容器功能</p>
+<p>下面介绍如何让Android app支持widget容器功能<br><a id="more"></a></p>
 <h2 id="1-初始化Widget-host"><a href="#1-初始化Widget-host" class="headerlink" title="1. 初始化Widget host"></a>1. 初始化Widget host</h2><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">//系统 Launcher的host id 一般为1024，这里选个跟它不冲突的id就可以</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> APPWIDGET_HOST_ID = <span class="number">2039</span>;</div><div class="line"><span class="keyword">private</span> AppWidgetManager mAppWidgetManager;</div><div class="line"><span class="keyword">private</span> AppWidgetHost mAppWidgetHost;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">    initWidgetHost();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initWidgetHost</span><span class="params">()</span> </span>&#123;</div><div class="line">    mAppWidgetManager = AppWidgetManager.getInstance(<span class="keyword">this</span>);</div><div class="line">    mAppWidgetHost = <span class="keyword">new</span> AppWidgetHost(<span class="keyword">this</span>, APPWIDGET_HOST_ID);</div><div class="line">    mAppWidgetHost.startListening();   <span class="comment">//监听widget变化事件，没有这句widget不能刷新</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>.onDestroy();</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        mAppWidgetHost.stopListening();   <span class="comment">//退出时停止监听</span></div><div class="line">    &#125; <span class="keyword">catch</span> (NullPointerException ex) &#123;</div><div class="line">        ex.printStackTrace();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="2-显示默认添加的widget"><a href="#2-显示默认添加的widget" class="headerlink" title="2. 显示默认添加的widget"></a>2. 显示默认添加的widget</h2><p>有一些widget我们希望一打开Launcher就显示，不用用户手动添加，方法如下：</p>
 <h3 id="2-1-在AndroidManifest中添加权限"><a href="#2-1-在AndroidManifest中添加权限" class="headerlink" title="2.1. 在AndroidManifest中添加权限"></a>2.1. 在AndroidManifest中添加权限</h3><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.BIND_APPWIDGET"</span> /&gt;</span></div></pre></td></tr></table></figure>
@@ -371,6 +371,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/17/android-official-mvp-architecture-demo-analysis/" rel="prev" title="【转载】Android官方MVP架构示例项目解析">
+                【转载】Android官方MVP架构示例项目解析 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -442,7 +446,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -459,7 +463,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

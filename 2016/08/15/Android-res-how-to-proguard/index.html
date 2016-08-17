@@ -86,20 +86,20 @@
 
 <meta name="description" content="由于apk的反编译比较简单，发布没有混淆过的apk，基本就等于把源码公开了。对于release版的app，对代码进行混淆是有必要的，市场上发布的apk大部分也都进行了混淆，不过一般都只是对java代码进行混淆。通过没有混淆的资源文件，代码也很容易被破解，为了提高apk的破解难度，res资源文件也应该进行混淆。
 下面介绍如何用AndResGuard对资源文件进行混淆
-添加依赖包在Project根目录">
+1. 添加依赖包在Project">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android res资源文件如何混淆">
 <meta property="og:url" content="http://taolin.me/2016/08/15/Android-res-how-to-proguard/index.html">
 <meta property="og:site_name" content="Taolin的个人博客">
 <meta property="og:description" content="由于apk的反编译比较简单，发布没有混淆过的apk，基本就等于把源码公开了。对于release版的app，对代码进行混淆是有必要的，市场上发布的apk大部分也都进行了混淆，不过一般都只是对java代码进行混淆。通过没有混淆的资源文件，代码也很容易被破解，为了提高apk的破解难度，res资源文件也应该进行混淆。
 下面介绍如何用AndResGuard对资源文件进行混淆
-添加依赖包在Project根目录">
-<meta property="og:updated_time" content="2016-08-16T11:53:24.000Z">
+1. 添加依赖包在Project">
+<meta property="og:updated_time" content="2016-08-17T01:32:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android res资源文件如何混淆">
 <meta name="twitter:description" content="由于apk的反编译比较简单，发布没有混淆过的apk，基本就等于把源码公开了。对于release版的app，对代码进行混淆是有必要的，市场上发布的apk大部分也都进行了混淆，不过一般都只是对java代码进行混淆。通过没有混淆的资源文件，代码也很容易被破解，为了提高apk的破解难度，res资源文件也应该进行混淆。
 下面介绍如何用AndResGuard对资源文件进行混淆
-添加依赖包在Project根目录">
+1. 添加依赖包在Project">
 
 
 
@@ -310,13 +310,13 @@
       
         <p>由于apk的反编译比较简单，发布没有混淆过的apk，基本就等于把源码公开了。<br>对于release版的app，对代码进行混淆是有必要的，市场上发布的apk大部分也都进行了混淆，不过一般都只是对java代码进行混淆。通过没有混淆的资源文件，代码也很容易被破解，为了提高apk的破解难度，res资源文件也应该进行混淆。</p>
 <p>下面介绍如何用AndResGuard对资源文件进行混淆</p>
-<h3 id="添加依赖包"><a href="#添加依赖包" class="headerlink" title="添加依赖包"></a>添加依赖包</h3><p>在Project根目录下build.gradle中添加dependency：</p>
+<h3 id="1-添加依赖包"><a href="#1-添加依赖包" class="headerlink" title="1. 添加依赖包"></a>1. 添加依赖包</h3><p>在Project根目录下build.gradle中添加dependency：</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">buildscript &#123;</div><div class="line">    repositories &#123;</div><div class="line">        jcenter()</div><div class="line">    &#125;</div><div class="line">    dependencies &#123;</div><div class="line">        classpath 'com.android.tools.build:gradle:2.1.0'</div><div class="line">        //添加AndResGuard依赖</div><div class="line">        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.1.9'</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>在app目录下的build.gradle中添加AndResGuard插件：</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">apply plugin: 'com.android.application'</div><div class="line">apply plugin: 'AndResGuard'    //添加AndResGuard插件</div><div class="line">...</div></pre></td></tr></table></figure>
-<h3 id="配置AndResGuard"><a href="#配置AndResGuard" class="headerlink" title="配置AndResGuard"></a>配置AndResGuard</h3><p>在app目录下的build.gradle中添加：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">andResGuard &#123;</div><div class="line">    //使用指定的映射文件进行混淆，详细解释见下面注释</div><div class="line">    mappingFile = file("../mapping/resource_mapping_app-release.txt")</div><div class="line">    if (!mappingFile.exists()) &#123;</div><div class="line">        mappingFile = null    //为null时表示不keepmapping，否则keepmapping</div><div class="line">    &#125;</div><div class="line">    use7zip = true     //是否使用7z重新压缩签名后的apk包</div><div class="line">    useSign = true     //是否使用签名</div><div class="line">    keepRoot = false   //是否将res/drawable混淆成r/s</div><div class="line">    // because the launcher will get the icon with his name</div><div class="line">    whiteList = [      //混淆白名单，比如通过getIdentifier加载的资源是不能混淆的</div><div class="line">            "R.drawable.ic_launcher",</div><div class="line">            "R.string.app_name"</div><div class="line">    ]</div><div class="line">    compressFilePattern = [    //需要压缩的文件类型</div><div class="line">            "*.png",</div><div class="line">            "*.jpg",</div><div class="line">            "*.jpeg",</div><div class="line">            "*.gif",</div><div class="line">            "resources.arsc"</div><div class="line">    ]</div><div class="line">    sevenzip &#123;       //指定使用的7z命令</div><div class="line">        artifact = 'com.tencent.mm:SevenZip:1.1.9'</div><div class="line">        //path = "/usr/local/bin/7za"</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">dependencies &#123;</div><div class="line">    compile fileTree(dir: 'libs', include: ['*.jar'])</div><div class="line">...</div><div class="line"></div><div class="line">注：keepmapping 可以保持所有版本混淆的一致性，比如资源ic_back混淆后映射为d。</div><div class="line">如果不keepmapping，那么再次混淆可能映射为e，为了兼容之前的版本，会产生一些映射冗余。</div><div class="line">通过AndResGuard 代码混淆完后会生成一个 resource_mapping开头的文件，将此文件保存下来。</div><div class="line">比如我上面指定的文件位置"../mapping/resource_mapping_app-release.txt"，下次代码混淆就会以这个映射文件为基础。</div></pre></td></tr></table></figure>
-<h3 id="运行混淆命令"><a href="#运行混淆命令" class="headerlink" title="运行混淆命令"></a>运行混淆命令</h3><p>在Project根目录下执行命令：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">./gradlew resguard</div><div class="line"></div><div class="line">在AndResGuard开头的目录下会生成如下6个文件：</div><div class="line"></div><div class="line">appname_unsigned.apk        //混淆完，未签名</div><div class="line">appname_signed.apk          //签名后的apk</div><div class="line">appname_signed_7zip.apk     //签名压缩后的apk</div><div class="line">appname_signed_aligned.apk         //签名对齐后的apk</div><div class="line">appname_signed_7zip_aligned.apk    //签名压缩对齐后的apk，可供发布</div><div class="line">resource_mapping_name.txt      //生成的映射文件，请保留，下次混淆指定mappingFile为此文件</div></pre></td></tr></table></figure></p>
+<h3 id="2-配置AndResGuard"><a href="#2-配置AndResGuard" class="headerlink" title="2. 配置AndResGuard"></a>2. 配置AndResGuard</h3><p>在app目录下的build.gradle中添加：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">andResGuard &#123;</div><div class="line">    //使用指定的映射文件进行混淆，详细解释见下面注释</div><div class="line">    mappingFile = file("../mapping/resource_mapping_name.txt")</div><div class="line">    if (!mappingFile.exists()) &#123;</div><div class="line">        mappingFile = null    //为null时表示不keepmapping，否则keepmapping</div><div class="line">    &#125;</div><div class="line">    use7zip = true     //是否使用7z重新压缩签名后的apk包</div><div class="line">    useSign = true     //是否使用签名</div><div class="line">    keepRoot = false   //是否将res/drawable混淆成r/s</div><div class="line">    // because the launcher will get the icon with his name</div><div class="line">    whiteList = [      //混淆白名单，比如通过getIdentifier加载的资源是不能混淆的</div><div class="line">            "R.drawable.ic_launcher",</div><div class="line">            "R.string.app_name"</div><div class="line">    ]</div><div class="line">    compressFilePattern = [    //需要压缩的文件类型</div><div class="line">            "*.png",</div><div class="line">            "*.jpg",</div><div class="line">            "*.jpeg",</div><div class="line">            "*.gif",</div><div class="line">            "resources.arsc"</div><div class="line">    ]</div><div class="line">    sevenzip &#123;       //指定使用的7z命令</div><div class="line">        artifact = 'com.tencent.mm:SevenZip:1.1.9'</div><div class="line">        //path = "/usr/local/bin/7za"</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">dependencies &#123;</div><div class="line">    compile fileTree(dir: 'libs', include: ['*.jar'])</div><div class="line">...</div><div class="line"></div><div class="line">注：keepmapping 可以保持所有版本混淆的一致性，比如资源ic_back混淆后映射为d。</div><div class="line">如果不keepmapping，那么再次混淆可能映射为e，为了兼容之前的版本，会产生一些映射冗余。</div><div class="line">通过AndResGuard 代码混淆完后会生成一个 resource_mapping开头的文件，将此文件保存下来。</div><div class="line">比如我上面指定的文件位置"../mapping/resource_mapping_name.txt"，下次代码混淆就会以这个映射文件为基础。</div></pre></td></tr></table></figure>
+<h3 id="3-运行混淆命令"><a href="#3-运行混淆命令" class="headerlink" title="3. 运行混淆命令"></a>3. 运行混淆命令</h3><p>在Project根目录下执行命令：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">./gradlew resguard</div><div class="line"></div><div class="line">在AndResGuard开头的目录下会生成如下6个文件：</div><div class="line"></div><div class="line">appname_unsigned.apk        //混淆完，未签名</div><div class="line">appname_signed.apk          //签名后的apk</div><div class="line">appname_signed_7zip.apk     //签名压缩后的apk</div><div class="line">appname_signed_aligned.apk         //签名对齐后的apk</div><div class="line">appname_signed_7zip_aligned.apk    //签名压缩对齐后的apk，可供发布</div><div class="line">resource_mapping_name.txt      //生成的映射文件，请保留，下次混淆指定mappingFile为此文件</div></pre></td></tr></table></figure></p>
 <p>详情参考：<a href="https://github.com/shwenzhang/AndResGuard" target="_blank" rel="external">https://github.com/shwenzhang/AndResGuard</a></p>
 
       
@@ -354,10 +354,6 @@
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/07/20/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
-              </a>
             
           </div>
 
@@ -437,7 +433,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">2</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -483,7 +479,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#添加依赖包"><span class="nav-number">1.</span> <span class="nav-text">添加依赖包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置AndResGuard"><span class="nav-number">2.</span> <span class="nav-text">配置AndResGuard</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行混淆命令"><span class="nav-number">3.</span> <span class="nav-text">运行混淆命令</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-添加依赖包"><span class="nav-text">1. 添加依赖包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-配置AndResGuard"><span class="nav-text">2. 配置AndResGuard</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-运行混淆命令"><span class="nav-text">3. 运行混淆命令</span></a></li></ol></div>
             
           </div>
         </section>
@@ -510,7 +506,7 @@
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">

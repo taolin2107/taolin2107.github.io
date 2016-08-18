@@ -2,7 +2,7 @@
 title: 【转载】Android官方MVP架构示例项目解析
 date: 2016-08-17 21:37:08
 tags: [Android, mvp, architecture, MVP架构, Android架构]
-categories: android
+categories: android架构
 ---
 
 {% asset_img 001.jpg mvp architecture %}

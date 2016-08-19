@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Taolin, 陶林, 博客, blog, 个人博客, Android, java, 编程, 技术" />
+  <meta name="keywords" content="Android,UPnP,协议,DLNA," />
 
 
 
@@ -84,15 +84,27 @@
 
 
 
-<meta name="description" content="生命不息 奋斗不止">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Taolin的个人博客">
-<meta property="og:url" content="http://taolin.me/index.html">
+<meta name="description" content="1. UPnP简介英文名称：Universal Plug and Play中文译名：通用即插即用
+UPnP是由“通用即插即用论坛”（UPnP™ Forum）推广的一套网络协议。该协议的目标是使家庭网络（数据共享、通信和娱乐）和公司网络中的各种设备能够相互无缝连接，并简化相关网络的实现。UPnP通过定义和发布基于开放、因特网通讯网协议标准的UPnP设备控制协议来实现这一目标。UPnP体系允许 PC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UPnP协议介绍和Android代码实现">
+<meta property="og:url" content="http://taolin.me/2014/05/15/upnp-protocol-introduce/index.html">
 <meta property="og:site_name" content="Taolin的个人博客">
-<meta property="og:description" content="生命不息 奋斗不止">
+<meta property="og:description" content="1. UPnP简介英文名称：Universal Plug and Play中文译名：通用即插即用
+UPnP是由“通用即插即用论坛”（UPnP™ Forum）推广的一套网络协议。该协议的目标是使家庭网络（数据共享、通信和娱乐）和公司网络中的各种设备能够相互无缝连接，并简化相关网络的实现。UPnP通过定义和发布基于开放、因特网通讯网协议标准的UPnP设备控制协议来实现这一目标。UPnP体系允许 PC">
+<meta property="og:image" content="http://taolin.me/2014/05/15/upnp-protocol-introduce/001.jpeg">
+<meta property="og:image" content="http://taolin.me/2014/05/15/upnp-protocol-introduce/002.jpeg">
+<meta property="og:image" content="http://taolin.me/2014/05/15/upnp-protocol-introduce/003.jpeg">
+<meta property="og:image" content="http://taolin.me/2014/05/15/upnp-protocol-introduce/004.jpeg">
+<meta property="og:image" content="http://taolin.me/2014/05/15/upnp-protocol-introduce/005.jpeg">
+<meta property="og:image" content="http://taolin.me/2014/05/15/upnp-protocol-introduce/006.jpeg">
+<meta property="og:image" content="http://taolin.me/2014/05/15/upnp-protocol-introduce/007.jpeg">
+<meta property="og:updated_time" content="2016-08-19T03:40:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Taolin的个人博客">
-<meta name="twitter:description" content="生命不息 奋斗不止">
+<meta name="twitter:title" content="UPnP协议介绍和Android代码实现">
+<meta name="twitter:description" content="1. UPnP简介英文名称：Universal Plug and Play中文译名：通用即插即用
+UPnP是由“通用即插即用论坛”（UPnP™ Forum）推广的一套网络协议。该协议的目标是使家庭网络（数据共享、通信和娱乐）和公司网络中的各种设备能够相互无缝连接，并简化相关网络的实现。UPnP通过定义和发布基于开放、因特网通讯网协议标准的UPnP设备控制协议来实现这一目标。UPnP体系允许 PC">
+<meta name="twitter:image" content="http://taolin.me/2014/05/15/upnp-protocol-introduce/001.jpeg">
 
 
 
@@ -113,9 +125,9 @@
 
 
 
-  <link rel="canonical" href="http://taolin.me/"/>
+  <link rel="canonical" href="http://taolin.me/2014/05/15/upnp-protocol-introduce/"/>
 
-  <title> Taolin的个人博客 </title>
+  <title> UPnP协议介绍和Android代码实现 | Taolin的个人博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -136,9 +148,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -235,9 +245,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -257,387 +267,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/08/17/android-official-mvp-architecture-demo-analysis/" itemprop="url">
-                  【转载】Android官方MVP架构示例项目解析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-17T21:37:08+08:00" content="2016-08-17">
-              2016-08-17
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/android架构/" itemprop="url" rel="index">
-                    <span itemprop="name">android架构</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/17/android-official-mvp-architecture-demo-analysis/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/17/android-official-mvp-architecture-demo-analysis/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <img src="/2016/08/17/android-official-mvp-architecture-demo-analysis/001.jpg" alt="mvp architecture" title="mvp architecture">
-<blockquote>
-<p>前段时间Google在Github推出了一个项目，专门展示Android引用各种各样的MVP架构，算是官方教程了。趁着还新鲜，让我们来抛砖引玉一探究竟，看看在Google眼里什么样算是好的MVP架构。</p>
-</blockquote>
-<p>App架构在Android开发者中一直是讨论比较多的一个话题，目前讨论较多的有MVP、MVVM、Clean这三种。google官方对于架构的态度一直是非常开放的，让开发者自主选择组织和架构app的方式，期望能留给开发者更多的灵活性。</p>
-<p>由于没有一套权威的架构实现，现在很多App项目中在架构方面都有或多或少的问题。第一种常见问题是没有架构，需求中的一个页面对应项目中的一个activity或一个fragment，所有的界面响应代码、业务逻辑代码、数据请求代码等等都集中在其中。第二种常见的问题是架构实现的不断变化，不断在各种架构间摇摆，一直找不到一个适合自己的架构。</p>
-<p>就在近日，google在官方示例中给出了一系列不同架构的app实现，这对于一直困惑于到底该用何种架构的android开发者来说确实是福音，开发者只要根据自己项目的情况，在不同的实现中选择一种即可，当然google也明确表示了这些示例只是用来做参考，而并不是要为了当做标准，下面先为大家简单介绍下此项目。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/17/android-official-mvp-architecture-demo-analysis/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/16/android-app-add-widget-host/" itemprop="url">
-                  Android应用添加插件容器widget host功能
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-16T16:40:02+08:00" content="2016-08-16">
-              2016-08-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/16/android-app-add-widget-host/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/16/android-app-add-widget-host/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>项目中遇到这样的问题，我们有一款大屏Android设备，为了充分利用大屏的优势，我们开发了一套操作界面(Launcher)，所有的功能都在这个Launcher界面的一个个独立的panel中，要使用哪个功能，直接操作对应的panel就可以了，panel可以随意拖动。（如下图所示）<br><img src="/2016/08/16/android-app-add-widget-host/img1.png" alt="img1.png" title=""></p>
-<p>随着功能模块越来越多，代码结构变得复杂，不好维护，后面我们就规划把其中一些模块用widget的方式实现，这样差不多有一半的模块可以分离出来，但整体效果不变。<br>这些功能模块要想通过widget的方式添加进来，Launcher就得实现widget容器的功能。</p>
-<p>下面介绍如何让Android app支持widget容器功能<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/16/android-app-add-widget-host/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/15/Android-res-how-to-proguard/" itemprop="url">
-                  Android res资源文件如何混淆
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-15T20:47:56+08:00" content="2016-08-15">
-              2016-08-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/15/Android-res-how-to-proguard/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/15/Android-res-how-to-proguard/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>由于apk的反编译比较简单，发布没有混淆过的apk，基本就等于把源码公开了。<br>对于release版的app，对代码进行混淆是有必要的，市场上发布的apk大部分也都进行了混淆，不过一般都只是对java代码进行混淆。通过没有混淆的资源文件，代码也很容易被破解，为了提高apk的破解难度，res资源文件也应该进行混淆。</p>
-<p>下面介绍如何用AndResGuard对资源文件进行混淆</p>
-<h3 id="1-添加依赖包"><a href="#1-添加依赖包" class="headerlink" title="1. 添加依赖包"></a>1. 添加依赖包</h3><p>在Project根目录下build.gradle中添加dependency：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">buildscript &#123;</div><div class="line">    repositories &#123;</div><div class="line">        jcenter()</div><div class="line">    &#125;</div><div class="line">    dependencies &#123;</div><div class="line">        classpath 'com.android.tools.build:gradle:2.1.0'</div><div class="line">        //添加AndResGuard依赖</div><div class="line">        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.1.9'</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/15/Android-res-how-to-proguard/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/05/15/upnp-protocol-introduce/" itemprop="url">
-                  UPnP协议介绍和Android代码实现
-                </a>
+                UPnP协议介绍和Android代码实现
               
             
           </h1>
@@ -703,9 +333,7 @@
       
 
       
-        
-          
-            <h2 id="1-UPnP简介"><a href="#1-UPnP简介" class="headerlink" title="1. UPnP简介"></a>1. UPnP简介</h2><p>英文名称：Universal Plug and Play<br>中文译名：通用即插即用</p>
+        <h2 id="1-UPnP简介"><a href="#1-UPnP简介" class="headerlink" title="1. UPnP简介"></a>1. UPnP简介</h2><p>英文名称：Universal Plug and Play<br>中文译名：通用即插即用</p>
 <p>UPnP是由“通用即插即用论坛”（UPnP™ Forum）推广的一套网络协议。该协议的目标是使家庭网络（数据共享、通信和娱乐）和公司网络中的各种设备能够相互无缝连接，并简化相关网络的实现。UPnP通过定义和发布基于开放、因特网通讯网协议标准的UPnP设备控制协议来实现这一目标。<br>UPnP体系允许 PC 间的点对点连接、网际互连和无线设备。它是一种基于TCP/IP、UDP和HTTP的分布式、开放体系。</p>
 <h2 id="2-UPnP的特点"><a href="#2-UPnP的特点" class="headerlink" title="2. UPnP的特点"></a>2. UPnP的特点</h2><p>UPnP使得任意两个设备能在LAN控制设备的管理下相互通信。其特性包括：</p>
 <p><strong>传输介质和设备独立</strong><br>UPnP 技术可以应用在许多媒体上，包括电话线、电线（电力线通信PLC）、以太网、红外通信技术(IrDA)、无线电（Wi-Fi，蓝牙）和Firewire(1394)。无需任务设备驱动；而是采用共同的协议。</p>
@@ -742,163 +370,69 @@
 <p>3.当用户在公司用上UPnP，只要在家里安装摄像头，建立好与网络的连接。在办公室内，启用桌面电脑的WEBTV，连通网络后，可以即时看到家里的一举一动。目前市场现在已经有了不要第三方DDNS方支持的设备，如动态域名解析服务器设备，内置DDNS不要第三方支持，你买回去后，只要在里面做一下端口映射，就可以直接访问自己内网的DVR、视频服务器或采集卡了。类似的应用有网络摄像机、硬盘录像机（DVR）、网络硬盘录像机（NVR）等。</p>
 <p>Android 实现的Demo: <a href="http://download.csdn.net/detail/u012910985/7348995" target="_blank" rel="external">http://download.csdn.net/detail/u012910985/7348995</a></p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/03/19/how-to-use-android-shape/" itemprop="url">
-                  Android中shape图形的用法详解
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-03-19T12:32:58+08:00" content="2014-03-19">
-              2014-03-19
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
+            <a href="/tags/Android/" rel="tag">#Android</a>
           
-
+            <a href="/tags/UPnP/" rel="tag">#UPnP</a>
           
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/03/19/how-to-use-android-shape/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/19/how-to-use-android-shape/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
+            <a href="/tags/协议/" rel="tag">#协议</a>
           
-
-          
-
-          
-          
-
+            <a href="/tags/DLNA/" rel="tag">#DLNA</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <p>Android可以通过代码生成一些简单的图片资源，节省空间，还方便后续修改。<br>下面介绍用shape生成图形的方法</p>
-<h2 id="1-shape图形的新建与引用"><a href="#1-shape图形的新建与引用" class="headerlink" title="1. shape图形的新建与引用"></a>1. shape图形的新建与引用</h2><ul>
-<li>在res/drawable下新建一个图片资源，如ic_back.xml；</li>
-<li>在代码中引用这个图片资源，如：<code>android:src=&quot;@drawable/ic_back&quot;</code>。</li>
-</ul>
-<h2 id="2-shape图形的语法"><a href="#2-shape图形的语法" class="headerlink" title="2. shape图形的语法"></a>2. shape图形的语法</h2>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/03/19/how-to-use-android-shape/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/03/19/how-to-use-android-shape/" rel="next" title="Android中shape图形的用法详解">
+                <i class="fa fa-chevron-left"></i> Android中shape图形的用法详解
+              </a>
+            
           </div>
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/15/Android-res-how-to-proguard/" rel="prev" title="Android res资源文件如何混淆">
+                Android res资源文件如何混淆 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -906,6 +440,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/05/15/upnp-protocol-introduce/"
+           data-title="UPnP协议介绍和Android代码实现" data-url="http://taolin.me/2014/05/15/upnp-protocol-introduce/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -925,8 +467,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -996,6 +547,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-UPnP简介"><span class="nav-text">1. UPnP简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-UPnP的特点"><span class="nav-text">2. UPnP的特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-UPnP的基本组件"><span class="nav-text">3. UPnP的基本组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-设备（Device）"><span class="nav-text">3.1. 设备（Device）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-服务（Service）"><span class="nav-text">3.2. 服务（Service）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-控制点（Control-Point）"><span class="nav-text">3.3. 控制点（Control Point）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-UPnP协议栈"><span class="nav-text">4. UPnP协议栈</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-SSDP协议"><span class="nav-text">4.1. SSDP协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-SOAP协议"><span class="nav-text">4.2. SOAP协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-GENA协议"><span class="nav-text">4.3. GENA协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-UPnP的工作流程"><span class="nav-text">5. UPnP的工作流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-寻址（Addressing）"><span class="nav-text">5.1. 寻址（Addressing）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-发现（Discovery）"><span class="nav-text">5.2. 发现（Discovery）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-描述（Description）"><span class="nav-text">5.3. 描述（Description）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-控制（Control）"><span class="nav-text">5.4. 控制（Control）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-事件（Even-ting）"><span class="nav-text">5.5. 事件（Even ting）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-6-展示（Presentation）"><span class="nav-text">5.6. 展示（Presentation）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-UPnP可能的实际应用"><span class="nav-text">6. UPnP可能的实际应用</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -1092,6 +654,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 

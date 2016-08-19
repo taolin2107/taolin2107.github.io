@@ -1,0 +1,695 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.useso.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,listview,监听,滚动事件,表头表尾," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="ListView本身有一个OnScrollListener的接口，通过此接口可以监听ListView的状态，滚动的个数，但是没法监听其精确的滚动距离、上下滚动事件和滚动到表头或表尾事件，下面介绍如何监听这些事件。
+1. 上下滚动事件的响应
+自定义一个继承至ListView的类。
+覆写onTouchEvent方法，监听触摸事件。
+定义一个有效滚动距离，当滑动的距离超过这个距离时才会触发滚动事件的响应">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ListView滚动事件的监听">
+<meta property="og:url" content="http://taolin.me/2014/08/06/android-listen-listview-scroll-events/index.html">
+<meta property="og:site_name" content="Taolin的博客">
+<meta property="og:description" content="ListView本身有一个OnScrollListener的接口，通过此接口可以监听ListView的状态，滚动的个数，但是没法监听其精确的滚动距离、上下滚动事件和滚动到表头或表尾事件，下面介绍如何监听这些事件。
+1. 上下滚动事件的响应
+自定义一个继承至ListView的类。
+覆写onTouchEvent方法，监听触摸事件。
+定义一个有效滚动距离，当滑动的距离超过这个距离时才会触发滚动事件的响应">
+<meta property="og:updated_time" content="2016-08-19T13:15:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ListView滚动事件的监听">
+<meta name="twitter:description" content="ListView本身有一个OnScrollListener的接口，通过此接口可以监听ListView的状态，滚动的个数，但是没法监听其精确的滚动距离、上下滚动事件和滚动到表头或表尾事件，下面介绍如何监听这些事件。
+1. 上下滚动事件的响应
+自定义一个继承至ListView的类。
+覆写onTouchEvent方法，监听触摸事件。
+定义一个有效滚动距离，当滑动的距离超过这个距离时才会触发滚动事件的响应">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://taolin.me/2014/08/06/android-listen-listview-scroll-events/"/>
+
+  <title> ListView滚动事件的监听 | Taolin的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Taolin的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">生命不息 奋斗不止</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ListView滚动事件的监听
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-08-06T10:25:35+08:00" content="2014-08-06">
+              2014-08-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/08/06/android-listen-listview-scroll-events/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/08/06/android-listen-listview-scroll-events/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>ListView本身有一个OnScrollListener的接口，通过此接口可以监听ListView的状态，滚动的个数，但是没法监听其精确的滚动距离、上下滚动事件和滚动到表头或表尾事件，下面介绍如何监听这些事件。</p>
+<h2 id="1-上下滚动事件的响应"><a href="#1-上下滚动事件的响应" class="headerlink" title="1. 上下滚动事件的响应"></a>1. 上下滚动事件的响应</h2><ol>
+<li>自定义一个继承至ListView的类。</li>
+<li>覆写onTouchEvent方法，监听触摸事件。</li>
+<li>定义一个有效滚动距离，当滑动的距离超过这个距离时才会触发滚动事件的响应。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> mEffectiveDistance = <span class="number">10</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">float</span> mPreviousY;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</div><div class="line">    mDetector.onTouchEvent(ev);</div><div class="line">    <span class="keyword">switch</span> (ev.getAction()) &#123;</div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_MOVE:</div><div class="line">            <span class="keyword">float</span> currentY = ev.getY();</div><div class="line">            <span class="keyword">float</span> distanceY = currentY - mPreviousY;</div><div class="line">            <span class="keyword">if</span> (distanceY &lt; -mEffectiveDistance) &#123;</div><div class="line">                mPreviousY = currentY;</div><div class="line">                <span class="keyword">if</span> (mCallbacks != <span class="keyword">null</span>) &#123;</div><div class="line">                    mCallbacks.onScrollUp();  <span class="comment">//触发向上滚动的事件</span></div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (distanceY &gt; mEffectiveDistance) &#123;</div><div class="line">                mPreviousY = currentY;</div><div class="line">                <span class="keyword">if</span> (mCallbacks != <span class="keyword">null</span>) &#123;</div><div class="line">                    mCallbacks.onScrollDown();  <span class="comment">//触发向下滚动的事件</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line"></div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</div><div class="line">            mPreviousY = ev.getY();</div><div class="line">            <span class="keyword">break</span>;</div><div class="line"></div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="keyword">break</span>;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.onTouchEvent(ev);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="2-滚动到表头或表尾事件的响应"><a href="#2-滚动到表头或表尾事件的响应" class="headerlink" title="2. 滚动到表头或表尾事件的响应"></a>2. 滚动到表头或表尾事件的响应</h2><ol>
+<li>自定义的ListView类要实现AbsListView.OnScrollListener接口。</li>
+<li>覆写onScrollStateChanged(AbsListView view, int scrollState)方法，监听列表的滚动事件，<br>其中view就是当前ListView，scrollState表示当前ListView的状态，它有三个状态：<br>SCROLL_STATE_IDLE（停止滚动的空闲状态）、<br>SCROLL_STATE_TOUCH_SCROLL（手指有接触屏幕并且带动ListView滚动的状态）、<br>SCROLL_STATE_FLING（手指离开的屏幕，ListView因为惯性还在滚动的状态）。</li>
+<li>当当前ListView状态是SCROLL_STATE_IDLE时进行事件监听。</li>
+</ol>
+<h3 id="2-1-滚动到表头的事件"><a href="#2-1-滚动到表头的事件" class="headerlink" title="2.1 滚动到表头的事件"></a>2.1 滚动到表头的事件</h3><p>当列表中的第一个子View的顶部Y坐标等于列表顶部Y坐标时响应<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollStateChanged</span><span class="params">(AbsListView view, <span class="keyword">int</span> scrollState)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (scrollState == OnScrollListener.SCROLL_STATE_IDLE) &#123;</div><div class="line">        View firstChild = view.getChildAt(<span class="number">0</span>);</div><div class="line">        <span class="keyword">if</span> (view.getTop() == firstChild.getTop()) &#123;</div><div class="line">            <span class="keyword">if</span> (mCallbacks != <span class="keyword">null</span>) &#123;</div><div class="line">                mCallbacks.onScrollFirst();   <span class="comment">//触发滚动到表头的事件</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="2-2-滚动到表尾的事件"><a href="#2-2-滚动到表尾的事件" class="headerlink" title="2.2. 滚动到表尾的事件"></a>2.2. 滚动到表尾的事件</h3><ul>
+<li>当列表中的最后一个子View的底部Y坐标等于列表底部Y坐标时响应</li>
+<li>如果整个列表的长度比父View小，那么当最后一个子View的底部Y坐标等于列表的长度时响应<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollStateChanged</span><span class="params">(AbsListView view, <span class="keyword">int</span> scrollState)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> count = getCount();</div><div class="line">    <span class="keyword">if</span> (scrollState == OnScrollListener.SCROLL_STATE_IDLE</div><div class="line">            &amp;&amp; getLastVisiblePosition() == count - <span class="number">1</span>) &#123;</div><div class="line">        View lastChild = view.getChildAt(view.getChildCount() - <span class="number">1</span>);</div><div class="line">        <span class="keyword">int</span> dist = view.getBottom() - lastChild.getBottom();</div><div class="line">        <span class="keyword">if</span> (dist == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (mCallbacks != <span class="keyword">null</span>) &#123;</div><div class="line">                mCallbacks.onScrollLast();   <span class="comment">//触发滚动到表尾的事件</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (count &lt; MIN_CHILD_COUNT) &#123;   <span class="comment">//设置一个最小个数，提高效率</span></div><div class="line">            <span class="keyword">int</span> childViewsHeight = (lastChild.getHeight()</div><div class="line">                    + getDividerHeight()) * count;</div><div class="line">            <span class="keyword">if</span> (childViewsHeight &lt; view.getHeight() &amp;&amp; childViewsHeight == lastChild.getBottom()) &#123;</div><div class="line">                <span class="keyword">if</span> (mCallbacks != <span class="keyword">null</span>) &#123;</div><div class="line">                    mCallbacks.onScrollLast();   <span class="comment">//触发滚动到表尾的事件</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/listview/" rel="tag">#listview</a>
+          
+            <a href="/tags/监听/" rel="tag">#监听</a>
+          
+            <a href="/tags/滚动事件/" rel="tag">#滚动事件</a>
+          
+            <a href="/tags/表头表尾/" rel="tag">#表头表尾</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/05/16/android-bitmap-to-drawable/" rel="next" title="Android中Drawable和Bitmap互相转化">
+                <i class="fa fa-chevron-left"></i> Android中Drawable和Bitmap互相转化
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/08/06/android-pull-to-refresh/" rel="prev" title="Android 下拉刷新控件的使用">
+                Android 下拉刷新控件的使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/08/06/android-listen-listview-scroll-events/"
+           data-title="ListView滚动事件的监听" data-url="http://taolin.me/2014/08/06/android-listen-listview-scroll-events/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Taolin" />
+          <p class="site-author-name" itemprop="name">Taolin</p>
+          <p class="site-description motion-element" itemprop="description">生命不息 奋斗不止</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/taolin2107" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/215978968" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-上下滚动事件的响应"><span class="nav-text">1. 上下滚动事件的响应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-滚动到表头或表尾事件的响应"><span class="nav-text">2. 滚动到表头或表尾事件的响应</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-滚动到表头的事件"><span class="nav-text">2.1 滚动到表头的事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-滚动到表尾的事件"><span class="nav-text">2.2. 滚动到表尾的事件</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Taolin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"taolin"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

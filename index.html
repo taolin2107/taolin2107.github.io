@@ -86,12 +86,12 @@
 
 <meta name="description" content="生命不息 奋斗不止">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Taolin的个人博客">
+<meta property="og:title" content="Taolin的博客">
 <meta property="og:url" content="http://taolin.me/index.html">
-<meta property="og:site_name" content="Taolin的个人博客">
+<meta property="og:site_name" content="Taolin的博客">
 <meta property="og:description" content="生命不息 奋斗不止">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Taolin的个人博客">
+<meta name="twitter:title" content="Taolin的博客">
 <meta name="twitter:description" content="生命不息 奋斗不止">
 
 
@@ -115,7 +115,7 @@
 
   <link rel="canonical" href="http://taolin.me/"/>
 
-  <title> Taolin的个人博客 </title>
+  <title> Taolin的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -148,7 +148,7 @@
   <div class="custom-logo-site-title">
     <a href="/"  class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <span class="site-title">Taolin的个人博客</span>
+      <span class="site-title">Taolin的博客</span>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -635,6 +635,388 @@
             
               
                 
+                <a class="post-title-link" href="/2014/08/06/android-pull-to-refresh/" itemprop="url">
+                  Android 下拉刷新控件的使用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-08-06T10:43:29+08:00" content="2014-08-06">
+              2014-08-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/08/06/android-pull-to-refresh/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/08/06/android-pull-to-refresh/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <img src="/2014/08/06/android-pull-to-refresh/01.png" alt="01.png" title="">
+<p>如上图，是Android下拉刷新控件PullToRefresh，这种控件使用比较普遍，Google+、知乎等都有使用。<br>Github地址： <a href="https://github.com/chrisbanes/ActionBar-PullToRefresh.git">https://github.com/chrisbanes/ActionBar-PullToRefresh.git</a><br>下面介绍此控件的用法：</p>
+<h2 id="1-PullToRefresh基本用法"><a href="#1-PullToRefresh基本用法" class="headerlink" title="1. PullToRefresh基本用法"></a>1. PullToRefresh基本用法</h2><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">//在build.gradle中添加依赖库</div><div class="line">compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'</div><div class="line"></div><div class="line">//在xml中引用如下：</div><div class="line"><span class="tag">&lt;<span class="name">uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout</span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/pull_refresh_layout"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">ListView</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span> /&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">//在Java代码中引用如下：</span></div><div class="line">pullRefreshLayout = (PullToRefreshLayout) findViewById(R.id.pull_refresh_layout);</div><div class="line">ActionBarPullToRefresh.from(<span class="keyword">this</span>)</div><div class="line">    .allChildrenArePullable()</div><div class="line">    .listener(<span class="keyword">new</span> OnRefreshListener() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRefreshStarted</span><span class="params">(View view)</span> </span>&#123;</div><div class="line">            <span class="comment">//add your refreshing code.</span></div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    .setup(pullRefreshLayout);</div></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/08/06/android-pull-to-refresh/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/08/06/android-listen-listview-scroll-events/" itemprop="url">
+                  ListView滚动事件的监听
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-08-06T10:25:35+08:00" content="2014-08-06">
+              2014-08-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/08/06/android-listen-listview-scroll-events/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/08/06/android-listen-listview-scroll-events/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>ListView本身有一个OnScrollListener的接口，通过此接口可以监听ListView的状态，滚动的个数，但是没法监听其精确的滚动距离、上下滚动事件和滚动到表头或表尾事件，下面介绍如何监听这些事件。</p>
+<h2 id="1-上下滚动事件的响应"><a href="#1-上下滚动事件的响应" class="headerlink" title="1. 上下滚动事件的响应"></a>1. 上下滚动事件的响应</h2><ol>
+<li>自定义一个继承至ListView的类。</li>
+<li>覆写onTouchEvent方法，监听触摸事件。</li>
+<li>定义一个有效滚动距离，当滑动的距离超过这个距离时才会触发滚动事件的响应。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> mEffectiveDistance = <span class="number">10</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">float</span> mPreviousY;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</div><div class="line">    mDetector.onTouchEvent(ev);</div><div class="line">    <span class="keyword">switch</span> (ev.getAction()) &#123;</div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_MOVE:</div><div class="line">            <span class="keyword">float</span> currentY = ev.getY();</div><div class="line">            <span class="keyword">float</span> distanceY = currentY - mPreviousY;</div><div class="line">            <span class="keyword">if</span> (distanceY &lt; -mEffectiveDistance) &#123;</div><div class="line">                mPreviousY = currentY;</div><div class="line">                <span class="keyword">if</span> (mCallbacks != <span class="keyword">null</span>) &#123;</div><div class="line">                    mCallbacks.onScrollUp();  <span class="comment">//触发向上滚动的事件</span></div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (distanceY &gt; mEffectiveDistance) &#123;</div><div class="line">                mPreviousY = currentY;</div><div class="line">                <span class="keyword">if</span> (mCallbacks != <span class="keyword">null</span>) &#123;</div><div class="line">                    mCallbacks.onScrollDown();  <span class="comment">//触发向下滚动的事件</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line"></div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</div><div class="line">            mPreviousY = ev.getY();</div><div class="line">            <span class="keyword">break</span>;</div><div class="line"></div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="keyword">break</span>;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.onTouchEvent(ev);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/08/06/android-listen-listview-scroll-events/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/05/16/android-bitmap-to-drawable/" itemprop="url">
+                  Android中Drawable和Bitmap互相转化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-05-16T12:45:25+08:00" content="2014-05-16">
+              2014-05-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/05/16/android-bitmap-to-drawable/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/05/16/android-bitmap-to-drawable/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="1-相关概念"><a href="#1-相关概念" class="headerlink" title="1. 相关概念"></a>1. 相关概念</h2><ul>
+<li>Drawable就是一个可画的对象，其可能是一张位图（BitmapDrawable），也可能是一个图形（ShapeDrawable），还有可能是一个图层（LayerDrawable），我们根据画图的需求，创建相应的可画对象即可。</li>
+<li>Canvas画布，绘图的目的区域。</li>
+<li>Bitmap位图，用于图形的处理。</li>
+<li>Matrix矩阵，进行图形变换。</li>
+</ul>
+<h2 id="2-Bitmap相关的转化"><a href="#2-Bitmap相关的转化" class="headerlink" title="2. Bitmap相关的转化"></a>2. Bitmap相关的转化</h2><h3 id="2-1-从资源中获取Bitmap"><a href="#2-1-从资源中获取Bitmap" class="headerlink" title="2.1. 从资源中获取Bitmap"></a>2.1. 从资源中获取Bitmap</h3><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">Resources res = getResources();  </div><div class="line">Bitmap bmp = BitmapFactory.decodeResource(res, R.drawable.icon);</div></pre></td></tr></table></figure>
+<h3 id="2-2-Bitmap-转为-byte"><a href="#2-2-Bitmap-转为-byte" class="headerlink" title="2.2. Bitmap 转为 byte[]"></a>2.2. Bitmap 转为 byte[]</h3><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">byte</span>[] Bitmap2Bytes(Bitmap bm) &#123;  </div><div class="line">    ByteArrayOutputStream baos = <span class="keyword">new</span> ByteArrayOutputStream();  </div><div class="line">    bm.compress(Bitmap.CompressFormat.PNG, <span class="number">100</span>, baos);  </div><div class="line">    <span class="keyword">return</span> baos.toByteArray();  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/05/16/android-bitmap-to-drawable/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2014/05/15/upnp-protocol-introduce/" itemprop="url">
                   UPnP协议介绍和Android代码实现
                 </a>
@@ -909,7 +1291,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -926,7 +1308,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

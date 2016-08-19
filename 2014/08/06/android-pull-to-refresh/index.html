@@ -1,0 +1,677 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.useso.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,pullToRefresh,下拉刷新,Android控件," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="如上图，是Android下拉刷新控件PullToRefresh，这种控件使用比较普遍，Google+、知乎等都有使用。Github地址： https://github.com/chrisbanes/ActionBar-PullToRefresh.git下面介绍此控件的用法：
+1. PullToRefresh基本用法//在build.gradle中添加依赖库compile &apos;com.github.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 下拉刷新控件的使用">
+<meta property="og:url" content="http://taolin.me/2014/08/06/android-pull-to-refresh/index.html">
+<meta property="og:site_name" content="Taolin的博客">
+<meta property="og:description" content="如上图，是Android下拉刷新控件PullToRefresh，这种控件使用比较普遍，Google+、知乎等都有使用。Github地址： https://github.com/chrisbanes/ActionBar-PullToRefresh.git下面介绍此控件的用法：
+1. PullToRefresh基本用法//在build.gradle中添加依赖库compile &apos;com.github.">
+<meta property="og:image" content="http://taolin.me/2014/08/06/android-pull-to-refresh/01.png">
+<meta property="og:updated_time" content="2016-08-19T13:08:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 下拉刷新控件的使用">
+<meta name="twitter:description" content="如上图，是Android下拉刷新控件PullToRefresh，这种控件使用比较普遍，Google+、知乎等都有使用。Github地址： https://github.com/chrisbanes/ActionBar-PullToRefresh.git下面介绍此控件的用法：
+1. PullToRefresh基本用法//在build.gradle中添加依赖库compile &apos;com.github.">
+<meta name="twitter:image" content="http://taolin.me/2014/08/06/android-pull-to-refresh/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://taolin.me/2014/08/06/android-pull-to-refresh/"/>
+
+  <title> Android 下拉刷新控件的使用 | Taolin的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Taolin的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">生命不息 奋斗不止</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android 下拉刷新控件的使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-08-06T10:43:29+08:00" content="2014-08-06">
+              2014-08-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/08/06/android-pull-to-refresh/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/08/06/android-pull-to-refresh/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <img src="/2014/08/06/android-pull-to-refresh/01.png" alt="01.png" title="">
+<p>如上图，是Android下拉刷新控件PullToRefresh，这种控件使用比较普遍，Google+、知乎等都有使用。<br>Github地址： <a href="https://github.com/chrisbanes/ActionBar-PullToRefresh.git" target="_blank" rel="external">https://github.com/chrisbanes/ActionBar-PullToRefresh.git</a><br>下面介绍此控件的用法：</p>
+<h2 id="1-PullToRefresh基本用法"><a href="#1-PullToRefresh基本用法" class="headerlink" title="1. PullToRefresh基本用法"></a>1. PullToRefresh基本用法</h2><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">//在build.gradle中添加依赖库</div><div class="line">compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'</div><div class="line"></div><div class="line">//在xml中引用如下：</div><div class="line"><span class="tag">&lt;<span class="name">uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/pull_refresh_layout"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">ListView</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span> /&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">//在Java代码中引用如下：</span></div><div class="line">pullRefreshLayout = (PullToRefreshLayout) findViewById(R.id.pull_refresh_layout);</div><div class="line">ActionBarPullToRefresh.from(<span class="keyword">this</span>)</div><div class="line">    .allChildrenArePullable()</div><div class="line">    .listener(<span class="keyword">new</span> OnRefreshListener() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRefreshStarted</span><span class="params">(View view)</span> </span>&#123;</div><div class="line">            <span class="comment">//add your refreshing code.</span></div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    .setup(pullRefreshLayout);</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>通过以上代码，你就可以看到默认的下拉刷新效果了，如果需要自定义效果，请看下面。</p>
+<h2 id="2-自定义PullToRefresh的效果"><a href="#2-自定义PullToRefresh的效果" class="headerlink" title="2. 自定义PullToRefresh的效果"></a>2. 自定义PullToRefresh的效果</h2><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">...</div><div class="line">ActionBarPullToRefresh.from(<span class="keyword">this</span>)</div><div class="line">        .options(Options.create()</div><div class="line">        <span class="comment">// 重点是这儿，pulltorefresh_header里面自定义效果</span></div><div class="line">        .headerLayout(R.layout.pulltorefresh_header)</div><div class="line">        .build())</div><div class="line">        .allChildrenArePullable()</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>pulltorefresh_header.xml代码如下：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span> </span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span> </div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">FrameLayout</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@id/ptr_content"</span> </div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span> </div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"48dp"</span> </div><div class="line">        <span class="attr">android:background</span>=<span class="string">"?android:attr/colorBackground"</span>&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@id/ptr_text"</span> </div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span> </div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span> </div><div class="line">            <span class="attr">android:textAppearance</span>=<span class="string">"?android:attr/textAppearanceMedium"</span> </div><div class="line">            <span class="attr">android:gravity</span>=<span class="string">"center"</span> /&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;/<span class="name">FrameLayout</span>&gt;</span></div><div class="line"></div><div class="line">    //上面的代码一般不作修改，主要的修改在下面，定义SmoothProgressBar的效果</div><div class="line">    <span class="tag">&lt;<span class="name">fr.castorflex.android.smoothprogressbar.SmoothProgressBar</span></span></div><div class="line">        <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span> </div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@id/ptr_progress"</span> </div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span> </div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span> </div><div class="line">        <span class="attr">app:spb_stroke_separator_length</span>=<span class="string">"0dp"</span> </div><div class="line">        <span class="attr">app:spb_colors</span>=<span class="string">"@array/refresh_pb_colors"</span> </div><div class="line">        <span class="attr">android:minHeight</span>=<span class="string">"3dp"</span>/&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>自定义SmoothProgressBar的效果<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">fr.castorflex.android.smoothprogressbar.SmoothProgressBar</span></span></div><div class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span> </div><div class="line">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span> </div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span> </div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span> </div><div class="line">    <span class="attr">app:spb_sections_count</span>=<span class="string">"4"</span>      //颜色条的个数</div><div class="line">    <span class="attr">app:spb_color</span>=<span class="string">"#FF0000"</span>         //进度条的颜色，单色</div><div class="line">    <span class="attr">app:spb_colors</span>=<span class="string">"@array/refresh_pb_colors"</span> //进度条的颜色，多色</div><div class="line">    <span class="attr">app:spb_speed</span>=<span class="string">"2.0"</span>             //滚动速度，此处为<span class="attr">2</span>倍的速度</div><div class="line">    <span class="attr">app:spb_reversed</span>=<span class="string">"false"</span>        //是否反向滚动</div><div class="line">    <span class="attr">app:spb_mirror_mode</span>=<span class="string">"false"</span>     //是否为镜像显示模式</div><div class="line">    <span class="attr">app:spb_stroke_width</span>=<span class="string">"4dp"</span>      //颜色条的宽度</div><div class="line">    <span class="attr">app:spb_stroke_separator_length</span>=<span class="string">"4dp"</span>      //颜色条之间的间距</div><div class="line">    <span class="attr">app:spb_progressiveStart_activated</span>=<span class="string">"true"</span>  //默认的滚动的</div><div class="line">    <span class="attr">app:spb_progressiveStart_speed</span>=<span class="string">"1.5"</span>       //开始点的速度</div><div class="line">    <span class="attr">app:spb_progressiveStop_speed</span>=<span class="string">"3.4"</span>        //结束点的速度</div><div class="line">    <span class="attr">app:spb_interpolator</span>=<span class="string">"spb_interpolator_accelerate"</span>   //插值器</div><div class="line">    /&gt;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/pullToRefresh/" rel="tag">#pullToRefresh</a>
+          
+            <a href="/tags/下拉刷新/" rel="tag">#下拉刷新</a>
+          
+            <a href="/tags/Android控件/" rel="tag">#Android控件</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/08/06/android-listen-listview-scroll-events/" rel="next" title="ListView滚动事件的监听">
+                <i class="fa fa-chevron-left"></i> ListView滚动事件的监听
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/15/Android-res-how-to-proguard/" rel="prev" title="Android res资源文件如何混淆">
+                Android res资源文件如何混淆 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/08/06/android-pull-to-refresh/"
+           data-title="Android 下拉刷新控件的使用" data-url="http://taolin.me/2014/08/06/android-pull-to-refresh/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Taolin" />
+          <p class="site-author-name" itemprop="name">Taolin</p>
+          <p class="site-description motion-element" itemprop="description">生命不息 奋斗不止</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/taolin2107" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/215978968" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-PullToRefresh基本用法"><span class="nav-text">1. PullToRefresh基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-自定义PullToRefresh的效果"><span class="nav-text">2. 自定义PullToRefresh的效果</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Taolin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"taolin"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

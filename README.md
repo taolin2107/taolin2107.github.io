@@ -70,5 +70,8 @@ git checkout -b source
 git push -u origin source
 ```
 ##Next theme 配置参考
-http://theme-next.iissnan.com/
-https://github.com/iissnan/hexo-theme-next/wiki/%E5%88%9B%E5%BB%BA%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2
+- http://theme-next.iissnan.com/
+- https://github.com/iissnan/hexo-theme-next/wiki/%E5%88%9B%E5%BB%BA%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2
+
+##配置多说评论框
+- http://taolin.duoshuo.com/admin/

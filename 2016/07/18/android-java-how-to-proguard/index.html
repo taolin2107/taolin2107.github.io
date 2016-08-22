@@ -1,0 +1,796 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.useso.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,proguard,代码混淆,java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="1. 前期准备本篇文章中介绍的混淆技术都是基于Android Studio的，Eclipse的用法也基本类似，但是就不再为Eclipse专门做讲解了。我们要建立一个Android Studio项目，并在项目中添加一些能够帮助我们理解混淆知识的代码。这里我准备好了一些，我们将它们添加到Android Studio当中。首先新建一个MyFragment类，代码如下所示：public class MyF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【转载】Android java代码如何混淆">
+<meta property="og:url" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/index.html">
+<meta property="og:site_name" content="Taolin的博客">
+<meta property="og:description" content="1. 前期准备本篇文章中介绍的混淆技术都是基于Android Studio的，Eclipse的用法也基本类似，但是就不再为Eclipse专门做讲解了。我们要建立一个Android Studio项目，并在项目中添加一些能够帮助我们理解混淆知识的代码。这里我准备好了一些，我们将它们添加到Android Studio当中。首先新建一个MyFragment类，代码如下所示：public class MyF">
+<meta property="og:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/01.png">
+<meta property="og:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/02.png">
+<meta property="og:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/03.png">
+<meta property="og:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/04.png">
+<meta property="og:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/05.png">
+<meta property="og:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/06.png">
+<meta property="og:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/07.png">
+<meta property="og:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/08.png">
+<meta property="og:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/09.png">
+<meta property="og:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/10.png">
+<meta property="og:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/11.png">
+<meta property="og:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/12.jpg">
+<meta property="og:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/13.jpg">
+<meta property="og:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/14.png">
+<meta property="og:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/17.jpg">
+<meta property="og:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/18.jpg">
+<meta property="og:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/19.jpg">
+<meta property="og:updated_time" content="2016-08-22T14:35:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【转载】Android java代码如何混淆">
+<meta name="twitter:description" content="1. 前期准备本篇文章中介绍的混淆技术都是基于Android Studio的，Eclipse的用法也基本类似，但是就不再为Eclipse专门做讲解了。我们要建立一个Android Studio项目，并在项目中添加一些能够帮助我们理解混淆知识的代码。这里我准备好了一些，我们将它们添加到Android Studio当中。首先新建一个MyFragment类，代码如下所示：public class MyF">
+<meta name="twitter:image" content="http://taolin.me/2016/07/18/android-java-how-to-proguard/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://taolin.me/2016/07/18/android-java-how-to-proguard/"/>
+
+  <title> 【转载】Android java代码如何混淆 | Taolin的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Taolin的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">生命不息 奋斗不止</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【转载】Android java代码如何混淆
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-18T20:53:18+08:00" content="2016-07-18">
+              2016-07-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/18/android-java-how-to-proguard/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/18/android-java-how-to-proguard/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1-前期准备"><a href="#1-前期准备" class="headerlink" title="1. 前期准备"></a>1. 前期准备</h2><p>本篇文章中介绍的混淆技术都是基于Android Studio的，Eclipse的用法也基本类似，但是就不再为Eclipse专门做讲解了。<br>我们要建立一个Android Studio项目，并在项目中添加一些能够帮助我们理解混淆知识的代码。这里我准备好了一些，我们将它们添加到Android Studio当中。<br>首先新建一个MyFragment类，代码如下所示：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String toastTip = <span class="string">"toast in MyFragment"</span>;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">onCreateView</span><span class="params">(LayoutInflater inflater, Nullable ViewGroup container, Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        View view = inflater.inflate(R.layout.fragment_layout, container, <span class="keyword">false</span>);</div><div class="line">        methodWithGlobalVariable();</div><div class="line">        methodWithLocalVariable();</div><div class="line">        <span class="keyword">return</span> view;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodWithGlobalVariable</span><span class="params">()</span> </span>&#123;</div><div class="line">        Toast.makeText(getActivity(), toastTip, Toast.LENGTH_SHORT).show();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodWithLocalVariable</span><span class="params">()</span> </span>&#123;</div><div class="line">        String logMessage = <span class="string">"log in MyFragment"</span>;</div><div class="line">        logMessage = logMessage.toLowerCase();</div><div class="line">        System.out.println(logMessage);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到，MyFragment是继承自Fragment的，并且MyFragment中有一个全局变量。onCreateView()方法是Fragment的生命周期函数，这个不用多说，在onCreateView()方法中又调用了methodWithGlobalVariable()和methodWithLocalVariable()方法，这两个方法的内部分别引用了一个全局变量和一个局部变量。<br><a id="more"></a></p>
+<p>接下来新建一个Utils类，代码如下所示：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Utils</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodNormal</span><span class="params">()</span> </span>&#123;</div><div class="line">        String logMessage = <span class="string">"this is normal method"</span>;</div><div class="line">        logMessage = logMessage.toLowerCase();</div><div class="line">        System.out.println(logMessage);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodUnused</span><span class="params">()</span> </span>&#123;</div><div class="line">        String logMessage = <span class="string">"this is unused method"</span>;</div><div class="line">        logMessage = logMessage.toLowerCase();</div><div class="line">        System.out.println(logMessage);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这是一个非常普通的工具类，没有任何继承关系。Utils中有两个方法methodNormal()和methodUnused()，它们的内部逻辑都是一样的，唯一的据别是稍后methodNormal()方法会被调用，而methodUnused()方法不会被调用。<br>下面再新建一个NativeUtils类，代码如下所示：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NativeUtils</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">methodNative</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">methodNotNative</span><span class="params">()</span> </span>&#123;</div><div class="line">        String logMessage = <span class="string">"this is not native method"</span>;</div><div class="line">        logMessage = logMessage.toLowerCase();</div><div class="line">        System.out.println(logMessage);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个类中同样有两个方法，一个是native方法，一个是非native方法。<br>最后，修改MainActivity中的代码，如下所示：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String toastTip = <span class="string">"toast in MainActivity"</span>;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        getSupportFragmentManager().beginTransaction().add(R.id.fragment, <span class="keyword">new</span> MyFragment()).commit();</div><div class="line">        Button button = (Button) findViewById(R.id.button);</div><div class="line">        button.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                methodWithGlobalVariable();</div><div class="line">                methodWithLocalVariable();</div><div class="line">                Utils utils = <span class="keyword">new</span> Utils();</div><div class="line">                utils.methodNormal();</div><div class="line">                NativeUtils.methodNative();</div><div class="line">                NativeUtils.methodNotNative();</div><div class="line">                Connector.getDatabase();</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodWithGlobalVariable</span><span class="params">()</span> </span>&#123;</div><div class="line">        Toast.makeText(MainActivity.<span class="keyword">this</span>, toastTip, Toast.LENGTH_SHORT).show();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodWithLocalVariable</span><span class="params">()</span> </span>&#123;</div><div class="line">        String logMessage = <span class="string">"log in MainActivity"</span>;</div><div class="line">        logMessage = logMessage.toLowerCase();</div><div class="line">        System.out.println(logMessage);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到，MainActivity和MyFragment类似，也是定义了methodWithGlobalVariable()和methodWithLocalVariable()这两个方法，然后MainActivity对MyFragment进行了添加，并在Button的点击事件里面调用了自身的、Utils的、以及NativeUtils中的方法。注意调用native方法需要有相应的so库实现，不然的话就会报UnsatisefiedLinkError，不过这里其实我也并没有真正的so库实现，只是演示一下让大家看看混淆结果。点击事件的最后一行调用的是LitePal中的方法，因为我们还要测试一下引用第三方Jar包的场景，到LitePal项目的主页去下载最新的Jar包，然后放到libs目录下即可。<br>完整的build.gradle内容如下所示：<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">apply plugin: 'com.android.application'</div><div class="line"></div><div class="line">android &#123;</div><div class="line">    compileSdkVersion 23</div><div class="line">    buildToolsVersion "23.0.2"</div><div class="line"></div><div class="line">    defaultConfig &#123;</div><div class="line">        applicationId "com.example.guolin.androidtest"</div><div class="line">        minSdkVersion 15</div><div class="line">        targetSdkVersion 23</div><div class="line">        versionCode 1</div><div class="line">        versionName "1.0"</div><div class="line">    &#125;</div><div class="line">    buildTypes &#123;</div><div class="line">        release &#123;</div><div class="line">            minifyEnabled false</div><div class="line">            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">dependencies &#123;</div><div class="line">    compile fileTree(dir: 'libs', include: ['*.jar'])</div><div class="line">    compile 'com.android.support:appcompat-v7:23.2.0'</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>好的，到这里准备工作就已经基本完成了，接下来我们就开始对代码进行混淆吧。</p>
+<h2 id="2-混淆APK"><a href="#2-混淆APK" class="headerlink" title="2. 混淆APK"></a>2. 混淆APK</h2><p>在Android Studio当中混淆APK实在是太简单了，借助SDK中自带的Proguard工具，只需要修改build.gradle中的一行配置即可。可以看到，现在build.gradle中minifyEnabled的值是false，这里我们只需要把值改成true，打出来的APK包就会是混淆过的了。如下所示：<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">release &#123;</div><div class="line">    minifyEnabled true</div><div class="line">    proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中minifyEnabled用于设置是否启用混淆，proguardFiles用于选定混淆配置文件。注意这里是在release闭包内进行配置的，因此只有打出正式版的APK才会进行混淆，Debug版的APK是不会混淆的。当然这也是非常合理的，因为Debug版的APK文件我们只会用来内部测试，不用担心被人破解。<br>那么现在我们来打一个正式版的APK文件，在Android Studio导航栏中点击Build-&gt;Generate Signed APK，然后选择签名文件并输入密码，如果没有签名文件就创建一个，最终点击Finish完成打包，生成的APK文件会自动存放在app目录下。除此之外也可以在build.gradle文件当中添加签名文件配置，然后通过gradlew assembleRelease来打出一个正式版的APK文件，这种方式APK文件会自动存放在app/build/outputs/apk目录下。<br>那么现在已经得到了APK文件，接下来就用上篇文章中学到的反编译知识来对这个文件进行反编译吧，结果如下图所示：<br><img src="/2016/07/18/android-java-how-to-proguard/01.png" alt="01.png" title=""></p>
+<p>很明显可以看出，我们的代码混淆功能已经生效了。<br>下面我们尝试来阅读一下这个混淆过后的代码，最顶层的包名结构主要分为三部分，第一个a.a已经被混淆的面目全非了，但是可以猜测出这个包下是LitePal的所有代码。第二个android.support可以猜测出是我们引用的android support库的代码，第三个com.example.guolin.androidtest则很明显就是我们项目的主包名了，下面将里面所有的类一个个打开看一下。<br>首先MainActivity中的代码如下所示：<br><img src="/2016/07/18/android-java-how-to-proguard/02.png" alt="02.png" title=""></p>
+<p>可以看到，MainActivity的类名是没有混淆的，onCreate()方法也没有被混淆，但是我们定义的方法、全局变量、局部变量都被混淆了。<br>再来打开下一个类NativeUtils，如下所示：<br><img src="/2016/07/18/android-java-how-to-proguard/03.png" alt="03.png" title=""></p>
+<p>NativeUtils的类名没有被混淆，其中声明成native的方法也没有被混淆，但是非native方法的方法名和局部变量都被混淆了。<br>接下来是a类的代码，如下所示：<br><img src="/2016/07/18/android-java-how-to-proguard/04.png" alt="04.png" title=""></p>
+<p>很明显，这个是MainActivity中按钮点击事件的匿名类，在onClick()方法中的调用代码虽然都被混淆了，但是调用顺序是不会改变的，对照源代码就可以看出哪一行是调用的什么方法了。<br>再接下来是b类，代码如下所示：<br><img src="/2016/07/18/android-java-how-to-proguard/05.png" alt="05.png" title=""></p>
+<p>虽然被混淆的很严重，但是我们还是可以看出这个是MyFragment类。其中所有的方法名、全局变量、局部变量都被混淆了。<br>最后再来看下c类，代码如下所示：<br><img src="/2016/07/18/android-java-how-to-proguard/06.png" alt="06.png" title=""></p>
+<p>c类中只有一个a方法，从字符串的内容我们可以看出，这个是Utils类中的methodNormal()方法。<br>我为什么要创建这样的一个项目呢？因为从这几个类当中很能看出一些问题，接下来我们就分析一下上面的混淆结果。<br>首先像Utils这样的普通类肯定是会被混淆的，不管是类名、方法名还是变量都不会放过。除了混淆之外Utils类还说明了一个问题，就是minifyEnabled会对资源进行压缩，因为Utils类中我们明明定义了两个方法，但是反编译之后就只剩一个方法了，因为另外一个方法没有被调用，所以认为是多余的代码，在打包的时候就给移除掉了。不仅仅是代码，没有被调用的资源同样也会被移除掉，因此minifyEnabled除了混淆代码之外，还可以起到压缩APK包的作用。<br>接着看一下MyFragment，这个类也是混淆的比较彻底的，基本没有任何保留。那有些朋友可能会有疑问，Fragment怎么说也算是系统组件吧，就算普通方法名被混淆了，至少像onCreateView()这样的生命周期方法不应该被混淆吧？其实生命周期方法会不会被混淆和我们使用Fragment的方式有关，比如在本项目中，我使用的是android.support.v4.app.Fragment，support-v4包下的，就连Fragment的源码都被一起混淆了，因此生命周期方法当然也不例外了。但如果你使用的是android.app.Fragment，这就是调用手机系统中预编译好的代码了，很明显我们的混淆无法影响到系统内置的代码，因此这种情况下onCreateView()方法名就不会被混淆，但其它的方法以及变量仍然会被混淆。<br>接下来看一下MainActivity，同样也是系统组件之一，但MainActivity的保留程度就比MyFragment好多了，至少像类名、生命周期方法名都没有被混淆，这是为什么呢？根据我亲身测试得出结论，凡是需要在AndroidManifest.xml中去注册的所有类的类名以及从父类重写的方法名都自动不会被混淆。因此，除了Activity之外，这份规则同样也适用于Service、BroadcastReceiver和ContentProvider。<br>最后看一下NativeUtils类，这个类的类名也没有被混淆，这是由于它有一个声明成native的方法。只要一个类中有存在native方法，它的类名就不会被混淆，native方法的方法名也不会被混淆，因为C++代码要通过包名+类名+方法名来进行交互。 但是类中的别的代码还是会被混淆的。<br>除此之外，第三方的Jar包都是会被混淆的，LitePal不管是包名还是类名还是方法名都被完完全全混淆掉了。<br>这些就是Android Studio打正式APK时默认的混淆规则。<br>那么这些混淆规则是在哪里定义的呢？其实就是刚才在build.gradle的release闭包下配置的proguard-android.txt文件，这个文件存放于<android sdk="">/tools/proguard目录下，我们打开来看一下：<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"># This is a configuration file for ProGuard.</div><div class="line"># http://proguard.sourceforge.net/index.html#manual/usage.html</div><div class="line"></div><div class="line">-dontusemixedcaseclassnames</div><div class="line">-dontskipnonpubliclibraryclasses</div><div class="line">-verbose</div><div class="line"></div><div class="line"># Optimization is turned off by default. Dex does not like code run</div><div class="line"># through the ProGuard optimize and preverify steps (and performs some</div><div class="line"># of these optimizations on its own).</div><div class="line">-dontoptimize</div><div class="line">-dontpreverify</div><div class="line"># Note that if you want to enable optimization, you cannot just</div><div class="line"># include optimization flags in your own project configuration file;</div><div class="line"># instead you will need to point to the</div><div class="line"># "proguard-android-optimize.txt" file instead of this one from your</div><div class="line"># project.properties file.</div><div class="line"></div><div class="line">-keepattributes *Annotation*</div><div class="line">-keep public class com.google.vending.licensing.ILicensingService</div><div class="line">-keep public class com.android.vending.licensing.ILicensingService</div><div class="line"></div><div class="line"># For native methods, see http://proguard.sourceforge.net/manual/examples.html#native</div><div class="line">-keepclasseswithmembernames class * &#123;</div><div class="line">    native &lt;methods&gt;;</div><div class="line">&#125;</div><div class="line"></div><div class="line"># keep setters in Views so that animations can still work.</div><div class="line"># see http://proguard.sourceforge.net/manual/examples.html#beans</div><div class="line">-keepclassmembers public class * extends android.view.View &#123;</div><div class="line">   void set*(***);</div><div class="line">   *** get*();</div><div class="line">&#125;</div><div class="line"></div><div class="line"># We want to keep methods in Activity that could be used in the XML attribute onClick</div><div class="line">-keepclassmembers class * extends android.app.Activity &#123;</div><div class="line">   public void *(android.view.View);</div><div class="line">&#125;</div><div class="line"></div><div class="line"># For enumeration classes, see http://proguard.sourceforge.net/manual/examples.html#enumerations</div><div class="line">-keepclassmembers enum * &#123;</div><div class="line">    public static **[] values();</div><div class="line">    public static ** valueOf(java.lang.String);</div><div class="line">&#125;</div><div class="line"></div><div class="line">-keepclassmembers class * implements android.os.Parcelable &#123;</div><div class="line">  public static final android.os.Parcelable$Creator CREATOR;</div><div class="line">&#125;</div><div class="line"></div><div class="line">-keepclassmembers class **.R$* &#123;</div><div class="line">    public static &lt;fields&gt;;</div><div class="line">&#125;</div><div class="line"></div><div class="line"># The support library contains references to newer platform versions.</div><div class="line"># Dont warn about those in case this app is linking against an older</div><div class="line"># platform version.  We know about them, and they are safe.</div><div class="line">-dontwarn android.support.**</div></pre></td></tr></table></figure></android></p>
+<p>这个就是默认的混淆配置文件了，我们来一起逐行阅读一下。<br><code>-dontusemixedcaseclassnames</code> 表示混淆时不使用大小写混合类名。<br><code>-dontskipnonpubliclibraryclasses</code> 表示不跳过library中的非public的类。<br><code>-verbose</code> 表示打印混淆的详细信息。<br><code>-dontoptimize</code> 表示不进行优化，建议使用此选项，因为根据proguard-android-optimize.txt中的描述，优化可能会造成一些潜在风险，不能保证在所有版本的Dalvik上都正常运行。<br><code>-dontpreverify</code> 表示不进行预校验。这个预校验是作用在Java平台上的，Android平台上不需要这项功能，去掉之后还可以加快混淆速度。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">-keepattributes *Annotation* 表示对注解中的参数进行保留。</div><div class="line"></div><div class="line">-keep <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">google</span>.<span class="title">vending</span>.<span class="title">licensing</span>.<span class="title">ILicensingService</span></span></div><div class="line">-<span class="title">keep</span> <span class="title">public</span> <span class="title">class</span> <span class="title">com</span>.<span class="title">android</span>.<span class="title">vending</span>.<span class="title">licensing</span>.<span class="title">ILicensingService</span></div></pre></td></tr></table></figure></p>
+<p>表示不混淆上述声明的两个类，这两个类我们基本也用不上，是接入Google原生的一些服务时使用的。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">-keepclasseswithmembernames <span class="class"><span class="keyword">class</span> * </span>&#123;</div><div class="line">    <span class="keyword">native</span> &lt;methods&gt;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>表示不混淆任何包含native方法的类的类名以及native方法名，这个和我们刚才验证的结果是一致的。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">-keepclassmembers <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> * <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">view</span>.<span class="title">View</span> </span>&#123;</div><div class="line">   <span class="keyword">void</span> set*(***);</div><div class="line">   *** get*();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>表示不混淆任何一个View中的setXxx()和getXxx()方法，因为属性动画需要有相应的setter和getter的方法实现，混淆了就无法工作了。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">-keepclassmembers <span class="class"><span class="keyword">class</span> * <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">app</span>.<span class="title">Activity</span> </span>&#123;</div><div class="line">   <span class="keyword">public</span> <span class="keyword">void</span> *(android.view.View);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>表示不混淆Activity中参数是View的方法，因为有这样一种用法，在XML中配置android:onClick=”buttonClick”属性，当用户点击该按钮时就会调用Activity中的buttonClick(View view)方法，如果这个方法被混淆的话就找不到了。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">-keepclassmembers <span class="keyword">enum</span> * &#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> **[] values();</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ** valueOf(java.lang.String);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>表示不混淆枚举中的values()和valueOf()方法，枚举我用的非常少，这个就不评论了。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">-keepclassmembers <span class="class"><span class="keyword">class</span> * <span class="keyword">implements</span> <span class="title">android</span>.<span class="title">os</span>.<span class="title">Parcelable</span> </span>&#123;</div><div class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> android.os.Parcelable$Creator CREATOR;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>表示不混淆Parcelable实现类中的CREATOR字段，毫无疑问，CREATOR字段是绝对不能改变的，包括大小写都不能变，不然整个Parcelable工作机制都会失败。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">-keepclassmembers <span class="class"><span class="keyword">class</span> **.<span class="title">R</span>$* </span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;fields&gt;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>表示不混淆R文件中的所有静态字段，我们都知道R文件是通过字段来记录每个资源的id的，字段名要是被混淆了，id也就找不着了。<br><code>-dontwarn android.support.**</code> 表示对android.support包下的代码不警告，因为support包中有很多代码都是在高版本中使用的，如果我们的项目指定的版本比较低在打包时就会给予警告。不过support包中所有的代码都在版本兼容性上做足了判断，因此不用担心代码会出问题，所以直接忽略警告就可以了。<br>好了，这就是proguard-android.txt文件中所有默认的配置，而我们混淆代码也是按照这些配置的规则来进行混淆的。经过我上面的讲解之后，相信大家对这些配置的内容基本都能理解了。不过proguard语法中还真有几处非常难理解的地方，我自己也是研究了好久才搞明白，下面和大家分享一下这些难懂的语法部分。<br>proguard中一共有三组六个keep关键字，很多人搞不清楚它们的区别，这里我们通过一个表格来直观地看下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">关键字</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">keep</td>
+<td style="text-align:left">保留类和类中的成员，防止它们被混淆或移除。</td>
+</tr>
+<tr>
+<td style="text-align:left">keepnames</td>
+<td style="text-align:left">保留类和类中的成员，防止它们被混淆，但当成员没有被引用时会被移除。</td>
+</tr>
+<tr>
+<td style="text-align:left">keepclassmembers</td>
+<td style="text-align:left">只保留类中的成员，防止它们被混淆或移除。</td>
+</tr>
+<tr>
+<td style="text-align:left">keepclassmembernames</td>
+<td style="text-align:left">只保留类中的成员，防止它们被混淆，但当成员没有被引用时会被移除。</td>
+</tr>
+<tr>
+<td style="text-align:left">keepclasseswithmembers</td>
+<td style="text-align:left">保留类和类中的成员，防止它们被混淆或移除，前提是指名的类中的成员必须存在，如果不存在则还是会混淆。</td>
+</tr>
+<tr>
+<td style="text-align:left">keepclasseswithmembernames</td>
+<td style="text-align:left">保留类和类中的成员，防止它们被混淆，但当成员没有被引用时会被移除，前提是指名的类中的成员必须存在，如果不存在则还是会混淆。</td>
+</tr>
+</tbody>
+</table>
+<p>除此之外，proguard中的通配符也比较让人难懂，proguard-android.txt中就使用到了很多通配符，我们来看一下它们之间的区别：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">通配符</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><field></field></td>
+<td style="text-align:left">匹配类中的所有字段</td>
+</tr>
+<tr>
+<td style="text-align:left"><method></method></td>
+<td style="text-align:left">匹配类中的所有方法</td>
+</tr>
+<tr>
+<td style="text-align:left"><init></init></td>
+<td style="text-align:left">匹配类中的所有构造函数</td>
+</tr>
+<tr>
+<td style="text-align:left">*</td>
+<td style="text-align:left">匹配任意长度字符，但不含包名分隔符(.)。比如说我们的完整类名是com.example.test.MyActivity，使用com.<em>，或者com.exmaple.</em>都是无法匹配的，因为<em>无法匹配包名中的分隔符，正确的匹配方式是com.exmaple.</em>.<em>，或者com.exmaple.test.</em>，这些都是可以的。但如果你不写任何其它内容，只有一个*，那就表示匹配所有的东西。</td>
+</tr>
+<tr>
+<td style="text-align:left">**</td>
+<td style="text-align:left">匹配任意长度字符，并且包含包名分隔符(.)。比如proguard-android.txt中使用的-dontwarn android.support.**就可以匹配android.support包下的所有内容，包括任意长度的子包。</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>*</em></td>
+<td style="text-align:left">匹配任意参数类型。比如void set<em>(**</em>)就能匹配任意传入的参数类型，<em>** get</em>()就能匹配任意返回值的类型。</td>
+</tr>
+<tr>
+<td style="text-align:left">…</td>
+<td style="text-align:left">匹配任意长度的任意类型参数。比如void test(…)就能匹配任意void test(String a)或者是void test(int a, String b)这些方法。</td>
+</tr>
+</tbody>
+</table>
+<p>虽说上面表格已经解释的很详细了，但是很多人对于keep和keepclasseswithmembers这两个关键字的区别还是搞不懂。确实，它们之间用法有点太像了，我做了很多次试验它们的结果都是相同的。其实唯一的区别就在于类中声明的成员存不存在，我们还是通过一个例子来直接地看一下，先看keepclasseswithmember关键字：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">-keepclasseswithmember <span class="class"><span class="keyword">class</span> * </span>&#123;</div><div class="line">    <span class="keyword">native</span> &lt;methods&gt;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这段代码的意思其实很明显，就是保留所有含有native方法的类的类名和native方法名，而如果某个类中没有含有native方法，那就还是会被混淆。<br>但是如果改成keep关键字，结果会完全不一样：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">-keep <span class="class"><span class="keyword">class</span> * </span>&#123;</div><div class="line">    <span class="keyword">native</span> &lt;methods&gt;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>使用keep关键字后，你会发现代码中所有类的类名都不会被混淆了，因为keep关键字看到class *就认为应该将所有类名进行保留，而不会关心该类中是否含有native方法。当然这样写只会保证类名不会被混淆，类中的成员还是会被混淆的。<br>比较难懂的用法大概就这些吧，掌握了这些内容之后我们就能继续前进了。<br>回到Android Studio项目当中，刚才打出的APK虽然已经成功混淆了，但是混淆的规则都是按照proguard-android.txt中默认的规则来的，当然我们也可以修改proguard-android.txt中的规则，但是直接在proguard-android.txt中修改会对我们本机上所有项目的混淆规则都生效，那么有没有什么办法只针对当前项目的混淆规则做修改呢？当然是有办法的了，你会发现任何一个Android Studio项目在app模块目录下都有一个proguard-rules.pro文件，这个文件就是用于让我们编写只适用于当前项目的混淆规则的，那么接下来我们就利用刚才学到的所有知识来对混淆规则做修改吧。<br>这里我们先列出来要实现的目标：</p>
+<ul>
+<li>对MyFragment类进行完全保留，不混淆其类名、方法名、以及变量名。</li>
+<li>对Utils类中的未调用方法进行保留，防止其被移除掉。</li>
+<li>对第三方库进行保留，不混淆android-support库，以及LitePal库中的代码。</li>
+</ul>
+<p>下面我们就来逐一实现这些目标。<br>首先要对MyFragment类进行完全保留可以使用keep关键字，keep后声明完整的类名，然后保留类中的所有内容可以使用*通配符实现，如下所示：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">example</span>.<span class="title">guolin</span>.<span class="title">androidtest</span>.<span class="title">MyFragment</span> </span>&#123;</div><div class="line">    *;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>然后保留Utils类中的未调用方法可以使用keepclassmembers关键字，后跟Utils完整类名，然后在内部声明未调用的方法，如下所示：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">-keepclassmembers <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">example</span>.<span class="title">guolin</span>.<span class="title">androidtest</span>.<span class="title">Utils</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodUnused</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最后不要混淆第三方库，目前我们使用了两种方式来引入第三方库，一种是通过本地jar包引入的，一种是通过remote引入的，其实这两种方式没什么区别，要保留代码都可以使用**这种通配符来实现，如下所示：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">org</span>.<span class="title">litepal</span>.** </span>&#123;</div><div class="line">    *;</div><div class="line">&#125;</div><div class="line"></div><div class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">android</span>.<span class="title">support</span>.** </span>&#123;</div><div class="line">    *;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>所有内容都在这里了，现在我们重新打一个正式版的APK文件，然后再反编译看看效果：<br><img src="/2016/07/18/android-java-how-to-proguard/07.png" alt="07.png" title=""></p>
+<p>可以看到，现在android-support包中所有代码都被保留下来了，不管是包名、类名、还是方法名都没有被混淆。LitePal中的代码也是同样的情况：<br><img src="/2016/07/18/android-java-how-to-proguard/08.png" alt="08.png" title=""></p>
+<p>再来看下MyFragment中的代码，如下所示：<br><img src="/2016/07/18/android-java-how-to-proguard/09.png" alt="09.png" title=""></p>
+<p>可以看到，MyFragment中的代码也没有被混淆，按照我们的要求被完全保留下来了。<br>最后再来看一下Utils类中的代码：<br><img src="/2016/07/18/android-java-how-to-proguard/10.png" alt="10.png" title=""></p>
+<p>很明显，Utils类并没有被完全保留下来，类名还是被混淆了，methodNormal()方法也被混淆了，但是methodUnused()没有被混淆，当然也没有被移除，因为我们的混淆配置生效了。<br>经过这些例子的演示，相信大家已经对Proguard的用法有了相当不错的理解了，那么根据自己的业务需求来去编写混淆配置相信也不是什么难事了吧？<br>Progaurd的使用非常灵活，基本上能够覆盖你所能想到的所有业务逻辑。这里再举个例子，之前一直有人问我使用LitePal时的混淆配置怎么写，其实真的很简单，LitePal作为开源库并不需要混淆，上面的配置已经演示了如何不混淆LitePal代码，然后所有代码中的Model是需要进行反射的，也不能混淆，那么只需要这样写就行了：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">-keep <span class="class"><span class="keyword">class</span> * <span class="keyword">extends</span> <span class="title">org</span>.<span class="title">litepal</span>.<span class="title">crud</span>.<span class="title">DataSupport</span> </span>&#123;</div><div class="line">    *;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>因为LitePal中所有的Model都是应该继承DataSupport类的，所以这里我们将所有继承自DataSupport的类都进行保留就可以了。<br>关于混淆APK的用法就讲这么多，如果你还想继续了解关于Proguard的更多用法，可以参考官方文档：<a href="http://proguard.sourceforge.net/index.html#manual/usage.html" target="_blank" rel="external">http://proguard.sourceforge.net/index.html#manual/usage.html</a></p>
+<h2 id="3-混淆Jar"><a href="#3-混淆Jar" class="headerlink" title="3. 混淆Jar"></a>3. 混淆Jar</h2><p>在本篇文章的第二部分我想讲一讲混淆Jar包的内容，因为APK不一定是我们交付的唯一产品。就比如说我自己，我在公司是负责写SDK的，对于我来说交付出去的产品就是Jar包，而如果Jar包不混淆的话将会很容易就被别人反编译出来，从而泄漏程序逻辑。<br>实际上Android对混淆Jar包的支持在很早之前就有了，不管你使用多老版本的SDK，都能在 <android sdk="">/tools目录下找到proguard这个文件夹。然后打开里面的bin目录，你会看到如下文件：<br><img src="/2016/07/18/android-java-how-to-proguard/11.png" alt="11.png" title=""></android></p>
+<p>其中proguardgui.bat文件是允许我们以图形化的方式来对Jar包进行混淆的一个工具，今天我们就来讲解一下这个工具的用法。<br>在开始讲解这个工具之前，首先我们需要先准备一个Jar包，当然你从哪里搞到一个Jar包都是可以的，不过这里为了和刚才的混淆逻辑统一，我们就把本篇文章中的项目代码打成一个Jar包吧。<br>Eclipse中导出Jar包的方法非常简单，相信所有人都会，可是Android Studio当中就比较让人头疼了，因为Android Studio并没有提供一个专门用于导出Jar包的工具，因此我们只能自己动手了。<br>我们需要知道，任何一个Android Studio项目，只要编译成功之后就会在项目模块的build/intermediates/classes/debug目录下生成代码编译过后的class文件，因此只需通过打包命令将这些class文件打包成Jar包就行了，打开cmd，切换到项目的根目录，然后输入如下命令：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">jar -cvf androidtest.jar -C app/build/intermediates/classes/debug .</div></pre></td></tr></table></figure></p>
+<p>在项目的根目录下就会生成androidtest.jar这个文件，这样我们就把Jar包准备好了。<br>现在双击proguardgui.bat打开混淆工具，如果是Mac或Ubuntu系统则使用sh proguardgui.sh命令打开混淆工具，界面如下图所示：<br><img src="/2016/07/18/android-java-how-to-proguard/12.jpg" alt="12.jpg" title=""></p>
+<p>其实从主界面上我们就能看出，这个Proguard工具支持Shrinking、Optimization、Obfuscation、Preverification四项操作，在左侧的侧边栏上也能看到相应的这些选项。Proguard的工作机制仍然还是要依赖于配置文件，当然我们也可以通过proguardgui工具来生成配置文件，不过由于配置选项太多了，每个都去一一设置太复杂，而且大多数还都是我们用不到的配置。因此最简单的方式就是直接拿现有的配置文件，然后再做些修改就行了。<br>那么我们从<android sdk="">/tools/proguard目录下将proguard-android.txt文件复制一份出来，然后点击主界面上的Load configuration按钮来加载复制出来的这份proguard-android.txt文件，完成后点击Next将进入Input/Output界面。<br>Input/Output界面是用于导入要混淆的Jar包、配置混淆后文件的输出路径、以及导入该Jar包所依赖的所有其它Jar包的。我们要混淆的当然就是androidtest.jar这个文件，那么这个Jar包又依赖了哪些Jar包呢？这里就需要整理一下了。</android></p>
+<ul>
+<li>首先我们写的都是Java代码，Java代码的运行要基于Jre基础之上，没有Jre计算机将无法识别Java的语法，因此第一个要依赖的就是Jre的rt.jar。</li>
+<li>然后由于我们导出的Jar包中有Android相关的代码，比如Activity、Fragment等，因此还需要添加Android的编译库，android.jar。</li>
+<li>除此之外，我们使用的AppCompatActivity和Fragment分别来自于appcompat-v7包和support-v4包，那么这两个Jar包也是需要引入的。</li>
+<li>最后就是代码中还引入了litepal-1.3.1.jar。</li>
+</ul>
+<p>整理清楚了之后我们就来一个个添加，Input/Output有上下两个操作界面，上面是用于导入要混淆的Jar包和配置混淆后文件的输出路径的，下面则是导入该Jar包所依赖的所有其它Jar包的，全部导入后结果如下图所示：<br><img src="/2016/07/18/android-java-how-to-proguard/13.jpg" alt="13.jpg" title=""></p>
+<p>这些依赖的Jar包所存在的路径每台电脑都不一样，你所需要做的就是在你自己的电脑上成功找到这些依赖的Jar包并导入即可。<br>不过细心的朋友可能会发现，我在上面整理出了五个依赖的Jar包，但是在图中却添加了六个。这是我在写这篇文章时碰到的一个新的坑，也是定位了好久才解决的，我觉得有必要重点提一下。由于我平时混淆Jar包时里面很少会有Activity，所以没遇到过这个问题，但是本篇文章中的演示Jar包中不仅包含了Activty，还是继承自AppCompatActivity的。而AppCompatActivity的继承结构并不简单，如下图所示：<br><img src="/2016/07/18/android-java-how-to-proguard/14.png" alt="14.png" title=""></p>
+<p>其中AppCompatActivity是在appcompat-v7包中的，它的父类FragmentActivity是在support-v4包中的，这两个包我们都已经添加依赖了。但是FragmentActivity的父类就坑爹了，如果你去看BaseFragmentActivityHoneycomb和BaseFragmentActivityDonut这两个类的源码，你会发现它们都是在support-v4包中的： </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> android.support.v4.app;</div><div class="line"><span class="keyword">import</span> ...</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Base class for &#123;<span class="doctag">@code</span> FragmentActivity&#125; to be able to use v11 APIs.</div><div class="line"> */</div><div class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseFragmentActivityHoneycomb</span> <span class="keyword">extends</span> <span class="title">BaseFragmentActivityDonut</span> </span>&#123;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> android.support.v4.app;</div><div class="line"><span class="keyword">import</span> ...</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Base class for &#123;<span class="doctag">@code</span> FragmentActivity&#125; to be able to use Donut APIs.</div><div class="line"> */</div><div class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseFragmentActivityDonut</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</div></pre></td></tr></table></figure>
+<p>可是如果你去support-v4的Jar包中找一下，你会发现压根就没有这两个类，所以我当时一直混淆报错就是因为这两个类不存在，继承结构在这里断掉了。而这两个类其实被规整到了另外一个internal的Jar包中，所以当你要混淆的Jar包中有Activity，并且还是继承自AppCompatActivity或FragmentActivity的话，那么就一定要记得导入这个internal Jar包的依赖，如下图所示：<br><img src="/2016/07/18/android-java-how-to-proguard/17.jpg" alt="17.jpg" title=""></p>
+<p>接下来点击Next进入Shrink界面，这个界面没什么需要配置的东西，但记得要将Shrink选项钩掉，因为我们这个Jar包是独立存在的，没有任何项目引用，如果钩中Shrink选项的话就会认为我们所有的代码都是无用的，从而把所有代码全压缩掉，导出一个空的Jar包。<br>继续点击Next进入Obfuscation界面，在这里可以添加一些混淆的逻辑，和混淆APK时不同的是，这里并不会自动帮我们排除混淆四大组件，因此必须要手动声明一下才行。点击最下方的Add按钮，然后在弹出的界面上编写排除逻辑，如下图所示：<br><img src="/2016/07/18/android-java-how-to-proguard/18.jpg" alt="18.jpg" title=""></p>
+<p>很简单，就是在继承那一栏写上android.app.Activity就行了，其它的组件原理也相同。<br>继续点击Next进入Optimiazation界面，不用修改任何东西，因为我们本身就不启用Optimization功能。继续点击Next进入Information界面，也不用修改任何东西，因为我们也不启用Preverification功能。<br>接着点击Next，进入Process界面，在这里可以通过点击View configuration按钮来预览一下目前我们的混淆配置文件，内容如下所示：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><div class="line">-injars /Users/guolin/AndroidStudioProjects/AndroidTest/androidtest.jar</div><div class="line">-outjars /Users/guolin/androidtest_obfuscated.jar</div><div class="line"></div><div class="line">-libraryjars /Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre/lib/rt.jar</div><div class="line">-libraryjars /Users/guolin/Library/Android/sdk/platforms/android-23/android.jar</div><div class="line">-libraryjars /Users/guolin/AndroidStudioProjects/AndroidTest/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/jars/classes.jar</div><div class="line">-libraryjars /Users/guolin/AndroidStudioProjects/AndroidTest/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/jars/classes.jar</div><div class="line">-libraryjars /Users/guolin/AndroidStudioProjects/AndroidTest/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/jars/libs/internal_impl-23.2.0.jar</div><div class="line">-libraryjars /Users/guolin/AndroidStudioProjects/AndroidTest/app/libs/litepal-1.3.1.jar</div><div class="line"></div><div class="line">-dontshrink</div><div class="line">-dontoptimize</div><div class="line">-dontusemixedcaseclassnames</div><div class="line">-keepattributes *Annotation*</div><div class="line">-dontpreverify</div><div class="line">-verbose</div><div class="line">-dontwarn android.support.**</div><div class="line"></div><div class="line"></div><div class="line">-keep public class com.google.vending.licensing.ILicensingService</div><div class="line"></div><div class="line">-keep public class com.android.vending.licensing.ILicensingService</div><div class="line"></div><div class="line"># keep setters in Views so that animations can still work.</div><div class="line"># see http://proguard.sourceforge.net/manual/examples.html#beans</div><div class="line">-keepclassmembers public class * extends android.view.View &#123;</div><div class="line">    void set*(***);</div><div class="line">    *** get*();</div><div class="line">&#125;</div><div class="line"></div><div class="line"># We want to keep methods in Activity that could be used in the XML attribute onClick</div><div class="line">-keepclassmembers class * extends android.app.Activity &#123;</div><div class="line">    public void *(android.view.View);</div><div class="line">&#125;</div><div class="line"></div><div class="line">-keepclassmembers class * extends android.os.Parcelable &#123;</div><div class="line">    public static final android.os.Parcelable$Creator CREATOR;</div><div class="line">&#125;</div><div class="line"></div><div class="line">-keepclassmembers class **.R$* &#123;</div><div class="line">    public static &lt;fields&gt;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">-keep class * extends android.app.Activity</div><div class="line"></div><div class="line">-keep class * extends android.app.Service</div><div class="line"></div><div class="line">-keep class * extends android.content.BroadcastReceiver</div><div class="line"></div><div class="line">-keep class * extends android.content.ContentProvider</div><div class="line"></div><div class="line"># Also keep - Enumerations. Keep the special static methods that are required in</div><div class="line"># enumeration classes.</div><div class="line">-keepclassmembers enum  * &#123;</div><div class="line">    public static **[] values();</div><div class="line">    public static ** valueOf(java.lang.String);</div><div class="line">&#125;</div><div class="line"></div><div class="line"># Keep names - Native method names. Keep all native class/method names.</div><div class="line">-keepclasseswithmembers,allowshrinking class * &#123;</div><div class="line">    native &lt;methods&gt;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>恩，由此可见其实GUI工具只是给我们提供了一个方便操作的平台，背后工作的原理还是通过这些配置来实现的，相信上面的配置内容大家应该都能看得懂了吧。<br>接下来我们还可以点击Save configuration按钮来保存一下当前的配置文件，这样下次混淆的时候就可以直接Load进来而不用修改任何东西了。<br>最后点击Process!按钮来开始混淆处理，中间会提示一大堆的Note信息，我们不用理会，只要看到最终显示Processing completed successfully，就说明混淆Jar包已经成功了，如下图所示：<br><img src="/2016/07/18/android-java-how-to-proguard/19.jpg" alt="19.jpg" title=""></p>
+<p>混淆后的文件我将它配置在了/Users/guolin/androidtest_obfuscated.jar这里，如果反编译一下这个文件，你会发现和刚才反编译APK得到的结果是差不多的：MainActivity的类名以及从父类继承的方法名不会被混淆，NativeUtils的类名和其中的native方法名不会被混淆，Utils的methodUnsed方法不会被移除，因为我们禁用了Shrink功能，其余的代码都会被混淆。由于结果实在是太相似了，我就不再贴图了，参考本篇文章第一部分的截图即可。</p>
+<p>本文转载自：<a href="http://blog.csdn.net/guolin_blog/article/details/50451259" target="_blank" rel="external">http://blog.csdn.net/guolin_blog/article/details/50451259</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/proguard/" rel="tag">#proguard</a>
+          
+            <a href="/tags/代码混淆/" rel="tag">#代码混淆</a>
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/23/android-bluetooth-pair-and-connect/" rel="next" title="Android蓝牙的配对与连接">
+                <i class="fa fa-chevron-left"></i> Android蓝牙的配对与连接
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/15/Android-res-how-to-proguard/" rel="prev" title="Android res资源文件如何混淆">
+                Android res资源文件如何混淆 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/07/18/android-java-how-to-proguard/"
+           data-title="【转载】Android java代码如何混淆" data-url="http://taolin.me/2016/07/18/android-java-how-to-proguard/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Taolin" />
+          <p class="site-author-name" itemprop="name">Taolin</p>
+          <p class="site-description motion-element" itemprop="description">生命不息 奋斗不止</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/taolin2107" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/215978968" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-前期准备"><span class="nav-text">1. 前期准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-混淆APK"><span class="nav-text">2. 混淆APK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-混淆Jar"><span class="nav-text">3. 混淆Jar</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Taolin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"taolin"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

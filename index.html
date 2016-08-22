@@ -635,6 +635,237 @@
             
               
                 
+                <a class="post-title-link" href="/2016/07/18/android-java-how-to-proguard/" itemprop="url">
+                  【转载】Android java代码如何混淆
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-18T20:53:18+08:00" content="2016-07-18">
+              2016-07-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/18/android-java-how-to-proguard/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/18/android-java-how-to-proguard/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="1-前期准备"><a href="#1-前期准备" class="headerlink" title="1. 前期准备"></a>1. 前期准备</h2><p>本篇文章中介绍的混淆技术都是基于Android Studio的，Eclipse的用法也基本类似，但是就不再为Eclipse专门做讲解了。<br>我们要建立一个Android Studio项目，并在项目中添加一些能够帮助我们理解混淆知识的代码。这里我准备好了一些，我们将它们添加到Android Studio当中。<br>首先新建一个MyFragment类，代码如下所示：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String toastTip = <span class="string">"toast in MyFragment"</span>;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">onCreateView</span><span class="params">(LayoutInflater inflater, Nullable ViewGroup container, Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        View view = inflater.inflate(R.layout.fragment_layout, container, <span class="keyword">false</span>);</div><div class="line">        methodWithGlobalVariable();</div><div class="line">        methodWithLocalVariable();</div><div class="line">        <span class="keyword">return</span> view;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodWithGlobalVariable</span><span class="params">()</span> </span>&#123;</div><div class="line">        Toast.makeText(getActivity(), toastTip, Toast.LENGTH_SHORT).show();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodWithLocalVariable</span><span class="params">()</span> </span>&#123;</div><div class="line">        String logMessage = <span class="string">"log in MyFragment"</span>;</div><div class="line">        logMessage = logMessage.toLowerCase();</div><div class="line">        System.out.println(logMessage);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到，MyFragment是继承自Fragment的，并且MyFragment中有一个全局变量。onCreateView()方法是Fragment的生命周期函数，这个不用多说，在onCreateView()方法中又调用了methodWithGlobalVariable()和methodWithLocalVariable()方法，这两个方法的内部分别引用了一个全局变量和一个局部变量。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/07/18/android-java-how-to-proguard/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/23/android-bluetooth-pair-and-connect/" itemprop="url">
+                  Android蓝牙的配对与连接
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-12-23T15:49:16+08:00" content="2015-12-23">
+              2015-12-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/23/android-bluetooth-pair-and-connect/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/23/android-bluetooth-pair-and-connect/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>这段时间在项目中做蓝牙的设置模块，功能跟系统设置中的蓝牙设置部分差不多，由于此项目只是一个普通app，蓝牙设置中的很多api只有系统app才能调用，如何在普通app中做蓝牙的设置项，记录如下</p>
+<h2 id="1-AndroidManifest中添加蓝牙管理权限"><a href="#1-AndroidManifest中添加蓝牙管理权限" class="headerlink" title="1. AndroidManifest中添加蓝牙管理权限"></a>1. AndroidManifest中添加蓝牙管理权限</h2><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.BLUETOOTH"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.BLUETOOTH_ADMIN"</span>/&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="2-打开蓝牙"><a href="#2-打开蓝牙" class="headerlink" title="2. 打开蓝牙"></a>2. 打开蓝牙</h2><p>打开蓝牙有两种方式，发送蓝牙开启请求或代码后台自动打开蓝牙。</p>
+<h3 id="2-1-发送蓝牙开启请求"><a href="#2-1-发送蓝牙开启请求" class="headerlink" title="2.1. 发送蓝牙开启请求"></a>2.1. 发送蓝牙开启请求</h3><p>先判断BluetoothAdapter是不是为空，为空有可能是系统没有蓝牙模块，再判断蓝牙的状态是不是开启的，不是开启的就发送请求。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();</div><div class="line"><span class="keyword">if</span> (btAdapter != <span class="keyword">null</span> &amp;&amp; !btAdapter.isEnabled()) &#123;</div><div class="line">    Intent intent = <span class="keyword">new</span> Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);</div><div class="line">    startActivity(intent)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<img src="/2015/12/23/android-bluetooth-pair-and-connect/01.png" alt="01.png" title="">
+<h3 id="2-2-后台自动打开蓝牙"><a href="#2-2-后台自动打开蓝牙" class="headerlink" title="2.2. 后台自动打开蓝牙"></a>2.2. 后台自动打开蓝牙</h3><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">if</span> (btAdapter != <span class="keyword">null</span> &amp;&amp; !btAdapter.isEnabled()) &#123;</div><div class="line">    btAdapter.enable();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/12/23/android-bluetooth-pair-and-connect/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/02/16/socket-communication-by-tcp-udp/" itemprop="url">
                   用Socket实现TCP，UDP通信
                 </a>
@@ -1246,136 +1477,13 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/03/19/how-to-use-android-shape/" itemprop="url">
-                  Android中shape图形的用法详解
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-03-19T12:32:58+08:00" content="2014-03-19">
-              2014-03-19
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/03/19/how-to-use-android-shape/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/19/how-to-use-android-shape/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Android可以通过代码生成一些简单的图片资源，节省空间，还方便后续修改。<br>下面介绍用shape生成图形的方法</p>
-<h2 id="1-shape图形的新建与引用"><a href="#1-shape图形的新建与引用" class="headerlink" title="1. shape图形的新建与引用"></a>1. shape图形的新建与引用</h2><ul>
-<li>在res/drawable下新建一个图片资源，如ic_back.xml；</li>
-<li>在代码中引用这个图片资源，如：<code>android:src=&quot;@drawable/ic_back&quot;</code>。</li>
-</ul>
-<h2 id="2-shape图形的语法"><a href="#2-shape图形的语法" class="headerlink" title="2. shape图形的语法"></a>2. shape图形的语法</h2>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/03/19/how-to-use-android-shape/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1414,7 +1522,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1431,7 +1539,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

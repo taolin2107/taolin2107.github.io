@@ -1,0 +1,696 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.useso.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,bluetooth,蓝牙配对,蓝牙连接," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="这段时间在项目中做蓝牙的设置模块，功能跟系统设置中的蓝牙设置部分差不多，由于此项目只是一个普通app，蓝牙设置中的很多api只有系统app才能调用，如何在普通app中做蓝牙的设置项，记录如下
+1. AndroidManifest中添加蓝牙管理权限&amp;lt;uses-permission android:name=&quot;android.permission.BLUETOOTH&quot;/&amp;gt;&amp;lt;uses-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android蓝牙的配对与连接">
+<meta property="og:url" content="http://taolin.me/2015/12/23/android-bluetooth-pair-and-connect/index.html">
+<meta property="og:site_name" content="Taolin的博客">
+<meta property="og:description" content="这段时间在项目中做蓝牙的设置模块，功能跟系统设置中的蓝牙设置部分差不多，由于此项目只是一个普通app，蓝牙设置中的很多api只有系统app才能调用，如何在普通app中做蓝牙的设置项，记录如下
+1. AndroidManifest中添加蓝牙管理权限&amp;lt;uses-permission android:name=&quot;android.permission.BLUETOOTH&quot;/&amp;gt;&amp;lt;uses-">
+<meta property="og:image" content="http://taolin.me/2015/12/23/android-bluetooth-pair-and-connect/01.png">
+<meta property="og:updated_time" content="2016-08-22T15:04:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android蓝牙的配对与连接">
+<meta name="twitter:description" content="这段时间在项目中做蓝牙的设置模块，功能跟系统设置中的蓝牙设置部分差不多，由于此项目只是一个普通app，蓝牙设置中的很多api只有系统app才能调用，如何在普通app中做蓝牙的设置项，记录如下
+1. AndroidManifest中添加蓝牙管理权限&amp;lt;uses-permission android:name=&quot;android.permission.BLUETOOTH&quot;/&amp;gt;&amp;lt;uses-">
+<meta name="twitter:image" content="http://taolin.me/2015/12/23/android-bluetooth-pair-and-connect/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://taolin.me/2015/12/23/android-bluetooth-pair-and-connect/"/>
+
+  <title> Android蓝牙的配对与连接 | Taolin的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Taolin的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">生命不息 奋斗不止</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android蓝牙的配对与连接
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-12-23T15:49:16+08:00" content="2015-12-23">
+              2015-12-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/23/android-bluetooth-pair-and-connect/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/23/android-bluetooth-pair-and-connect/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这段时间在项目中做蓝牙的设置模块，功能跟系统设置中的蓝牙设置部分差不多，由于此项目只是一个普通app，蓝牙设置中的很多api只有系统app才能调用，如何在普通app中做蓝牙的设置项，记录如下</p>
+<h2 id="1-AndroidManifest中添加蓝牙管理权限"><a href="#1-AndroidManifest中添加蓝牙管理权限" class="headerlink" title="1. AndroidManifest中添加蓝牙管理权限"></a>1. AndroidManifest中添加蓝牙管理权限</h2><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.BLUETOOTH"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.BLUETOOTH_ADMIN"</span>/&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="2-打开蓝牙"><a href="#2-打开蓝牙" class="headerlink" title="2. 打开蓝牙"></a>2. 打开蓝牙</h2><p>打开蓝牙有两种方式，发送蓝牙开启请求或代码后台自动打开蓝牙。</p>
+<h3 id="2-1-发送蓝牙开启请求"><a href="#2-1-发送蓝牙开启请求" class="headerlink" title="2.1. 发送蓝牙开启请求"></a>2.1. 发送蓝牙开启请求</h3><p>先判断BluetoothAdapter是不是为空，为空有可能是系统没有蓝牙模块，再判断蓝牙的状态是不是开启的，不是开启的就发送请求。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();</div><div class="line"><span class="keyword">if</span> (btAdapter != <span class="keyword">null</span> &amp;&amp; !btAdapter.isEnabled()) &#123;</div><div class="line">    Intent intent = <span class="keyword">new</span> Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);</div><div class="line">    startActivity(intent)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<img src="/2015/12/23/android-bluetooth-pair-and-connect/01.png" alt="01.png" title="">
+<h3 id="2-2-后台自动打开蓝牙"><a href="#2-2-后台自动打开蓝牙" class="headerlink" title="2.2. 后台自动打开蓝牙"></a>2.2. 后台自动打开蓝牙</h3><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">if</span> (btAdapter != <span class="keyword">null</span> &amp;&amp; !btAdapter.isEnabled()) &#123;</div><div class="line">    btAdapter.enable();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="3-获取已经绑定-配对-的设备"><a href="#3-获取已经绑定-配对-的设备" class="headerlink" title="3. 获取已经绑定(配对)的设备"></a>3. 获取已经绑定(配对)的设备</h2><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">//返回已绑定的蓝牙设备集</span></div><div class="line">Set&lt;BluetoothDevice&gt; bondedDevices = btAdapter.getBondedDevices();</div></pre></td></tr></table></figure>
+<p><strong>BluetoothDevice有如下方法：</strong></p>
+<ul>
+<li>getBondState()  //获取设备绑定状态，BOND_NONE(未绑定), BOND_BONDING(正在绑定), BOND_BONDED(已绑定)</li>
+<li>getType()       //获取蓝牙类型，DEVICE_TYPE_CLASSIC(普通类型BR/EDR), DEVICE_TYPE_LE(低功耗类型), DEVICE_TYPE_DUAL(双类型BR/EDR/LE), DEVICE_TYPE_UNKNOWN(未知)</li>
+<li>getAddress()    //蓝牙地址</li>
+<li>getBluetoothClass()   //获取蓝牙类别(BluetoothClass)，如手机、电脑、耳机，注意与蓝牙类型的区别</li>
+<li>getName()       //蓝牙设备名字</li>
+</ul>
+<p><strong>BluetoothClass蓝牙类别说明：</strong></p>
+<ul>
+<li><p>目前有12个大类，定义在BluetoothClass.Device.Major下<br>BITMASK、MISC、COMPUTER、PHONE、NETWORKING、AUDIO_VIDEO、PERIPHERAL、IMAGING、WEARABLE、TOY、HEALTH、UNCATEGORIZED</p>
+</li>
+<li><p>每个大类有若干个小类别，定义在BluetoothClass.Device下<br>如: AUDIO_VIDEO_WEARABLE_HEADSET、AUDIO_VIDEO_HANDSFREE、AUDIO_VIDEO_RESERVED、AUDIO_VIDEO_MICROPHONE、AUDIO_VIDEO_LOUDSPEAKE</p>
+</li>
+</ul>
+<h2 id="4-监听蓝牙设备的变化"><a href="#4-监听蓝牙设备的变化" class="headerlink" title="4. 监听蓝牙设备的变化"></a>4. 监听蓝牙设备的变化</h2><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 监听蓝牙设备的变化</span></div><div class="line">IntentFilter filter = <span class="keyword">new</span> IntentFilter();</div><div class="line">filter.addAction(BluetoothDevice.ACTION_FOUND);      <span class="comment">//发现新设备</span></div><div class="line">filter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);   <span class="comment">//绑定状态改变</span></div><div class="line">filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);   <span class="comment">//开始扫描</span></div><div class="line">filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);  <span class="comment">//结束扫描</span></div><div class="line">filter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED);   <span class="comment">//连接状态改变</span></div><div class="line">filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);       <span class="comment">//蓝牙开关状态改变</span></div><div class="line">BluetoothReceiver receiver = <span class="keyword">new</span> BluetoothReceiver();</div><div class="line">mActivity.registerReceiver(receiver, filter);</div><div class="line"></div><div class="line">...</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">BluetoothReceiver</span> <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span> </span>&#123;</div><div class="line">  <span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span> </span>&#123;</div><div class="line">    <span class="keyword">switch</span>(intent.getAction()) &#123;</div><div class="line">      <span class="keyword">case</span> BluetoothAdapter.ACTION_FOUND:</div><div class="line">        <span class="comment">//获取扫描到的设备</span></div><div class="line">        BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);</div><div class="line">        <span class="comment">//判断扫描到的设备是不是在已绑定设备列表中，在就跳过</span></div><div class="line">        <span class="keyword">for</span> (BluetoothDevice d: bondedDevices) &#123;</div><div class="line">          <span class="keyword">if</span> (d.getAddress().equals(device.getAddress())) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">        mScannedDevices.add(device);</div><div class="line">        <span class="keyword">break</span>;</div><div class="line"></div><div class="line">      <span class="keyword">case</span> BluetoothAdapter.ACTION_DISCOVERY_STARTED:</div><div class="line">        <span class="comment">//开始扫描</span></div><div class="line">        <span class="keyword">break</span>;</div><div class="line"></div><div class="line">      <span class="keyword">case</span> BluetoothAdapter.ACTION_DISCOVERY_FINISHED:</div><div class="line">        <span class="comment">//结束扫描</span></div><div class="line">        <span class="keyword">break</span>;</div><div class="line"></div><div class="line">      <span class="keyword">case</span> BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED:</div><div class="line">        <span class="comment">//绑定状态改变</span></div><div class="line">        <span class="keyword">break</span>;</div><div class="line"></div><div class="line">      <span class="keyword">case</span> BluetoothAdapter.ACTION_STATE_CHANGED:</div><div class="line">        <span class="comment">//蓝牙开关状态改变</span></div><div class="line">        <span class="keyword">int</span> state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);</div><div class="line">        <span class="keyword">switch</span> (state) &#123;</div><div class="line">          <span class="keyword">case</span> BluetoothAdapter.STATE_OFF:</div><div class="line">          <span class="keyword">break</span>;</div><div class="line">          <span class="keyword">case</span> BluetoothAdapter.STATE_ON:</div><div class="line">          <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="5-绑定蓝牙设备"><a href="#5-绑定蓝牙设备" class="headerlink" title="5. 绑定蓝牙设备"></a>5. 绑定蓝牙设备</h2><p>绑定比较简单，调用 BluetoothDevice的createBond就一句代码，调用后就开始尝试绑定。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">createBond</span><span class="params">(BluetoothDevice device)</span> </span>&#123;</div><div class="line">  <span class="keyword">return</span> device.createBond();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>绑定成功后会触发刚注册的蓝牙监听器，action为 ACTION_BOND_STATE_CHANGED</p>
+<h2 id="6-取消绑定"><a href="#6-取消绑定" class="headerlink" title="6. 取消绑定"></a>6. 取消绑定</h2><p>BluetoothDevice绑定的方法是开放的，取消绑定的方法却是隐藏的，只对系统app开放，只能用反射来解决了。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">removeBond</span><span class="params">(BluetoothDevice device)</span> </span>&#123;</div><div class="line">  Class btDeviceCls = BluetoothDevice.class;</div><div class="line">  Method removeBond = btDeviceCls.getMethod(<span class="string">"removeBond"</span>);</div><div class="line">  removeBond.setAccessible(<span class="keyword">true</span>);</div><div class="line">  <span class="keyword">return</span> (<span class="keyword">boolean</span>) removeBond.invoke(device);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="7-连接"><a href="#7-连接" class="headerlink" title="7. 连接"></a>7. 连接</h2><p>绑定(配对)和连接是两个不同的过程，绑定是指两个设备发现了对方的存在，可以获取到对方的名称、地址等信息，有能力建立起连接；连接是指两个设备共享了一个RFCOMM通道，有能力进行数据互传。确认绑定上了之后，才能开始连接。可以试试蓝牙音箱的连接过程，就是先点击一次，开始配对，配对成功后出现在已绑定的列表中，再点击一次，就开始连接，连接成功后蓝牙音箱就有声音了。<br>网上搜到的都是下面的这种连接方式<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">UUID MY_UUID = UUID.fromString(<span class="string">"00001101-0000-1000-8000-00805F9B34FB"</span>);</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">connect</span><span class="params">(BluetoothDevice device)</span> </span>&#123;</div><div class="line">  BluetoothSocket socket = device.createInsecureRfcommSocketToServiceRecord(MY_UUID);</div><div class="line">  socket.connect();</div><div class="line">  ...</div><div class="line"></div><div class="line">  socket.close();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这种连接是用蓝牙来进行Socket通信的，而我要做的是如何让手机连上蓝牙耳机或蓝牙音箱，这种方式是不行的。<br>最后找到了下面的连接方法，专门针对AUDIO、VIDEO类型的蓝牙设备的连接。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">if</span> (device.getBluetoothClass().getMajorDeviceClass() != BluetoothClass.Device.Major.AUDIO_VIDEO) &#123;</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">&#125;</div><div class="line">btdapter.getProfileProxy(context, <span class="keyword">new</span> BluetoothProfile.ServiceListener() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">(<span class="keyword">int</span> profile, BluetoothProfile proxy)</span> </span>&#123;</div><div class="line">        BluetoothHeadset bluetoothHeadset = (BluetoothHeadset) proxy;</div><div class="line">        Class btHeadsetCls = BluetoothHeadset.class;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Method connect = btHeadsetCls.getMethod(<span class="string">"connect"</span>, BluetoothDevice.class);</div><div class="line">            connect.setAccessible(<span class="keyword">true</span>);</div><div class="line">            connect.invoke(bluetoothHeadset, device);</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            Log.e(TAG, e + <span class="string">""</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceDisconnected</span><span class="params">(<span class="keyword">int</span> profile)</span> </span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;, BluetoothProfile.HEADSET);</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/bluetooth/" rel="tag">#bluetooth</a>
+          
+            <a href="/tags/蓝牙配对/" rel="tag">#蓝牙配对</a>
+          
+            <a href="/tags/蓝牙连接/" rel="tag">#蓝牙连接</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/02/16/socket-communication-by-tcp-udp/" rel="next" title="用Socket实现TCP，UDP通信">
+                <i class="fa fa-chevron-left"></i> 用Socket实现TCP，UDP通信
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/18/android-java-how-to-proguard/" rel="prev" title="【转载】Android java代码如何混淆">
+                【转载】Android java代码如何混淆 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/12/23/android-bluetooth-pair-and-connect/"
+           data-title="Android蓝牙的配对与连接" data-url="http://taolin.me/2015/12/23/android-bluetooth-pair-and-connect/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Taolin" />
+          <p class="site-author-name" itemprop="name">Taolin</p>
+          <p class="site-description motion-element" itemprop="description">生命不息 奋斗不止</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/taolin2107" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/215978968" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-AndroidManifest中添加蓝牙管理权限"><span class="nav-text">1. AndroidManifest中添加蓝牙管理权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-打开蓝牙"><span class="nav-text">2. 打开蓝牙</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-发送蓝牙开启请求"><span class="nav-text">2.1. 发送蓝牙开启请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-后台自动打开蓝牙"><span class="nav-text">2.2. 后台自动打开蓝牙</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-获取已经绑定-配对-的设备"><span class="nav-text">3. 获取已经绑定(配对)的设备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-监听蓝牙设备的变化"><span class="nav-text">4. 监听蓝牙设备的变化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-绑定蓝牙设备"><span class="nav-text">5. 绑定蓝牙设备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-取消绑定"><span class="nav-text">6. 取消绑定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-连接"><span class="nav-text">7. 连接</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Taolin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"taolin"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

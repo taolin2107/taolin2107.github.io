@@ -13,7 +13,6 @@ Android可以通过代码生成一些简单的图片资源，节省空间，还�
 - 在代码中引用这个图片资源，如：`android:src="@drawable/ic_back"`。
 
 ## 2. shape图形的语法
-<!-- more -->
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -75,6 +74,7 @@ Android可以通过代码生成一些简单的图片资源，节省空间，还�
         android:dashGap="dimension" />     //虚线的间隔
 </shape>
 ```
+<!-- more -->
 
 ## 3. shape图形示例
 

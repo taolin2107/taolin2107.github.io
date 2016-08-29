@@ -258,6 +258,133 @@
             
               
                 
+                <a class="post-title-link" href="/2014/05/15/upnp-protocol-introduce/" itemprop="url">
+                  UPnP协议介绍和Android代码实现
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-05-15T18:56:31+08:00" content="2014-05-15">
+              2014-05-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/protocol/" itemprop="url" rel="index">
+                    <span itemprop="name">protocol</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/05/15/upnp-protocol-introduce/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/05/15/upnp-protocol-introduce/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="1-UPnP简介"><a href="#1-UPnP简介" class="headerlink" title="1. UPnP简介"></a>1. UPnP简介</h2><p>英文名称：Universal Plug and Play<br>中文译名：通用即插即用</p>
+<p>UPnP是由“通用即插即用论坛”（UPnP™ Forum）推广的一套网络协议。该协议的目标是使家庭网络（数据共享、通信和娱乐）和公司网络中的各种设备能够相互无缝连接，并简化相关网络的实现。UPnP通过定义和发布基于开放、因特网通讯网协议标准的UPnP设备控制协议来实现这一目标。<br>UPnP体系允许 PC 间的点对点连接、网际互连和无线设备。它是一种基于TCP/IP、UDP和HTTP的分布式、开放体系。</p>
+<h2 id="2-UPnP的特点"><a href="#2-UPnP的特点" class="headerlink" title="2. UPnP的特点"></a>2. UPnP的特点</h2><p>UPnP使得任意两个设备能在LAN控制设备的管理下相互通信。其特性包括：</p>
+<p><strong>传输介质和设备独立</strong><br>UPnP 技术可以应用在许多媒体上，包括电话线、电线（电力线通信PLC）、以太网、红外通信技术(IrDA)、无线电（Wi-Fi，蓝牙）和Firewire(1394)。无需任务设备驱动；而是采用共同的协议。</p>
+<p><strong>用户界面（UI）控制</strong><br>UPnP 技术使得设备厂商可以通过网页浏览器来控制设备并进行交互。</p>
+<p><strong>操作系统和程序语言独立</strong><br>任何操作系统和程序语言均可以用于构建UPnP产品。UPnP 并没有设定或限制运行于控制设备上的应用程序API；OS厂商可以创建满足他们客户需求的API。UPnP使得厂商可以像开发常规应用程序一样来控制设备UI和交互。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/05/15/upnp-protocol-introduce/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2014/03/19/how-to-use-android-shape/" itemprop="url">
                   Android中shape图形的用法详解
                 </a>
@@ -332,7 +459,7 @@
 <li>在res/drawable下新建一个图片资源，如ic_back.xml；</li>
 <li>在代码中引用这个图片资源，如：<code>android:src=&quot;@drawable/ic_back&quot;</code>。</li>
 </ul>
-<h2 id="2-shape图形的语法"><a href="#2-shape图形的语法" class="headerlink" title="2. shape图形的语法"></a>2. shape图形的语法</h2>
+<h2 id="2-shape图形的语法"><a href="#2-shape图形的语法" class="headerlink" title="2. shape图形的语法"></a>2. shape图形的语法</h2><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">shape</span></div><div class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    //共有<span class="attr">4</span>种类型，矩形（默认）/椭圆形/直线形/环形</div><div class="line">    <span class="attr">android:shape</span>=<span class="string">[</span>"<span class="attr">rectangle</span>" | "<span class="attr">oval</span>" | "<span class="attr">line</span>" | "<span class="attr">ring</span>"]</div><div class="line">    // 以下<span class="attr">4</span>个属性只有当类型为环形时才有效</div><div class="line">    <span class="attr">android:innerRadius</span>=<span class="string">"dimension"</span>   //内环半径</div><div class="line">    <span class="attr">android:innerRadiusRatio</span>=<span class="string">"float"</span>  //内环半径相对于环的宽度的比例，比如环的宽度为<span class="attr">50</span>，比例为<span class="attr">2.5</span>，那么内环半径为<span class="attr">20</span></div><div class="line">    <span class="attr">android:thickness</span>=<span class="string">"dimension"</span>     //环的厚度</div><div class="line">    <span class="attr">android:thicknessRatio</span>=<span class="string">"float"</span>    //环的厚度相对于环的宽度的比例</div><div class="line">    <span class="attr">android:useLevel</span>=<span class="string">"boolean"</span>&gt;</span>       //如果当做是LevelListDrawable使用时值为true，否则为false.</div><div class="line"></div><div class="line">    //定义圆角</div><div class="line">    <span class="tag">&lt;<span class="name">corners</span></div><div class="line">        <span class="attr">android:radius</span>=<span class="string">"dimension"</span>          //全部的圆角半径</div><div class="line">        <span class="attr">android:topLeftRadius</span>=<span class="string">"dimension"</span>   //左上角的圆角半径</div><div class="line">        <span class="attr">android:topRightRadius</span>=<span class="string">"dimension"</span>  //右上角的圆角半径</div><div class="line">        <span class="attr">android:bottomLeftRadius</span>=<span class="string">"dimension"</span>      //左下角的圆角半径</div><div class="line">        <span class="attr">android:bottomRightRadius</span>=<span class="string">"dimension"</span> /&gt;</span>  //右下角的圆角半径</div><div class="line"></div><div class="line">    //定义渐变效果</div><div class="line">    <span class="tag">&lt;<span class="name">gradient</span></div><div class="line">        //共有<span class="attr">3</span>中渐变类型，线性渐变（默认）/放射渐变/扫描式渐变</div><div class="line">        <span class="attr">android:type</span>=<span class="string">[</span>"<span class="attr">linear</span>" | "<span class="attr">radial</span>" | "<span class="attr">sweep</span>"]</div><div class="line">        <span class="attr">android:angle</span>=<span class="string">"integer"</span>     //渐变角度，必须为<span class="attr">45</span>的倍数，<span class="attr">0</span>为从左到右，<span class="attr">90</span>为从上到下</div><div class="line">        <span class="attr">android:centerX</span>=<span class="string">"float"</span>     //渐变中心<span class="attr">X</span>的相当位置，范围为<span class="attr">0</span>～<span class="attr">1</span></div><div class="line">        <span class="attr">android:centerY</span>=<span class="string">"float"</span>     //渐变中心<span class="attr">Y</span>的相当位置，范围为<span class="attr">0</span>～<span class="attr">1</span></div><div class="line">        <span class="attr">android:startColor</span>=<span class="string">"color"</span>      //渐变开始点的颜色</div><div class="line">        <span class="attr">android:centerColor</span>=<span class="string">"color"</span>     //渐变中间点的颜色，在开始与结束点之间</div><div class="line">        <span class="attr">android:endColor</span>=<span class="string">"color"</span>        //渐变结束点的颜色</div><div class="line">        <span class="attr">android:gradientRadius</span>=<span class="string">"float"</span>  //渐变的半径，只有当渐变类型为<span class="attr">radial</span>时才能使用</div><div class="line">        //使用<span class="attr">LevelListDrawable</span>时就要设置为<span class="attr">true</span>。设为<span class="attr">false</span>时才有渐变效果</div><div class="line">        <span class="attr">android:useLevel</span>=<span class="string">[</span>"<span class="attr">true</span>" | "<span class="attr">false</span>"] /&gt;</span></div><div class="line"></div><div class="line">    //内部边距</div><div class="line">    <span class="tag">&lt;<span class="name">padding</span></div><div class="line">        <span class="attr">android:left</span>=<span class="string">"dimension"</span></div><div class="line">        <span class="attr">android:top</span>=<span class="string">"dimension"</span></div><div class="line">        <span class="attr">android:right</span>=<span class="string">"dimension"</span></div><div class="line">        <span class="attr">android:bottom</span>=<span class="string">"dimension"</span> /&gt;</span></div><div class="line"></div><div class="line">    //自定义的图形大小</div><div class="line">    <span class="tag">&lt;<span class="name">size</span></div><div class="line">        <span class="attr">android:width</span>=<span class="string">"dimension"</span></div><div class="line">        <span class="attr">android:height</span>=<span class="string">"dimension"</span> /&gt;</span></div><div class="line"></div><div class="line">    //内部填充颜色</div><div class="line">    <span class="tag">&lt;<span class="name">solid</span></div><div class="line">        <span class="attr">android:color</span>=<span class="string">"color"</span> /&gt;</span></div><div class="line"></div><div class="line">    //描边</div><div class="line">    <span class="tag">&lt;<span class="name">stroke</span></div><div class="line">        <span class="attr">android:width</span>=<span class="string">"dimension"</span>   //描边的宽度</div><div class="line">        <span class="attr">android:color</span>=<span class="string">"color"</span>       //描边的颜色</div><div class="line">        // 以下两个属性设置虚线</div><div class="line">        <span class="attr">android:dashWidth</span>=<span class="string">"dimension"</span>      //虚线的宽度，值为<span class="attr">0</span>时是实线</div><div class="line">        <span class="attr">android:dashGap</span>=<span class="string">"dimension"</span> /&gt;</span>     //虚线的间隔</div><div class="line"><span class="tag">&lt;/<span class="name">shape</span>&gt;</span></div></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
             <a class="btn" href="/2014/03/19/how-to-use-android-shape/#more" rel="contents">
               阅读全文 &raquo;
@@ -409,7 +536,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -417,7 +544,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -426,7 +553,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

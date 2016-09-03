@@ -51,6 +51,7 @@ categories: vim
 - :%s/vivian/sky/   &nbsp;&nbsp;    （等同于 :g/vivian/s//sky/） 替换每一行的第一个vivian 为sky
 - :%s/vivian/sky/g   &nbsp;&nbsp;  （等同于 :g/vivian/s//sky/g） 替换每一行中所有vivian 为sky
 - `(<w+>)_s*1`   &nbsp;&nbsp;   查找重复的连续单词，如：this this，输入`/\(\<\w\+\>\)\_s*\1`
+<!-- more -->
 
 ### 4. 内容编辑
 
@@ -188,7 +189,13 @@ categories: vim
 
 ### 11. 其他
 
-- :set fileformat=unix  &nbsp;&nbsp;  去掉因编码问题出现的`^M`
+- :set fileformat=unix  &nbsp;&nbsp;  去掉因编码问题出现的`^M`，或者fileformats，简写为ff和ffs
+- :set ff=win  &nbsp;&nbsp; 让linux下的Vim按照Windows格式来解析文件。
+- set ffs=mac,unix,dos  &nbsp;&nbsp;  添加到配置文件来告诉Vim按照怎样的顺序来尝试适配编码
+- :set fileencoding    &nbsp;&nbsp;  可以显示文件的编码格式，简写形式是:set fenc
+- :set fenc=utf-8   &nbsp;&nbsp;  可以转换文件的编码格式为utf-8
+- :set encoding  &nbsp;&nbsp;  可以显示编辑器当前使用什么编码方案来展示文档，简写为enc
+- :set enc=utf-8  &nbsp;&nbsp;  可以将vim使用的编码方案切换的utf-8
 - :set nu/nonu   &nbsp;&nbsp;   显示/取消 行号
 - :set mouse=n/   &nbsp;&nbsp;   启用/取消 鼠标操作光标
 - :sh 或 ctrl+z/:sh    &nbsp;&nbsp;   进入shell命令行，vim后台运行

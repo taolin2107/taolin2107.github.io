@@ -1,0 +1,711 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    
+    <link href="//fonts.geekzu.org/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="shell,提取文件名,提取目录名,linux," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="很多时候在使用Linux的shell时，我们都需要对文件名或目录名进行处理，通常的操作是由路径中提取出文件名，从路径中提取出目录名，提取文件后缀名等等。例如，从路径/dir1/dir2/file.txt中提取也文件名file.txt，提取出目录/dir1/dir2，提取出文件后缀txt等。
+下面介绍两种常用的方法来进行相关的操作。
+1. 使用${}1.1. 提取文件名${var##*/}该命令的作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【转载】Linux shell 如何提取文件名和文件目录">
+<meta property="og:url" content="http://taolin.me/2016/09/03/shell-extract-filename-and-dirname/index.html">
+<meta property="og:site_name" content="Taolin的博客">
+<meta property="og:description" content="很多时候在使用Linux的shell时，我们都需要对文件名或目录名进行处理，通常的操作是由路径中提取出文件名，从路径中提取出目录名，提取文件后缀名等等。例如，从路径/dir1/dir2/file.txt中提取也文件名file.txt，提取出目录/dir1/dir2，提取出文件后缀txt等。
+下面介绍两种常用的方法来进行相关的操作。
+1. 使用${}1.1. 提取文件名${var##*/}该命令的作">
+<meta property="og:updated_time" content="2016-09-03T03:33:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【转载】Linux shell 如何提取文件名和文件目录">
+<meta name="twitter:description" content="很多时候在使用Linux的shell时，我们都需要对文件名或目录名进行处理，通常的操作是由路径中提取出文件名，从路径中提取出目录名，提取文件后缀名等等。例如，从路径/dir1/dir2/file.txt中提取也文件名file.txt，提取出目录/dir1/dir2，提取出文件后缀txt等。
+下面介绍两种常用的方法来进行相关的操作。
+1. 使用${}1.1. 提取文件名${var##*/}该命令的作">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://taolin.me/2016/09/03/shell-extract-filename-and-dirname/"/>
+
+  <title> 【转载】Linux shell 如何提取文件名和文件目录 | Taolin的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Taolin的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">生命不息 奋斗不止</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【转载】Linux shell 如何提取文件名和文件目录
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-03T00:20:08+08:00" content="2016-09-03">
+              2016-09-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/shell/" itemprop="url" rel="index">
+                    <span itemprop="name">shell</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/03/shell-extract-filename-and-dirname/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/03/shell-extract-filename-and-dirname/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>很多时候在使用Linux的shell时，我们都需要对文件名或目录名进行处理，通常的操作是由路径中提取出文件名，从路径中提取出目录名，提取文件后缀名等等。例如，从路径<code>/dir1/dir2/file.txt</code>中提取也文件名<code>file.txt</code>，提取出目录<code>/dir1/dir2</code>，提取出文件后缀<code>txt</code>等。</p>
+<p>下面介绍两种常用的方法来进行相关的操作。</p>
+<h2 id="1-使用"><a href="#1-使用" class="headerlink" title="1. 使用${}"></a>1. 使用<code>${}</code></h2><h3 id="1-1-提取文件名-var"><a href="#1-1-提取文件名-var" class="headerlink" title="1.1. 提取文件名${var##*/}"></a>1.1. 提取文件名<code>${var##*/}</code></h3><p>该命令的作用是去掉变量<code>var</code>从左边算起的最后一个<code>/</code>字符及其左边的内容，返回从左边算起的最后一个<code>/</code>（不含该字符）的右边的内容。使用例子及结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">taolin@pc:~$ var=/dir1/dir2/file.txt</div><div class="line">taolin@pc:~$ echo $&#123;var##*/&#125;</div><div class="line">file.txt</div></pre></td></tr></table></figure>
+<p>从运行结果可以看到，使用该命令，可以提取出我们需要的文件名<code>file.txt</code>。</p>
+<p>若使用时在shell程序文件中，可以使用变量来保存这个结果，再加以利用，如<code>file=${var##*/}</code></p>
+<h3 id="1-2-提取文件后缀-var"><a href="#1-2-提取文件后缀-var" class="headerlink" title="1.2. 提取文件后缀${var##*.}"></a>1.2. 提取文件后缀<code>${var##*.}</code></h3><p>该命令的作用是去掉变量<code>var</code>从左边算起的最后一个<code>.</code>字符及其左边的内容，返回从左边算起的最后一个<code>.</code>（不含该字符）的右边的内容。使用例子及结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">taolin@pc:~$ var=/dir1/dir2/file.txt</div><div class="line">taolin@pc:~$ echo $&#123;var##*.&#125;</div><div class="line">txt</div></pre></td></tr></table></figure>
+<p>从运行结果可以看到，使用该命令，可以提取出我们需要的文件后缀。</p>
+<p>如果文件的后缀不仅有一个，例如，<code>file.tar.gz</code>，命令<code>${var##*.}</code>仅能提取最后一个后缀，而我想提取<code>tar.gz</code>时该怎么办？那么就要用下面所说的<code>${var#*.}</code>命令了。<br><a id="more"></a></p>
+<h3 id="1-3-提取多个文件后缀-var"><a href="#1-3-提取多个文件后缀-var" class="headerlink" title="1.3. 提取多个文件后缀${var#*.}"></a>1.3. 提取多个文件后缀<code>${var#*.}</code></h3><p>该命令的作用是去掉变量<code>var</code>从左边算起的第一个<code>.</code>字符及其左边的内容，返回从左边算起第一个<code>.</code>（不含该字符）的右边部分的内容。使用例子及结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">taolin@pc:~$ var=/dir1/dir2/file.tar.gz</div><div class="line">taolin@pc:~$ echo $&#123;var#*.&#125;</div><div class="line">tar.gz</div></pre></td></tr></table></figure>
+<p>从运行结果可以看到，使用该命令，可以提取出文件的多个后缀。</p>
+<h3 id="1-4-提取文件目录-var"><a href="#1-4-提取文件目录-var" class="headerlink" title="1.4. 提取文件目录${var%/*}"></a>1.4. 提取文件目录<code>${var%/*}</code></h3><p>该命令的使用是去掉变量<code>var</code>从右边算起的第一个<code>/</code>字符及其右边的内容，返回从右边算起的第一个<code>/</code>（不含该字符）的左边的内容。使用例子及结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">taolin@pc:~$ var=/dir1/dir2/file.txt</div><div class="line">taolin@pc:~$ echo $&#123;var%/*&#125;</div><div class="line">/dir1/dir2</div></pre></td></tr></table></figure>
+<p>从运行的结果可以看到，使用该命令，可以提取出我们需要的文件所在的目录</p>
+<h3 id="1-5-去掉文件后缀-var"><a href="#1-5-去掉文件后缀-var" class="headerlink" title="1.5. 去掉文件后缀${var%%.*}"></a>1.5. 去掉文件后缀<code>${var%%.*}</code></h3><p>该命令的使用是去掉变量<code>var</code>从右边算起的最后一个<code>.</code>字符及其右边的内容，返回从右边算起的最后一个<code>.</code>（不含该字符）的左边的内容。使用例子及结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">taolin@pc:~$ var=/dir1/dir2/file.txt</div><div class="line">taolin@pc:~$ echo $&#123;var%%.*&#125;</div><div class="line">/dir1/dir2/file</div></pre></td></tr></table></figure>
+<p>当我们需要建立一个与文件名相同名字（没有后缀）的目录与对应的文件相对应时，就可以使用该命令来进行操作。例如，解压文件的情况就与此类似，我们压缩文件file.zip时，会在与file.zip同级目录下建立一个名为file的目录。</p>
+<h3 id="1-6-总结"><a href="#1-6-总结" class="headerlink" title="1.6. ${}总结"></a>1.6. <code>${}</code>总结</h3><p>其实<code>${}</code>并不是专门为提取文件名或目录名的，它的使用是变量的提取和替换等等操作，它可以提取非常多的内容，并不一定是上面五个例子中的<code>/</code>或<code>.</code>。也就是说，上面的使用方法只是它使用的一个特例。</p>
+<p>看到上面的这些命令，可能会让人感到非常难以理解和记忆，其实不然，它们都是有规律的。</p>
+<ul>
+<li><code>#</code>  &nbsp;&nbsp; 表示从左边算起第一个</li>
+<li><code>%</code>  &nbsp;&nbsp; 表示从右边算起第一个</li>
+<li><code>##</code> &nbsp;&nbsp; 表示从左边算起最后一个</li>
+<li><code>%%</code>  &nbsp;&nbsp; 表示从右边算起最后一个</li>
+</ul>
+<p>换句话来说，＃总是表示左边算起，％总是表示右边算起。</p>
+<ul>
+<li><code>＊</code>  &nbsp;&nbsp; 表示要删除的内容，对于<code>#</code>和<code>##</code>的情况，它位于指定的字符（例子中的<code>/</code>和<code>.</code>）的左边，表于删除指定字符及其左边的内容；对于<code>%</code>和<code>%%</code>的情况，它位于指定的字符（例子中的<code>/</code>和<code>.</code>）的右边，表示删除指定字符及其右边的内容。这里的<code>*</code>的位置不能互换，即不能把<code>*</code>号放在<code>#</code>或<code>##</code>的右边，反之亦然。</li>
+</ul>
+<p>例如：<code>${var%%x*}</code>表示找出从右边算起最后一个字符<code>x</code>，并删除字符<code>x</code>及其右边的字符。</p>
+<p>看到这里，就可以知道，其实该命令的用途非常广泛，上面只是指针文件名和目录名的命名特性来进行提取的一些特例而已。</p>
+<h2 id="2-basename和dirname"><a href="#2-basename和dirname" class="headerlink" title="2. basename和dirname"></a>2. basename和dirname</h2><p><code>${}</code>并不是专门为提取文件名和目录名设计的命令，那么<code>basename</code>和<code>dirname</code>命令就是专门为做这一件事而已准备的了。</p>
+<h3 id="2-1-提取文件名basename"><a href="#2-1-提取文件名basename" class="headerlink" title="2.1. 提取文件名basename"></a>2.1. 提取文件名basename</h3><p>该命令的作用是从路径中提取出文件名，使用方法为<code>basename NAME [SUFFIX]</code>。</p>
+<p>1）从路径中提出出文件名（带后缀），例子如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">taolin@pc:~$ var=/dir1/dir2/file.txt</div><div class="line">taolin@pc:~$ echo $(basename $var)</div><div class="line">file.txt</div></pre></td></tr></table></figure>
+<p>2）从上面命令的用法中可以看到，后缀（SUFFIX）是一个可选项。所以，若只想提取出文件名<code>file</code>，而不带有后缀，还可以在变量的后面加上后缀名，例子如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">taolin@pc:~$ var=/dir1/dir2/file.txt</div><div class="line">taolin@pc:~$ echo $(basename $var .txt)</div><div class="line">file</div></pre></td></tr></table></figure>
+<h3 id="2-2-提取目录名dirname"><a href="#2-2-提取目录名dirname" class="headerlink" title="2.2. 提取目录名dirname"></a>2.2. 提取目录名dirname</h3><p>该命令的作用是从路径中提取出目录名，使用方法为<code>dirname NAME</code><br>使用例子如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">taolin@pc:~$ var=/dir1/dir2/file.txt</div><div class="line">taolin@pc:~$ dirname $var</div><div class="line">/dir1/dir2</div></pre></td></tr></table></figure>
+<p>这样就提取出了<code>file.txt</code>文件所在的目录。</p>
+<p>注：该命令不仅能提取出普通文件所的目录，它能提取出任何文件所在的目录，例如目录所在的目录，如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">taolin@pc:~$ var=/dir1/dir2/</div><div class="line">taolin@pc:~$ dirname $var</div><div class="line">/dir1</div></pre></td></tr></table></figure>
+<p>它提取出了目录<code>dir2</code>所在的目录<code>dir1</code>。</p>
+<p>本文转载自：<a href="http://blog.csdn.net/ljianhui/article/details/43128465" target="_blank" rel="external">http://blog.csdn.net/ljianhui/article/details/43128465</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/shell/" rel="tag">#shell</a>
+          
+            <a href="/tags/提取文件名/" rel="tag">#提取文件名</a>
+          
+            <a href="/tags/提取目录名/" rel="tag">#提取目录名</a>
+          
+            <a href="/tags/linux/" rel="tag">#linux</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/17/android-official-mvp-architecture-demo-analysis/" rel="next" title="【转载】Android官方MVP架构示例项目解析">
+                <i class="fa fa-chevron-left"></i> 【转载】Android官方MVP架构示例项目解析
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/09/03/shell-extract-filename-and-dirname/"
+           data-title="【转载】Linux shell 如何提取文件名和文件目录" data-url="http://taolin.me/2016/09/03/shell-extract-filename-and-dirname/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Taolin" />
+          <p class="site-author-name" itemprop="name">Taolin</p>
+          <p class="site-description motion-element" itemprop="description">生命不息 奋斗不止</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/taolin2107" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/215978968" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-使用"><span class="nav-text">1. 使用${}</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-提取文件名-var"><span class="nav-text">1.1. 提取文件名${var##*/}</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-提取文件后缀-var"><span class="nav-text">1.2. 提取文件后缀${var##*.}</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-提取多个文件后缀-var"><span class="nav-text">1.3. 提取多个文件后缀${var#*.}</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-提取文件目录-var"><span class="nav-text">1.4. 提取文件目录${var%/*}</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-去掉文件后缀-var"><span class="nav-text">1.5. 去掉文件后缀${var%%.*}</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-总结"><span class="nav-text">1.6. ${}总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-basename和dirname"><span class="nav-text">2. basename和dirname</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-提取文件名basename"><span class="nav-text">2.1. 提取文件名basename</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-提取目录名dirname"><span class="nav-text">2.2. 提取目录名dirname</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Taolin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"taolin"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

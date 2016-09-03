@@ -55,7 +55,8 @@
   
     
     
-    <link href="//fonts.useso.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    
+    <link href="//fonts.geekzu.org/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
   
 
 
@@ -106,7 +107,7 @@ $ &amp;nbsp;&amp;nbsp;  移动到当前行行尾
 ^ &amp;nbsp;&amp;nbsp;  移动到当前行的第一个非空白字符上
 0 &amp;nbsp;&amp;nbsp;  移动到当前行的行首，同Home键
 gg &amp;nbsp;&amp;nbsp;  移动到文档的第一">
-<meta property="og:updated_time" content="2016-08-29T14:13:26.000Z">
+<meta property="og:updated_time" content="2016-08-31T06:21:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vim快键键汇总（持续更新）">
 <meta name="twitter:description" content="1. 移动光标
@@ -517,7 +518,13 @@ gg &amp;nbsp;&amp;nbsp;  移动到文档的第一">
 <li>:ctrl+f  &nbsp;&nbsp;   查看历史命令</li>
 </ul>
 <h3 id="11-其他"><a href="#11-其他" class="headerlink" title="11. 其他"></a>11. 其他</h3><ul>
-<li>:set fileformat=unix  &nbsp;&nbsp;  去掉因编码问题出现的<code>^M</code></li>
+<li>:set fileformat=unix  &nbsp;&nbsp;  去掉因编码问题出现的<code>^M</code>，或者fileformats，简写为ff和ffs</li>
+<li>:set ff=win  &nbsp;&nbsp; 让linux下的Vim按照Windows格式来解析文件。</li>
+<li>set ffs=mac,unix,dos  &nbsp;&nbsp;  添加到配置文件来告诉Vim按照怎样的顺序来尝试适配编码</li>
+<li>:set fileencoding    &nbsp;&nbsp;  可以显示文件的编码格式，简写形式是:set fenc</li>
+<li>:set fenc=utf-8   &nbsp;&nbsp;  可以转换文件的编码格式为utf-8</li>
+<li>:set encoding  &nbsp;&nbsp;  可以显示编辑器当前使用什么编码方案来展示文档，简写为enc</li>
+<li>:set enc=utf-8  &nbsp;&nbsp;  可以将vim使用的编码方案切换的utf-8</li>
 <li>:set nu/nonu   &nbsp;&nbsp;   显示/取消 行号</li>
 <li>:set mouse=n/   &nbsp;&nbsp;   启用/取消 鼠标操作光标</li>
 <li>:sh 或 ctrl+z/:sh    &nbsp;&nbsp;   进入shell命令行，vim后台运行</li>
@@ -649,7 +656,7 @@ gg &amp;nbsp;&amp;nbsp;  移动到文档的第一">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -657,7 +664,7 @@ gg &amp;nbsp;&amp;nbsp;  移动到文档的第一">
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -666,7 +673,7 @@ gg &amp;nbsp;&amp;nbsp;  移动到文档的第一">
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

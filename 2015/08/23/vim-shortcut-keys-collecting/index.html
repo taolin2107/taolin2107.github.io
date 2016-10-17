@@ -107,7 +107,7 @@ $ &amp;nbsp;&amp;nbsp;  移动到当前行行尾
 ^ &amp;nbsp;&amp;nbsp;  移动到当前行的第一个非空白字符上
 0 &amp;nbsp;&amp;nbsp;  移动到当前行的行首，同Home键
 gg &amp;nbsp;&amp;nbsp;  移动到文档的第一">
-<meta property="og:updated_time" content="2016-08-31T06:21:21.000Z">
+<meta property="og:updated_time" content="2016-09-04T07:36:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vim快键键汇总（持续更新）">
 <meta name="twitter:description" content="1. 移动光标
@@ -441,6 +441,8 @@ gg &amp;nbsp;&amp;nbsp;  移动到文档的第一">
 <li>o  &nbsp;&nbsp;   在当前行之下新加一行，并进入插入模式</li>
 <li>O  &nbsp;&nbsp;   在当前行之上新加一行，并进入插入模式</li>
 <li>Esc  &nbsp;&nbsp;   退出插入模式</li>
+<li><code>:%s/^/a</code>  &nbsp;&nbsp;   当前文件的所有行首插入字符”a”，指定修改哪几行 <code>:2,8 s/^/a</code></li>
+<li><code>:%s/$/a</code>  &nbsp;&nbsp;   当前文件的所有行尾追加字符”a”</li>
 </ul>
 <h3 id="6-可视模式"><a href="#6-可视模式" class="headerlink" title="6. 可视模式"></a>6. 可视模式</h3><ul>
 <li>v   &nbsp;&nbsp;  进入可视模式，单字符模式</li>

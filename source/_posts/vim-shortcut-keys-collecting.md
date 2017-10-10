@@ -23,12 +23,16 @@ categories: vim
 - 行数+G  &nbsp;&nbsp; 将光标移动到文档的指定行，比如移动到23行（23G）
 - 数字+%  &nbsp;&nbsp; 将光标移动到文档百分比位置，比如移动到文档12%的位置（12%）
 - `.  &nbsp;&nbsp; 跳转至上次编辑位置
+- {  &nbsp;&nbsp; 跳到上一个代码块
+- }  &nbsp;&nbsp; 跳到下一个代码块
 - %  &nbsp;&nbsp;  跳到与当前括号匹配的括号处，如当前在'{'，则跳转到与之匹配的'}'处
 - Ctrl+g  &nbsp;&nbsp;   获取当前位置信息
 - zz, zt, zb  &nbsp;&nbsp;  滚动文档，将光标所在行居中/置顶/置尾
 - f[x]  &nbsp;&nbsp;  向右移动至字母x在当前行内下一次出现的位置，f指forward，x可以是任一个字母，你还可以用;来重复执行刚才的fx
 - tx  &nbsp;&nbsp;   同fx，区别在于光标会停留到x的左侧
 - Fx  &nbsp;&nbsp;   同fx，只是向左移动
+- m`a`和'`a`  &nbsp;&nbsp;   标记一个位置，在同页面快速定位到该标志。m表示mark，a是一个字母，'是单引号，后面跟上前面标记的字母
+- gd   &nbsp;&nbsp;  查看方法的调用
 
 ### 2. 内容搜索
 
@@ -106,6 +110,8 @@ categories: vim
 - o  &nbsp;&nbsp;   在当前行之下新加一行，并进入插入模式
 - O  &nbsp;&nbsp;   在当前行之上新加一行，并进入插入模式
 - Esc  &nbsp;&nbsp;   退出插入模式
+- `:%s/^/a`  &nbsp;&nbsp;   当前文件的所有行首插入字符"a"，指定修改哪几行 `:2,8 s/^/a`
+- `:%s/$/a`  &nbsp;&nbsp;   当前文件的所有行尾追加字符"a"
 
 ### 6. 可视模式
 
@@ -115,11 +121,16 @@ categories: vim
 - o   &nbsp;&nbsp;  跳转光标到选中块的另一个端点
 - U   &nbsp;&nbsp;  将选中块中的内容转成大写
 - O   &nbsp;&nbsp;  跳转光标到块的另一个端点
-- aw  &nbsp;&nbsp;   选中一个字
-- ab  &nbsp;&nbsp;   选中括号中的所有内容，包括括号本身
-- aB  &nbsp;&nbsp;   选中{}括号中的所有内容
-- ib  &nbsp;&nbsp;   选中括号中的内容，不含括号
-- iB  &nbsp;&nbsp;   选中{}中的内容，不含{}
+
+以下如果将i换成a，则会将符号也包含进去
+
+- viw  &nbsp;&nbsp;   选中一个word
+- vib  &nbsp;&nbsp;   选中()括号中的所有内容
+- viB  &nbsp;&nbsp;   选中{}括号中的所有内容
+- vi'  &nbsp;&nbsp;   选中’单引号中的内容
+- vi"  &nbsp;&nbsp;   选中”双引号中的内容
+- vi<  &nbsp;&nbsp;   选中<尖括号中的内容
+
 - ctrl+r  &nbsp;&nbsp;   在插入模式下按ctrl+r，然后输入=，再输入运算式，按Enter键，就会将结果插入当前位置
 - :ab [缩写] [要替换的内容]  &nbsp;&nbsp;   回车后，之后输入的缩写都会实时的替换
 - :%!xxd   &nbsp;&nbsp;  转为16进制模式，:%!xxd -r 恢复

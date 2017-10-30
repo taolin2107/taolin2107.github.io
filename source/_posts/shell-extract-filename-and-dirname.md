@@ -1,5 +1,5 @@
 ---
-title: 【转载】Linux shell 如何提取文件名和文件目录
+title: Linux shell 如何提取文件名和文件目录
 date: 2016-09-03 00:20:08
 tags: [shell, 提取文件名, 提取目录名, linux]
 categories: shell

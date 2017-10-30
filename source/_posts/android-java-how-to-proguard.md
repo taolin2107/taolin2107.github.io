@@ -1,5 +1,5 @@
 ---
-title: 【转载】Android java代码如何混淆
+title: Android java代码如何混淆
 date: 2016-07-18 20:53:18
 tags: [Android, java, proguard, 代码混淆]
 ategories: android

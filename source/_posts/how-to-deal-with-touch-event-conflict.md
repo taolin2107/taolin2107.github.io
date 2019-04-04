@@ -7,23 +7,25 @@ categories: android
 
 在Android UI开发中，对滑动事件的处理是不可少的，其中对View嵌套时的滑动冲突问题处理则相对比较麻烦，下面就介绍一个这样的案例。
 
-## 滑动冲突问题
+## 1. 滑动冲突问题
 
 两个可以滑动的View嵌套，如何实现里面的View滑到尽头后，继续滑动时，事件交给外层View继续滑动。
 
-## 问题分析
+## 2. 问题分析
 
 1. 根据Android的事件分发机制，里面的子view要想处理事件，就要接收到Action Down事件，所以父view不能拦截Down事件。
 2. 父View要能处理后续的Move事件，那么他就需要拦截Move事件。
 3. 子View滑动到尽头了，要交给父view，那么子View就需要能控制父View是否进行事件拦截。
 
-## 解决思路
+## 3. 解决思路
 
 1. 父View不能拦截Down事件，但要拦截Move事件，可以在onInterceptTouchEvent中判断事件是Down事件时，返回false，其余事件返回true。
 2. 子View在接收到Down事件时，需要调用父View的requestDisallowInterceptTouchEvent为false，让父View不拦截事件，那么子View可以处理后续的Move事件，实现子View滑动。
 3. 当子View滑动到尽头后，再调用父View的requestDisallowInterceptTouchEvent为true，让父View拦截事件，即事件交给父View处理。
 
-## 代码
+<!-- more -->
+
+## 4. 代码
 
 ### 父View
 
@@ -133,8 +135,8 @@ public boolean onTouchEvent(MotionEvent event) {
 
 ```
 
-## 实现效果
+## 5. 实现效果
 
-![preview](./how-to-deal-with-touch-event-conflict/capture.gif)
+{% asset_img capture.gif %}
 
 具体代码见：[https://github.com/taolin2107/SlideConflict](https://github.com/taolin2107/SlideConflict)

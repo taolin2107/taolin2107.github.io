@@ -27,7 +27,7 @@ hexo server   // https://hexo.io/docs/server.html
 
 ## 修改主题
 下载主题到themes目录，如：git clone https://github.com/iissnan/hexo-theme-next themes/
-修改配置文件 _config.yml
+修改配置文件 `_config.yml`
 ```js
 theme: hexo-theme-next
 ```
@@ -39,7 +39,7 @@ ok
 npm install hexo-deployer-git --save
 ```
 
-修改配置文件 _config.yml
+修改配置文件 `_config.yml`
 ```js
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html

@@ -1,0 +1,687 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    
+    <link href="//fonts.geekzu.org/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,事件分发," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在Android UI开发中，对滑动事件的处理是不可少的，其中对View嵌套时的滑动冲突问题处理则相对比较麻烦，下面就介绍一个这样的案例。
+1. 滑动冲突问题两个可以滑动的View嵌套，如何实现里面的View滑到尽头后，继续滑动时，事件交给外层View继续滑动。
+2. 问题分析
+根据Android的事件分发机制，里面的子view要想处理事件，就要接收到Action Down事件，所以父view不能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何解决view嵌套时的滑动冲突问题">
+<meta property="og:url" content="http://taolin.me/2019/04/03/how-to-deal-with-touch-event-conflict/index.html">
+<meta property="og:site_name" content="Taolin的博客">
+<meta property="og:description" content="在Android UI开发中，对滑动事件的处理是不可少的，其中对View嵌套时的滑动冲突问题处理则相对比较麻烦，下面就介绍一个这样的案例。
+1. 滑动冲突问题两个可以滑动的View嵌套，如何实现里面的View滑到尽头后，继续滑动时，事件交给外层View继续滑动。
+2. 问题分析
+根据Android的事件分发机制，里面的子view要想处理事件，就要接收到Action Down事件，所以父view不能">
+<meta property="og:image" content="http://taolin.me/2019/04/03/how-to-deal-with-touch-event-conflict/capture.gif">
+<meta property="og:updated_time" content="2021-02-03T08:28:45.265Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何解决view嵌套时的滑动冲突问题">
+<meta name="twitter:description" content="在Android UI开发中，对滑动事件的处理是不可少的，其中对View嵌套时的滑动冲突问题处理则相对比较麻烦，下面就介绍一个这样的案例。
+1. 滑动冲突问题两个可以滑动的View嵌套，如何实现里面的View滑到尽头后，继续滑动时，事件交给外层View继续滑动。
+2. 问题分析
+根据Android的事件分发机制，里面的子view要想处理事件，就要接收到Action Down事件，所以父view不能">
+<meta name="twitter:image" content="http://taolin.me/2019/04/03/how-to-deal-with-touch-event-conflict/capture.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://taolin.me/2019/04/03/how-to-deal-with-touch-event-conflict/"/>
+
+  <title> 如何解决view嵌套时的滑动冲突问题 | Taolin的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Taolin的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">生命不息 奋斗不止</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                如何解决view嵌套时的滑动冲突问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-04-03T11:15:04+08:00" content="2019-04-03">
+              2019-04-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2019/04/03/how-to-deal-with-touch-event-conflict/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/04/03/how-to-deal-with-touch-event-conflict/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在Android UI开发中，对滑动事件的处理是不可少的，其中对View嵌套时的滑动冲突问题处理则相对比较麻烦，下面就介绍一个这样的案例。</p>
+<h2 id="1-滑动冲突问题"><a href="#1-滑动冲突问题" class="headerlink" title="1. 滑动冲突问题"></a>1. 滑动冲突问题</h2><p>两个可以滑动的View嵌套，如何实现里面的View滑到尽头后，继续滑动时，事件交给外层View继续滑动。</p>
+<h2 id="2-问题分析"><a href="#2-问题分析" class="headerlink" title="2. 问题分析"></a>2. 问题分析</h2><ol>
+<li>根据Android的事件分发机制，里面的子view要想处理事件，就要接收到Action Down事件，所以父view不能拦截Down事件。</li>
+<li>父View要能处理后续的Move事件，那么他就需要拦截Move事件。</li>
+<li>子View滑动到尽头了，要交给父view，那么子View就需要能控制父View是否进行事件拦截。</li>
+</ol>
+<h2 id="3-解决思路"><a href="#3-解决思路" class="headerlink" title="3. 解决思路"></a>3. 解决思路</h2><ol>
+<li>父View不能拦截Down事件，但要拦截Move事件，可以在onInterceptTouchEvent中判断事件是Down事件时，返回false，其余事件返回true。</li>
+<li>子View在接收到Down事件时，需要调用父View的requestDisallowInterceptTouchEvent为false，让父View不拦截事件，那么子View可以处理后续的Move事件，实现子View滑动。</li>
+<li>当子View滑动到尽头后，再调用父View的requestDisallowInterceptTouchEvent为true，让父View拦截事件，即事件交给父View处理。</li>
+</ol>
+<a id="more"></a>
+<h2 id="4-代码"><a href="#4-代码" class="headerlink" title="4. 代码"></a>4. 代码</h2><h3 id="父View"><a href="#父View" class="headerlink" title="父View"></a>父View</h3><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onInterceptTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</div><div class="line">    <span class="comment">// Down事件要流到子view，由子view判断是否需要父view拦截</span></div><div class="line">    <span class="keyword">if</span> (ev.getAction() == MotionEvent.ACTION_DOWN) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">float</span> rowY = -<span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</div><div class="line">    Log.d(<span class="string">"Taolin"</span>, <span class="string">"parent onTouchEvent "</span>  + event);</div><div class="line">    <span class="keyword">switch</span> (event.getAction()) &#123;</div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_DOWN: &#123;</div><div class="line">            LayoutParams l = (LayoutParams) getLayoutParams();</div><div class="line">            <span class="comment">// 计算当前位置离父view顶部的距离</span></div><div class="line">            rowY = event.getRawY() - l.topMargin;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_MOVE: &#123;</div><div class="line">            LayoutParams l = (LayoutParams) getLayoutParams();</div><div class="line">            <span class="keyword">if</span> (rowY == -<span class="number">1</span>) &#123;</div><div class="line">                <span class="comment">// 从子view给过来的后续事件，不包含Down，所以这里要初始化一下</span></div><div class="line">                rowY = event.getRawY() - l.topMargin;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// 当前位置减去距离顶部的距离，就是marginTop</span></div><div class="line">            l.topMargin = (<span class="keyword">int</span>)(event.getRawY() - rowY);</div><div class="line">            setLayoutParams(l);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_UP:</div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_CANCEL:</div><div class="line">            <span class="comment">// 事件结束的时候要把坐标还原，否则影响下次事件</span></div><div class="line">            rowY = - <span class="number">1</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line"></div><div class="line">        <span class="keyword">default</span>:<span class="keyword">break</span>;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="子View"><a href="#子View" class="headerlink" title="子View"></a>子View</h3><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">float</span> rowY;</div><div class="line"><span class="keyword">private</span> <span class="keyword">float</span> lastY;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</div><div class="line">    Log.d(<span class="string">"Taolin"</span>, <span class="string">"child onTouchEvent "</span>  + event);</div><div class="line">    <span class="keyword">switch</span> (event.getAction()) &#123;</div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_DOWN: &#123;</div><div class="line">            getParent().requestDisallowInterceptTouchEvent(<span class="keyword">true</span>);</div><div class="line">            FrameLayout.LayoutParams l = (FrameLayout.LayoutParams) getLayoutParams();</div><div class="line">            <span class="comment">// 计算当前位置离父view顶部的距离</span></div><div class="line">            rowY = event.getRawY() - l.topMargin;</div><div class="line">            lastY = event.getRawY();</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_MOVE: &#123;</div><div class="line">            FrameLayout.LayoutParams l = (FrameLayout.LayoutParams) getLayoutParams();</div><div class="line">            <span class="keyword">float</span> currentY = event.getRawY();</div><div class="line">            <span class="keyword">float</span> marginTop = l.topMargin;</div><div class="line">            <span class="keyword">if</span> (marginTop &lt; <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (lastY &gt; currentY) &#123;</div><div class="line">                    <span class="comment">// 滑到顶部了，继续往上滑就交给父view</span></div><div class="line">                    getParent().requestDisallowInterceptTouchEvent(<span class="keyword">false</span>);</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (marginTop &gt; <span class="number">500</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (lastY &lt; currentY) &#123;</div><div class="line">                    <span class="comment">// 滑到底部了，继续往下滑就交给父view</span></div><div class="line">                    getParent().requestDisallowInterceptTouchEvent(<span class="keyword">false</span>);</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// 当前位置减去距离顶部的距离，就是marginTop</span></div><div class="line">            l.topMargin = (<span class="keyword">int</span>)(currentY - rowY);</div><div class="line">            lastY = currentY;</div><div class="line">            setLayoutParams(l);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_CANCEL:</div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_UP:</div><div class="line">            getParent().requestDisallowInterceptTouchEvent(<span class="keyword">false</span>);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line"></div><div class="line">        <span class="keyword">default</span>:<span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="5-实现效果"><a href="#5-实现效果" class="headerlink" title="5. 实现效果"></a>5. 实现效果</h2><img src="/2019/04/03/how-to-deal-with-touch-event-conflict/capture.gif" alt="capture.gif" title="">
+<p>具体代码见：<a href="https://github.com/taolin2107/SlideConflict" target="_blank" rel="external">https://github.com/taolin2107/SlideConflict</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/事件分发/" rel="tag">#事件分发</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/03/shell-extract-filename-and-dirname/" rel="next" title="Linux shell 如何提取文件名和文件目录">
+                <i class="fa fa-chevron-left"></i> Linux shell 如何提取文件名和文件目录
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/04/kotlin-coroutine-basic/" rel="prev" title="kotlin协程入门">
+                kotlin协程入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2019/04/03/how-to-deal-with-touch-event-conflict/"
+           data-title="如何解决view嵌套时的滑动冲突问题" data-url="http://taolin.me/2019/04/03/how-to-deal-with-touch-event-conflict/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Taolin" />
+          <p class="site-author-name" itemprop="name">Taolin</p>
+          <p class="site-description motion-element" itemprop="description">生命不息 奋斗不止</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/taolin2107" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/215978968" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-滑动冲突问题"><span class="nav-text">1. 滑动冲突问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-问题分析"><span class="nav-text">2. 问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-解决思路"><span class="nav-text">3. 解决思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-代码"><span class="nav-text">4. 代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#父View"><span class="nav-text">父View</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子View"><span class="nav-text">子View</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-实现效果"><span class="nav-text">5. 实现效果</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Taolin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"taolin"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

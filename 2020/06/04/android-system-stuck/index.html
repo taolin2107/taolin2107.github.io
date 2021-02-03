@@ -1,0 +1,702 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    
+    <link href="//fonts.geekzu.org/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,System," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="1. 问题背景在某次对Android系统测试中，出现系统响应比较慢，操作卡顿的情况。
+操作卡顿，第一反应当然是看看CPU和内存的消耗是否正常，根据命令打印显示，CPU偶尔占用比较高，内存消耗也不算太高，分析了本地的log记录，也没有看出什么问题。
+只能试着重现问题，看出现问题的概率高不高，如果不高的话，可能考虑此问题先放一放。
+2. 问题复现 — monkey压测压测使用的工具是monkey，它可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android系统卡顿如何优化">
+<meta property="og:url" content="http://taolin.me/2020/06/04/android-system-stuck/index.html">
+<meta property="og:site_name" content="Taolin的博客">
+<meta property="og:description" content="1. 问题背景在某次对Android系统测试中，出现系统响应比较慢，操作卡顿的情况。
+操作卡顿，第一反应当然是看看CPU和内存的消耗是否正常，根据命令打印显示，CPU偶尔占用比较高，内存消耗也不算太高，分析了本地的log记录，也没有看出什么问题。
+只能试着重现问题，看出现问题的概率高不高，如果不高的话，可能考虑此问题先放一放。
+2. 问题复现 — monkey压测压测使用的工具是monkey，它可">
+<meta property="og:updated_time" content="2021-02-03T08:28:45.264Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android系统卡顿如何优化">
+<meta name="twitter:description" content="1. 问题背景在某次对Android系统测试中，出现系统响应比较慢，操作卡顿的情况。
+操作卡顿，第一反应当然是看看CPU和内存的消耗是否正常，根据命令打印显示，CPU偶尔占用比较高，内存消耗也不算太高，分析了本地的log记录，也没有看出什么问题。
+只能试着重现问题，看出现问题的概率高不高，如果不高的话，可能考虑此问题先放一放。
+2. 问题复现 — monkey压测压测使用的工具是monkey，它可">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://taolin.me/2020/06/04/android-system-stuck/"/>
+
+  <title> Android系统卡顿如何优化 | Taolin的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Taolin的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">生命不息 奋斗不止</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android系统卡顿如何优化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2020-06-04T19:51:04+08:00" content="2020-06-04">
+              2020-06-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/06/04/android-system-stuck/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/06/04/android-system-stuck/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1-问题背景"><a href="#1-问题背景" class="headerlink" title="1. 问题背景"></a>1. 问题背景</h2><p>在某次对Android系统测试中，出现系统响应比较慢，操作卡顿的情况。</p>
+<p>操作卡顿，第一反应当然是看看CPU和内存的消耗是否正常，根据命令打印显示，CPU偶尔占用比较高，内存消耗也不算太高，分析了本地的log记录，也没有看出什么问题。</p>
+<p>只能试着重现问题，看出现问题的概率高不高，如果不高的话，可能考虑此问题先放一放。</p>
+<h2 id="2-问题复现-—-monkey压测"><a href="#2-问题复现-—-monkey压测" class="headerlink" title="2. 问题复现 — monkey压测"></a>2. 问题复现 — monkey压测</h2><p>压测使用的工具是monkey，它可以对整个系统或指定的单个应用进行随机的压力测试。</p>
+<p>如下的脚本是分别对白板和设置进行monkey压测</p>
+<ul>
+<li>-p 指定测试的App包名</li>
+<li>– ignore开头的参数，是测试过程中忽略掉对应的事件</li>
+<li>– throttle 是执行每次测试的间隔时间，太快的话，可能会导致系统响应不过来，容易引起anr</li>
+<li>-v -v -v 三个v，表示记录最详细的日志</li>
+<li>最后面的数字代表要测试的次数</li>
+<li>nohup 最后加一个&amp;，是指脚本在后台运行</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><div class="line"><span class="comment"># 比如对设置压测</span></div><div class="line">nohup monkey -p com.android.settings --ignore-crashes --ignore-timeouts --ignore-native-crashes --ignore-security-exceptions --throttle <span class="number">100</span> -v -v -v <span class="number">1000000</span> &amp;</div></pre></td></tr></table></figure>
+<p>通过使用monkey压测，确实能复现系统卡顿的问题，但接下来不知道怎么分析。遂去咨询系统开发的同事，他们分析了一些系统参数后，结合以往的经验，提出是因为系统产生了大量的内存碎片，这些内存碎片虽然是可用内存，但是内存空间不连续，无法被系统直接使用，导致内存不足，系统卡顿。</p>
+<h2 id="3-内存分布-—-buddyinfo"><a href="#3-内存分布-—-buddyinfo" class="headerlink" title="3. 内存分布 — buddyinfo"></a>3. 内存分布 — buddyinfo</h2><p>系统开发的同事提出是因为系统产生了大量的内存碎片导致卡顿，但需要进一步验证才能确定。<br>通过<code>cat /proc/buddyinfo</code> 可以查看系统当前的内存分布情况</p>
+<a id="more"></a>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><div class="line"><span class="comment"># buddyinfo 描述了当前可用内存的分布情况</span></div><div class="line"></div><div class="line">cat /proc/buddyinfo </div><div class="line">Node <span class="number">0</span>, zone      DMA      <span class="number">4</span>      <span class="number">4</span>      <span class="number">3</span>      <span class="number">3</span>      <span class="number">3</span>      <span class="number">3</span>      <span class="number">2</span>      <span class="number">0</span>      <span class="number">1</span>      <span class="number">1</span>      <span class="number">2</span></div></pre></td></tr></table></figure>
+<p>DMA 行第3列表示有4个 <code>2^2 × page_size</code> 的内存块可以用。<br>以此类推，越是往后的空间，就越是连续，数目越多，就代表这个大小的连续空间越多，当大的连续空间很少的时候，也就说明，内存碎片已经非常多了，到一定程度就可能引起系统卡顿。</p>
+<p>为了证实确实是内存碎片引起的，就需要验证在系统从流畅到卡顿的过程中，记录系统内存分布情况，看它的变化趋势，是不是系统越卡顿，内存碎片越多，大块内存越少，也就是buddyinfo的前面的数据越来越大，后面的数据越来越小。</p>
+<p>配合上面的压测代码，同时结合下面的脚本来记录buddyinfo内存分布变化</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><div class="line"><span class="comment">#!/bin/bash</span></div><div class="line"></div><div class="line">LOG_FILE=<span class="string">"/sdcard/buddyinfo.log"</span></div><div class="line"></div><div class="line"><span class="keyword">while</span> true</div><div class="line"><span class="keyword">do</span></div><div class="line">    <span class="comment"># 记录时间</span></div><div class="line">    date &gt;&gt; <span class="variable">$LOG_FILE</span></div><div class="line">    <span class="comment"># 记录buddyinfo</span></div><div class="line">    cat /proc/buddyinfo &gt;&gt; <span class="variable">$LOG_FILE</span></div><div class="line">    <span class="comment"># 换行</span></div><div class="line">    echo &gt;&gt; <span class="variable">$LOG_FILE</span></div><div class="line">    <span class="comment"># 间隔10分钟</span></div><div class="line">    sleep <span class="number">600</span></div><div class="line">done</div></pre></td></tr></table></figure>
+<p>经过压测和buddyinfo的记录发现，确实是系统越卡顿，内存碎片越多，也就验证了问题是内存碎片引起的。</p>
+<p>既然是内存碎片引起的卡顿，第一反应是要解决内存碎片的产生，看看是哪些应用产生了大量内存碎片。但是要排查内存碎片的产生，又是个非常大的工程，系统的每一行代码都有可能产生内存碎片，没法直接通过修改代码来解决内存碎片的问题。</p>
+<h2 id="4-内存整理和优化"><a href="#4-内存整理和优化" class="headerlink" title="4. 内存整理和优化"></a>4. 内存整理和优化</h2><p>既然没法从局部解决问题，就只能从整体来考虑来优化，看有没有什么方法能对整个系统进行内存整理和优化。</p>
+<p>经过研究发现，Android系统可以向<code>drop_caches</code>和<code>compact_memory</code>文件写数据，实现对内存的整理和优化。</p>
+<ul>
+<li>drop_caches 释放缓存</li>
+<li>compact_memory 合并低阶内存页来创造出足够的高阶内存页</li>
+</ul>
+<p>具体使用如下</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><div class="line"><span class="comment"># 同时释放 页、目录、索引节点缓存</span></div><div class="line">echo <span class="number">3</span> &gt; /proc/sys/vm/drop_caches</div><div class="line"><span class="comment"># 释放目录和索引节点缓存</span></div><div class="line">echo <span class="number">2</span> &gt; /proc/sys/vm/drop_caches</div><div class="line"><span class="comment"># 释放页缓存</span></div><div class="line">echo <span class="number">1</span> &gt; /proc/sys/vm/drop_caches</div><div class="line"><span class="comment"># 内存压缩</span></div><div class="line">echo <span class="number">1</span> &gt; /proc/sys/vm/compact_memory</div></pre></td></tr></table></figure>
+<h2 id="5-最终方案"><a href="#5-最终方案" class="headerlink" title="5. 最终方案"></a>5. 最终方案</h2><p>最终的方案是把上面的内存整理和优化的代码加到Launcher中，每次回到Launcher时，进行一次内存优化。经过多次压测，对比使用了此方案之前的效果，整个系统流畅了很多，也很少出现卡顿的情况。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onStart</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">super</span>.onStart()</div><div class="line">    <span class="comment">// 增加了如下代码</span></div><div class="line">    <span class="keyword">var</span> result = ShellCommandUtils.executeCommand(<span class="string">"cat proc/buddyinfo"</span>)</div><div class="line">    Logger.d(<span class="string">"cat proc/buddyinfo, result="</span> + result.result + <span class="string">",error="</span> + result.errorMsg + <span class="string">",success="</span> + result.successMsg)</div><div class="line">    result = ShellCommandUtils.executeCommand(<span class="string">"echo 3 &gt; /proc/sys/vm/drop_caches"</span>)</div><div class="line">    Logger.d(<span class="string">"echo 3 &gt; /proc/sys/vm/drop_caches, result="</span> + result.result + <span class="string">",error="</span> + result.errorMsg + <span class="string">",success="</span> + result.successMsg)</div><div class="line">    result = ShellCommandUtils.executeCommand(<span class="string">"echo 2 &gt; /proc/sys/vm/drop_caches"</span>)</div><div class="line">    Logger.d(<span class="string">"echo 2 &gt; /proc/sys/vm/drop_caches, result="</span> + result.result + <span class="string">",error="</span> + result.errorMsg + <span class="string">",success="</span> + result.successMsg)</div><div class="line">    result = ShellCommandUtils.executeCommand(<span class="string">"echo 1 &gt; /proc/sys/vm/drop_caches"</span>)</div><div class="line">    Logger.d(<span class="string">"echo 1 &gt; /proc/sys/vm/drop_caches, result="</span> + result.result + <span class="string">",error="</span> + result.errorMsg + <span class="string">",success="</span> + result.successMsg)</div><div class="line">    result = ShellCommandUtils.executeCommand(<span class="string">"echo 1 &gt; /proc/sys/vm/compact_memory"</span>)</div><div class="line">    Logger.d(<span class="string">"echo 1 &gt; /proc/sys/vm/compact_memory, result="</span> + result.result + <span class="string">",error="</span> + result.errorMsg + <span class="string">",success="</span> + result.successMsg)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/System/" rel="tag">#System</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/04/kotlin-coroutine-basic/" rel="next" title="kotlin协程入门">
+                <i class="fa fa-chevron-left"></i> kotlin协程入门
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/05/android-install-app-silently/" rel="prev" title="Android应用静默安装实现方案">
+                Android应用静默安装实现方案 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2020/06/04/android-system-stuck/"
+           data-title="Android系统卡顿如何优化" data-url="http://taolin.me/2020/06/04/android-system-stuck/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Taolin" />
+          <p class="site-author-name" itemprop="name">Taolin</p>
+          <p class="site-description motion-element" itemprop="description">生命不息 奋斗不止</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/taolin2107" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/215978968" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-问题背景"><span class="nav-text">1. 问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-问题复现-—-monkey压测"><span class="nav-text">2. 问题复现 — monkey压测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-内存分布-—-buddyinfo"><span class="nav-text">3. 内存分布 — buddyinfo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-内存整理和优化"><span class="nav-text">4. 内存整理和优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-最终方案"><span class="nav-text">5. 最终方案</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Taolin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"taolin"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

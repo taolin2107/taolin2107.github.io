@@ -259,8 +259,539 @@
             
               
                 
+                <a class="post-title-link" href="/2020/06/05/android-install-app-silently/" itemprop="url">
+                  Android应用静默安装实现方案
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2020-06-05T15:32:40+08:00" content="2020-06-05">
+              2020-06-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/06/05/android-install-app-silently/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/06/05/android-install-app-silently/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Android系统为了保证用户的体验，随着SDK版本的增加，对应用的权限控制越来越严；其中对应用静默安装这块体现的很明显。</p>
+<p>下面就介绍从Android7.0以下到Android9.0以上，如何一步步的绕开Android系统的限制，实现app的静默安装。</p>
+<h2 id="1-通过shell命令安装"><a href="#1-通过shell命令安装" class="headerlink" title="1. 通过shell命令安装"></a>1. 通过shell命令安装</h2><h3 id="1-1-Android7-0以下"><a href="#1-1-Android7-0以下" class="headerlink" title="1.1. Android7.0以下"></a>1.1. Android7.0以下</h3><p>Android7.0以下，用下面的shell命令通过adb调用或者代码中调用，都能正常运行，需要注意的是apk的路径必须是绝对路径</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pm install -r -d /sdcard/Download/demo.apk</div></pre></td></tr></table></figure>
+<h3 id="1-2-Android7-0到Android9-0以下"><a href="#1-2-Android7-0到Android9-0以下" class="headerlink" title="1.2. Android7.0到Android9.0以下"></a>1.2. Android7.0到Android9.0以下</h3><p>应用安装的限制有所加强，通过adb shell安装命令如下，跟Android7.0以下一样</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pm install -r -d /sdcard/Download/demo.apk</div></pre></td></tr></table></figure>
+<p>但是在代码中调用就不一样，需要用-i参数指定一个系统进程来安装，如下com.android.settings是一个系统应用</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pm install -r -d -i com.android.settings /sdcard/Download/demo.apk</div></pre></td></tr></table></figure>
+<h3 id="1-3-Android9-0及以上"><a href="#1-3-Android9-0及以上" class="headerlink" title="1.3. Android9.0及以上"></a>1.3. Android9.0及以上</h3>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2020/06/05/android-install-app-silently/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/06/04/android-system-stuck/" itemprop="url">
+                  Android系统卡顿如何优化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2020-06-04T19:51:04+08:00" content="2020-06-04">
+              2020-06-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/06/04/android-system-stuck/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/06/04/android-system-stuck/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="1-问题背景"><a href="#1-问题背景" class="headerlink" title="1. 问题背景"></a>1. 问题背景</h2><p>在某次对Android系统测试中，出现系统响应比较慢，操作卡顿的情况。</p>
+<p>操作卡顿，第一反应当然是看看CPU和内存的消耗是否正常，根据命令打印显示，CPU偶尔占用比较高，内存消耗也不算太高，分析了本地的log记录，也没有看出什么问题。</p>
+<p>只能试着重现问题，看出现问题的概率高不高，如果不高的话，可能考虑此问题先放一放。</p>
+<h2 id="2-问题复现-—-monkey压测"><a href="#2-问题复现-—-monkey压测" class="headerlink" title="2. 问题复现 — monkey压测"></a>2. 问题复现 — monkey压测</h2><p>压测使用的工具是monkey，它可以对整个系统或指定的单个应用进行随机的压力测试。</p>
+<p>如下的脚本是分别对白板和设置进行monkey压测</p>
+<ul>
+<li>-p 指定测试的App包名</li>
+<li>– ignore开头的参数，是测试过程中忽略掉对应的事件</li>
+<li>– throttle 是执行每次测试的间隔时间，太快的话，可能会导致系统响应不过来，容易引起anr</li>
+<li>-v -v -v 三个v，表示记录最详细的日志</li>
+<li>最后面的数字代表要测试的次数</li>
+<li>nohup 最后加一个&amp;，是指脚本在后台运行</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><div class="line"><span class="comment"># 比如对设置压测</span></div><div class="line">nohup monkey -p com.android.settings --ignore-crashes --ignore-timeouts --ignore-native-crashes --ignore-security-exceptions --throttle <span class="number">100</span> -v -v -v <span class="number">1000000</span> &amp;</div></pre></td></tr></table></figure>
+<p>通过使用monkey压测，确实能复现系统卡顿的问题，但接下来不知道怎么分析。遂去咨询系统开发的同事，他们分析了一些系统参数后，结合以往的经验，提出是因为系统产生了大量的内存碎片，这些内存碎片虽然是可用内存，但是内存空间不连续，无法被系统直接使用，导致内存不足，系统卡顿。</p>
+<h2 id="3-内存分布-—-buddyinfo"><a href="#3-内存分布-—-buddyinfo" class="headerlink" title="3. 内存分布 — buddyinfo"></a>3. 内存分布 — buddyinfo</h2><p>系统开发的同事提出是因为系统产生了大量的内存碎片导致卡顿，但需要进一步验证才能确定。<br>通过<code>cat /proc/buddyinfo</code> 可以查看系统当前的内存分布情况</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2020/06/04/android-system-stuck/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/06/04/kotlin-coroutine-basic/" itemprop="url">
+                  kotlin协程入门
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2020-06-04T19:31:10+08:00" content="2020-06-04">
+              2020-06-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">kotlin</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/06/04/kotlin-coroutine-basic/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/06/04/kotlin-coroutine-basic/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="1-认识协程"><a href="#1-认识协程" class="headerlink" title="1. 认识协程"></a>1. 认识协程</h2><h3 id="1-1-进程"><a href="#1-1-进程" class="headerlink" title="1.1 进程"></a>1.1 进程</h3><p>早期的计算机运行程序还是只能一次运行一个任务，之后进程的出现实现了近似同步的执行效果，其本质上是程序的交替执行。为了保证进程中的程序能够正常执行，还会有一些存储进程状态的保存集。随着硬件的发展和多CPU的出现，能够同时执行的进程数量逐渐增多。这就带来了一个问题，即用来存储进程状态的集合所占用的资源比一个进程可以执行的资源还要多，相当于整个系统大半的进行都是用来保存进程的状态。</p>
+<h3 id="1-2-线程"><a href="#1-2-线程" class="headerlink" title="1.2 线程"></a>1.2 线程</h3><p>线程的提出有效的解决了这个问题。进程不再频繁的切换，而是先执行，遇到阻塞的话暂时不管，继续执行其他的任务，当其他任务执行完之后再回过头来看阻塞任务是否执行完。多线程的缺陷在于无法自主控制调度，除开一定会执行的主线程之外，其他线程的执行顺序都无法控制，在Java上是由Java虚拟机调度，其他平台大多是由系统控制。</p>
+<h3 id="1-3-协程"><a href="#1-3-协程" class="headerlink" title="1.3 协程"></a>1.3 协程</h3><p>线程执行过程中发生线程切换的时候会损耗一定的资源，这部分资源用来保存线程的状态。执行过程中如果发生了磁盘读写或网络请求这样的IO操作的时候线程的执行会被阻塞，但同时该线程还会持有CPU资源，这就造成了一定了资源浪费。理想的情况是在发送阻塞的时候，该线程主动交出CPU给其他线程使用或者给内部的其他任务。</p>
+<p>这种方式其实就是协程的体系。通过提升CPU利用率，减少线程切换，进而提升程序运行效率。</p>
+<p>延伸开来协程主要有三个特性。</p>
+<ul>
+<li>第一个是可控制，不同于线程协程能做到可被控制的发起子任务；</li>
+<li>第二个是轻量级，协程非常小、占用资源比线程还少，在JVM平台上它的本质就是一次方法的调用；</li>
+<li>第三个是语法糖，目前能够使用协程的语言都提供了很好的语法糖支持，使多任务或多线程切换不在使用回调语法。</li>
+</ul>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2020/06/04/kotlin-coroutine-basic/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/04/03/how-to-deal-with-touch-event-conflict/" itemprop="url">
+                  如何解决view嵌套时的滑动冲突问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-04-03T11:15:04+08:00" content="2019-04-03">
+              2019-04-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2019/04/03/how-to-deal-with-touch-event-conflict/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/04/03/how-to-deal-with-touch-event-conflict/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>在Android UI开发中，对滑动事件的处理是不可少的，其中对View嵌套时的滑动冲突问题处理则相对比较麻烦，下面就介绍一个这样的案例。</p>
+<h2 id="1-滑动冲突问题"><a href="#1-滑动冲突问题" class="headerlink" title="1. 滑动冲突问题"></a>1. 滑动冲突问题</h2><p>两个可以滑动的View嵌套，如何实现里面的View滑到尽头后，继续滑动时，事件交给外层View继续滑动。</p>
+<h2 id="2-问题分析"><a href="#2-问题分析" class="headerlink" title="2. 问题分析"></a>2. 问题分析</h2><ol>
+<li>根据Android的事件分发机制，里面的子view要想处理事件，就要接收到Action Down事件，所以父view不能拦截Down事件。</li>
+<li>父View要能处理后续的Move事件，那么他就需要拦截Move事件。</li>
+<li>子View滑动到尽头了，要交给父view，那么子View就需要能控制父View是否进行事件拦截。</li>
+</ol>
+<h2 id="3-解决思路"><a href="#3-解决思路" class="headerlink" title="3. 解决思路"></a>3. 解决思路</h2><ol>
+<li>父View不能拦截Down事件，但要拦截Move事件，可以在onInterceptTouchEvent中判断事件是Down事件时，返回false，其余事件返回true。</li>
+<li>子View在接收到Down事件时，需要调用父View的requestDisallowInterceptTouchEvent为false，让父View不拦截事件，那么子View可以处理后续的Move事件，实现子View滑动。</li>
+<li>当子View滑动到尽头后，再调用父View的requestDisallowInterceptTouchEvent为true，让父View拦截事件，即事件交给父View处理。</li>
+</ol>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2019/04/03/how-to-deal-with-touch-event-conflict/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/03/shell-extract-filename-and-dirname/" itemprop="url">
-                  【转载】Linux shell 如何提取文件名和文件目录
+                  Linux shell 如何提取文件名和文件目录
                 </a>
               
             
@@ -391,7 +922,7 @@
               
                 
                 <a class="post-title-link" href="/2016/08/17/android-official-mvp-architecture-demo-analysis/" itemprop="url">
-                  【转载】Android官方MVP架构示例项目解析
+                  Android官方MVP架构示例项目解析
                 </a>
               
             
@@ -768,7 +1299,7 @@
               
                 
                 <a class="post-title-link" href="/2016/07/18/android-java-how-to-proguard/" itemprop="url">
-                  【转载】Android java代码如何混淆
+                  Android java代码如何混淆
                 </a>
               
             
@@ -977,544 +1508,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/08/23/vim-shortcut-keys-collecting/" itemprop="url">
-                  Vim快键键汇总（持续更新）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-08-23T11:37:37+08:00" content="2015-08-23">
-              2015-08-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/vim/" itemprop="url" rel="index">
-                    <span itemprop="name">vim</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/08/23/vim-shortcut-keys-collecting/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/23/vim-shortcut-keys-collecting/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="1-移动光标"><a href="#1-移动光标" class="headerlink" title="1. 移动光标"></a>1. 移动光标</h3><ul>
-<li>h &nbsp;&nbsp;  左移</li>
-<li>j &nbsp;&nbsp;  下移</li>
-<li>k &nbsp;&nbsp;  上移</li>
-<li>l &nbsp;&nbsp;  右移</li>
-<li>$ &nbsp;&nbsp;  移动到当前行行尾</li>
-<li>^ &nbsp;&nbsp;  移动到当前行的第一个非空白字符上</li>
-<li>0 &nbsp;&nbsp;  移动到当前行的行首，同Home键</li>
-<li>gg &nbsp;&nbsp;  移动到文档的第一行</li>
-<li>G  &nbsp;&nbsp;  移动到文档的最后一行</li>
-<li>H  &nbsp;&nbsp;  移动到当前屏幕中的第一行</li>
-<li>M  &nbsp;&nbsp;  移动到当前屏幕中的中间行</li>
-<li>L  &nbsp;&nbsp;  移动到当前屏幕中的最后一行</li>
-<li>行数+G  &nbsp;&nbsp; 将光标移动到文档的指定行，比如移动到23行（23G）</li>
-<li>数字+%  &nbsp;&nbsp; 将光标移动到文档百分比位置，比如移动到文档12%的位置（12%）</li>
-<li>`.  &nbsp;&nbsp; 跳转至上次编辑位置</li>
-<li>%  &nbsp;&nbsp;  跳到与当前括号匹配的括号处，如当前在’{‘，则跳转到与之匹配的’}’处</li>
-<li>Ctrl+g  &nbsp;&nbsp;   获取当前位置信息</li>
-<li>zz, zt, zb  &nbsp;&nbsp;  滚动文档，将光标所在行居中/置顶/置尾</li>
-<li>f[x]  &nbsp;&nbsp;  向右移动至字母x在当前行内下一次出现的位置，f指forward，x可以是任一个字母，你还可以用;来重复执行刚才的fx</li>
-<li>tx  &nbsp;&nbsp;   同fx，区别在于光标会停留到x的左侧</li>
-<li>Fx  &nbsp;&nbsp;   同fx，只是向左移动</li>
-</ul>
-<h3 id="2-内容搜索"><a href="#2-内容搜索" class="headerlink" title="2. 内容搜索"></a>2. 内容搜索</h3><ul>
-<li>/string  &nbsp;&nbsp;   向前搜索指定字符串</li>
-<li>?string   &nbsp;&nbsp;  向后搜索指定字符串</li>
-<li><code>/\&lt;make\&gt;</code>  &nbsp;&nbsp; 搜索make，前后不包含其他字母</li>
-<li><code>*</code>  &nbsp;&nbsp;   查找光标所在处的单词，向下查找</li>
-<li><code>#</code>  &nbsp;&nbsp;   查找光标所在处的单词，向上查找<br><strong>n/N配合以上查找命令执行</strong></li>
-<li>n   &nbsp;&nbsp;  搜索指定字符串的下一个出现位置</li>
-<li>N   &nbsp;&nbsp;  搜索指定字符串的上一个出现位置</li>
-</ul>
-<h3 id="3-查找替换"><a href="#3-查找替换" class="headerlink" title="3. 查找替换"></a>3. 查找替换</h3><ul>
-<li>:%s/old/new/g   &nbsp;&nbsp;    全文替换指定字符串</li>
-<li>:s/vivian/sky/  &nbsp;&nbsp;    替换当前行第一个vivian 为sky</li>
-<li>:s/vivian/sky/g  &nbsp;&nbsp;   替换当前行所有vivian 为sky</li>
-<li>:n,$s/vivian/sky/  &nbsp;&nbsp; 替换第 n 行开始到最后一行中每一行的第一个vivian为sky, n为数字，若n为.，表示从当前行开始到最后一行</li>
-<li>:2,$s/vivian/sky/g  &nbsp;&nbsp;   替换第 2 行开始到最后一行中每一行所有vivian为sky</li>
-<li>:%s/vivian/sky/   &nbsp;&nbsp;    （等同于 :g/vivian/s//sky/） 替换每一行的第一个vivian 为sky</li>
-<li>:%s/vivian/sky/g   &nbsp;&nbsp;  （等同于 :g/vivian/s//sky/g） 替换每一行中所有vivian 为sky</li>
-<li><code>(&lt;w+&gt;)_s*1</code>   &nbsp;&nbsp;   查找重复的连续单词，如：this this，输入<code>/\(\&lt;\w\+\&gt;\)\_s*\1</code>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/08/23/vim-shortcut-keys-collecting/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/02/16/socket-communication-by-tcp-udp/" itemprop="url">
-                  用Socket实现TCP，UDP通信
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-02-16T16:37:41+08:00" content="2015-02-16">
-              2015-02-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/02/16/socket-communication-by-tcp-udp/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/02/16/socket-communication-by-tcp-udp/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="1-用Socket实现UDP通信"><a href="#1-用Socket实现UDP通信" class="headerlink" title="1. 用Socket实现UDP通信"></a>1. 用Socket实现UDP通信</h2><p>UDP适用于一次传送少量数据、对可靠性要求不高的应用环境。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UDPServer</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            DatagramSocket ds = <span class="keyword">new</span> DatagramSocket();</div><div class="line">            <span class="keyword">byte</span>[] buffer = <span class="string">"udp test"</span>.getBytes();</div><div class="line">            DatagramPacket dp = <span class="keyword">new</span> DatagramPacket(buffer, buffer.length, InetAddress.getByName(<span class="string">"localhost"</span>), <span class="number">8000</span>);</div><div class="line">            <span class="comment">// 将localhost换为255.255.255.255可以发送广播，对该局域网内所有机器发送消息</span></div><div class="line">            ds.send(dp);</div><div class="line">            ds.close();</div><div class="line">        &#125; <span class="keyword">catch</span> (SocketException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; <span class="keyword">catch</span> (UnknownHostException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UDPClient</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            DatagramSocket ds = <span class="keyword">new</span> DatagramSocket(<span class="number">8000</span>);</div><div class="line">            <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</div><div class="line">            DatagramPacket dp = <span class="keyword">new</span> DatagramPacket(buffer, buffer.length);</div><div class="line">            ds.receive(dp);</div><div class="line">            String ip = dp.getAddress().getHostAddress();</div><div class="line">            String data = <span class="keyword">new</span> String(dp.getData(), <span class="number">0</span>, dp.getLength());</div><div class="line">            <span class="keyword">int</span> port = dp.getPort();</div><div class="line">            System.out.println(<span class="string">"ip: "</span> + ip + <span class="string">"; data: "</span> + data + <span class="string">"; port: "</span> + port);</div><div class="line">            ds.close();</div><div class="line">        &#125; <span class="keyword">catch</span> (SocketException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/02/16/socket-communication-by-tcp-udp/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/08/06/android-pull-to-refresh/" itemprop="url">
-                  Android 下拉刷新控件的使用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-08-06T10:43:29+08:00" content="2014-08-06">
-              2014-08-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/08/06/android-pull-to-refresh/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/08/06/android-pull-to-refresh/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <img src="/2014/08/06/android-pull-to-refresh/01.png" alt="01.png" title="">
-<p>如上图，是Android下拉刷新控件PullToRefresh，这种控件使用比较普遍，Google+、知乎等都有使用。<br>Github地址： <a href="https://github.com/chrisbanes/ActionBar-PullToRefresh.git">https://github.com/chrisbanes/ActionBar-PullToRefresh.git</a><br>下面介绍此控件的用法：</p>
-<h2 id="1-PullToRefresh基本用法"><a href="#1-PullToRefresh基本用法" class="headerlink" title="1. PullToRefresh基本用法"></a>1. PullToRefresh基本用法</h2><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">//在build.gradle中添加依赖库</div><div class="line">compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'</div><div class="line"></div><div class="line">//在xml中引用如下：</div><div class="line"><span class="tag">&lt;<span class="name">uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout</span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/pull_refresh_layout"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">ListView</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span> /&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">//在Java代码中引用如下：</span></div><div class="line">pullRefreshLayout = (PullToRefreshLayout) findViewById(R.id.pull_refresh_layout);</div><div class="line">ActionBarPullToRefresh.from(<span class="keyword">this</span>)</div><div class="line">    .allChildrenArePullable()</div><div class="line">    .listener(<span class="keyword">new</span> OnRefreshListener() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRefreshStarted</span><span class="params">(View view)</span> </span>&#123;</div><div class="line">            <span class="comment">//add your refreshing code.</span></div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    .setup(pullRefreshLayout);</div></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/08/06/android-pull-to-refresh/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/08/06/android-listen-listview-scroll-events/" itemprop="url">
-                  ListView滚动事件的监听
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-08-06T10:25:35+08:00" content="2014-08-06">
-              2014-08-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/08/06/android-listen-listview-scroll-events/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/08/06/android-listen-listview-scroll-events/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>ListView本身有一个OnScrollListener的接口，通过此接口可以监听ListView的状态，滚动的个数，但是没法监听其精确的滚动距离、上下滚动事件和滚动到表头或表尾事件，下面介绍如何监听这些事件。</p>
-<h2 id="1-上下滚动事件的响应"><a href="#1-上下滚动事件的响应" class="headerlink" title="1. 上下滚动事件的响应"></a>1. 上下滚动事件的响应</h2><ol>
-<li>自定义一个继承至ListView的类。</li>
-<li>覆写onTouchEvent方法，监听触摸事件。</li>
-<li>定义一个有效滚动距离，当滑动的距离超过这个距离时才会触发滚动事件的响应。</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> mEffectiveDistance = <span class="number">10</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">float</span> mPreviousY;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</div><div class="line">    mDetector.onTouchEvent(ev);</div><div class="line">    <span class="keyword">switch</span> (ev.getAction()) &#123;</div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_MOVE:</div><div class="line">            <span class="keyword">float</span> currentY = ev.getY();</div><div class="line">            <span class="keyword">float</span> distanceY = currentY - mPreviousY;</div><div class="line">            <span class="keyword">if</span> (distanceY &lt; -mEffectiveDistance) &#123;</div><div class="line">                mPreviousY = currentY;</div><div class="line">                <span class="keyword">if</span> (mCallbacks != <span class="keyword">null</span>) &#123;</div><div class="line">                    mCallbacks.onScrollUp();  <span class="comment">//触发向上滚动的事件</span></div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (distanceY &gt; mEffectiveDistance) &#123;</div><div class="line">                mPreviousY = currentY;</div><div class="line">                <span class="keyword">if</span> (mCallbacks != <span class="keyword">null</span>) &#123;</div><div class="line">                    mCallbacks.onScrollDown();  <span class="comment">//触发向下滚动的事件</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line"></div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</div><div class="line">            mPreviousY = ev.getY();</div><div class="line">            <span class="keyword">break</span>;</div><div class="line"></div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="keyword">break</span>;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.onTouchEvent(ev);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/08/06/android-listen-listview-scroll-events/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1560,7 +1553,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">17</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1568,7 +1561,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1577,7 +1570,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1634,7 +1627,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

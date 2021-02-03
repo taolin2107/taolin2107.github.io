@@ -1,0 +1,723 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    
+    <link href="//fonts.geekzu.org/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,kotlin," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="1. 认识协程1.1 进程早期的计算机运行程序还是只能一次运行一个任务，之后进程的出现实现了近似同步的执行效果，其本质上是程序的交替执行。为了保证进程中的程序能够正常执行，还会有一些存储进程状态的保存集。随着硬件的发展和多CPU的出现，能够同时执行的进程数量逐渐增多。这就带来了一个问题，即用来存储进程状态的集合所占用的资源比一个进程可以执行的资源还要多，相当于整个系统大半的进行都是用来保存进程的状">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kotlin协程入门">
+<meta property="og:url" content="http://taolin.me/2020/06/04/kotlin-coroutine-basic/index.html">
+<meta property="og:site_name" content="Taolin的博客">
+<meta property="og:description" content="1. 认识协程1.1 进程早期的计算机运行程序还是只能一次运行一个任务，之后进程的出现实现了近似同步的执行效果，其本质上是程序的交替执行。为了保证进程中的程序能够正常执行，还会有一些存储进程状态的保存集。随着硬件的发展和多CPU的出现，能够同时执行的进程数量逐渐增多。这就带来了一个问题，即用来存储进程状态的集合所占用的资源比一个进程可以执行的资源还要多，相当于整个系统大半的进行都是用来保存进程的状">
+<meta property="og:image" content="http://taolin.me/2020/06/04/kotlin-coroutine-basic/coroutine.png">
+<meta property="og:image" content="http://taolin.me/2020/06/04/kotlin-coroutine-basic/thread.png">
+<meta property="og:image" content="http://taolin.me/2020/06/04/kotlin-coroutine-basic/test_runblocking.png">
+<meta property="og:image" content="http://taolin.me/2020/06/04/kotlin-coroutine-basic/test_launch.png">
+<meta property="og:image" content="http://taolin.me/2020/06/04/kotlin-coroutine-basic/test_async.png">
+<meta property="og:image" content="http://taolin.me/2020/06/04/kotlin-coroutine-basic/coroutine_context.png">
+<meta property="og:updated_time" content="2021-02-03T08:28:45.271Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kotlin协程入门">
+<meta name="twitter:description" content="1. 认识协程1.1 进程早期的计算机运行程序还是只能一次运行一个任务，之后进程的出现实现了近似同步的执行效果，其本质上是程序的交替执行。为了保证进程中的程序能够正常执行，还会有一些存储进程状态的保存集。随着硬件的发展和多CPU的出现，能够同时执行的进程数量逐渐增多。这就带来了一个问题，即用来存储进程状态的集合所占用的资源比一个进程可以执行的资源还要多，相当于整个系统大半的进行都是用来保存进程的状">
+<meta name="twitter:image" content="http://taolin.me/2020/06/04/kotlin-coroutine-basic/coroutine.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://taolin.me/2020/06/04/kotlin-coroutine-basic/"/>
+
+  <title> kotlin协程入门 | Taolin的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Taolin的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">生命不息 奋斗不止</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                kotlin协程入门
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2020-06-04T19:31:10+08:00" content="2020-06-04">
+              2020-06-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">kotlin</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/06/04/kotlin-coroutine-basic/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/06/04/kotlin-coroutine-basic/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1-认识协程"><a href="#1-认识协程" class="headerlink" title="1. 认识协程"></a>1. 认识协程</h2><h3 id="1-1-进程"><a href="#1-1-进程" class="headerlink" title="1.1 进程"></a>1.1 进程</h3><p>早期的计算机运行程序还是只能一次运行一个任务，之后进程的出现实现了近似同步的执行效果，其本质上是程序的交替执行。为了保证进程中的程序能够正常执行，还会有一些存储进程状态的保存集。随着硬件的发展和多CPU的出现，能够同时执行的进程数量逐渐增多。这就带来了一个问题，即用来存储进程状态的集合所占用的资源比一个进程可以执行的资源还要多，相当于整个系统大半的进行都是用来保存进程的状态。</p>
+<h3 id="1-2-线程"><a href="#1-2-线程" class="headerlink" title="1.2 线程"></a>1.2 线程</h3><p>线程的提出有效的解决了这个问题。进程不再频繁的切换，而是先执行，遇到阻塞的话暂时不管，继续执行其他的任务，当其他任务执行完之后再回过头来看阻塞任务是否执行完。多线程的缺陷在于无法自主控制调度，除开一定会执行的主线程之外，其他线程的执行顺序都无法控制，在Java上是由Java虚拟机调度，其他平台大多是由系统控制。</p>
+<h3 id="1-3-协程"><a href="#1-3-协程" class="headerlink" title="1.3 协程"></a>1.3 协程</h3><p>线程执行过程中发生线程切换的时候会损耗一定的资源，这部分资源用来保存线程的状态。执行过程中如果发生了磁盘读写或网络请求这样的IO操作的时候线程的执行会被阻塞，但同时该线程还会持有CPU资源，这就造成了一定了资源浪费。理想的情况是在发送阻塞的时候，该线程主动交出CPU给其他线程使用或者给内部的其他任务。</p>
+<p>这种方式其实就是协程的体系。通过提升CPU利用率，减少线程切换，进而提升程序运行效率。</p>
+<p>延伸开来协程主要有三个特性。</p>
+<ul>
+<li>第一个是可控制，不同于线程协程能做到可被控制的发起子任务；</li>
+<li>第二个是轻量级，协程非常小、占用资源比线程还少，在JVM平台上它的本质就是一次方法的调用；</li>
+<li>第三个是语法糖，目前能够使用协程的语言都提供了很好的语法糖支持，使多任务或多线程切换不在使用回调语法。</li>
+</ul>
+<a id="more"></a>
+<h3 id="1-4-举例：用户登录"><a href="#1-4-举例：用户登录" class="headerlink" title="1.4 举例：用户登录"></a>1.4 举例：用户登录</h3><p>用户登录在应用开发中可以算是一个很常见的场景，具体的逻辑是这样的，首先向第三方平台请求用户token，然后将token和自身平台上的用户账号关联起来，最后获取用户信息展示到UI界面上。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">login</span><span class="params">()</span></span> &#123;</div><div class="line">    requestToken &#123; token -&gt;</div><div class="line">        requestUserInfo(token) &#123; user -&gt;</div><div class="line">            setText(user.name)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对此最常见的做法是采用回调的形式。requestToken会先发出一次网络请求，请求返回后执行回调并传入token，回调内部又会用token作为参数向服务器发起请求获得用户信息，最终完成用户信息在UI上的改变。这种方式的问题在于嵌套层级过多，链路一旦过长看起来会非常复杂。</p>
+<p>用协程改写</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">login</span><span class="params">()</span></span> = runBlocking &#123;</div><div class="line">    <span class="keyword">val</span> token = requestToken()</div><div class="line">    <span class="keyword">val</span> user = requestUserInfo(token)</div><div class="line">    setText(user.name)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="1-5-举例：对比线程的执行效率"><a href="#1-5-举例：对比线程的执行效率" class="headerlink" title="1.5 举例：对比线程的执行效率"></a>1.5 举例：对比线程的执行效率</h3><p>运行以下代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">testCoroutineRepeat</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 启动大量的协程</span></div><div class="line">    runBlocking &#123;</div><div class="line">        repeat(<span class="number">100</span>_000) &#123;</div><div class="line">            launch &#123;</div><div class="line">                delay(<span class="number">1000</span>L)</div><div class="line">                print(<span class="string">"."</span>)</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>它启动了 10 万个协程，并且在一秒钟后，每个协程都输出一个点。输出结果如下：</p>
+<img src="/2020/06/04/kotlin-coroutine-basic/coroutine.png" alt="coroutine.png" title="">
+<p>再尝试使用线程来实现，会发生什么</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">testThreadRepeat</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 启动大量的线程</span></div><div class="line">    repeat(<span class="number">100</span>_000) &#123;</div><div class="line">        Thread(Runnable &#123;</div><div class="line">            Thread.sleep(<span class="number">1000</span>L)</div><div class="line">            print(<span class="string">"."</span>)</div><div class="line">        &#125;).start()</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<img src="/2020/06/04/kotlin-coroutine-basic/thread.png" alt="thread.png" title="">
+<p>可以看到，用线程执行花了47秒多，用协程执行只花了2秒多，<strong>协程的执行效率比线程高20倍！</strong></p>
+<h2 id="2-启动一个协程"><a href="#2-启动一个协程" class="headerlink" title="2. 启动一个协程"></a>2. 启动一个协程</h2><p>在Kotlin中常用的启动协程的方式有三种</p>
+<ul>
+<li>第一种是runBlocking，会阻塞调用它的线程，直到 runBlocking内部的协程执行完毕。一般用在协程和线程的交接点，也就是通常只用于启动最外层协程。</li>
+<li>第二种是launch，不阻塞调用它的线程，一般用于在协程内部再启动一个协程。</li>
+<li>第三种是async/await，会阻塞调用它的线程，它不仅可以启动协程，还可以得到协程里面执行的结果。</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">testRunBlocking</span><span class="params">()</span></span> &#123;</div><div class="line">    runBlocking &#123;</div><div class="line">        delay(<span class="number">1000</span>)</div><div class="line">        println(<span class="string">"runBlocking"</span>)</div><div class="line">    &#125;</div><div class="line">    println(<span class="string">"test end."</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行结果如下，可以看到runBlocking会阻塞调用它的线程，直到runBlocking协程执行完毕，才开始执行线程后面的代码。<br><img src="/2020/06/04/kotlin-coroutine-basic/test_runblocking.png" alt="test_runblocking.png" title=""></p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">testLaunch</span><span class="params">()</span></span> = runBlocking &#123;</div><div class="line">    launch &#123;</div><div class="line">        delay(<span class="number">1000</span>)</div><div class="line">        println(<span class="string">"launch"</span>)</div><div class="line">    &#125;</div><div class="line">    println(<span class="string">"test end."</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行结果如下，可以看到launch启动的协程不会阻塞调用它的线程，runBlocking也会保证内部的子协程都执行完毕，才会结束runBlocking协程，当然要保证在同一个CoroutineScope（协程上下文，后面会介绍）。<br><img src="/2020/06/04/kotlin-coroutine-basic/test_launch.png" alt="test_launch.png" title=""></p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">testAsync</span><span class="params">()</span></span> = runBlocking &#123;</div><div class="line">    <span class="keyword">val</span> getNum = GlobalScope.async &#123;</div><div class="line">        delay(<span class="number">1000</span>)</div><div class="line">        println(<span class="string">"launch"</span>)</div><div class="line">        <span class="number">100</span></div><div class="line">    &#125;</div><div class="line">    println(<span class="string">"get num="</span> + getNum.await())</div><div class="line">    println(<span class="string">"test end."</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行结果如下，可以看到async启动的协程会阻塞调用它的线程，并且还可以通过await方法得到async里面的返回值。<br><img src="/2020/06/04/kotlin-coroutine-basic/test_async.png" alt="test_async.png" title=""></p>
+<h2 id="3-协程调度器"><a href="#3-协程调度器" class="headerlink" title="3. 协程调度器"></a>3. 协程调度器</h2><p>协程调度器可以将协程限制在一个特定的线程执行，或将它分派到一个线程池，亦或是让它不受限地运行。</p>
+<p>Kotlin 提供了三个调度程序，可以使用它们来指定应在哪个线程环境运行协程：</p>
+<ul>
+<li>Dispatchers.Main - 使用此调度程序可在 Android 主线程上运行协程。此调度程序只能用于与界面交互和执行快速工作。示例包括调用 suspend 函数、运行 Android 界面框架操作，以及更新 LiveData 对象。</li>
+<li>Dispatchers.IO - 此调度程序经过了专门优化，适合在主线程之外执行磁盘或网络 I/O。示例包括使用 Room 组件、从文件中读取数据或向文件中写入数据，以及运行任何网络操作。</li>
+<li>Dispatchers.Default - 此调度程序经过了专门优化，适合在主线程之外执行占用大量 CPU 资源的工作。用法示例包括对列表排序和解析 JSON。</li>
+</ul>
+<p>所有的协程启动函数都可以接收一个可选的 CoroutineContext 参数，它可以用来指定新协程运行在哪个环境。或者在协程内部使用 withContext(context CoroutineContext) 来切换运行环境。withContext() 不会增加额外的开销。此外，在某些情况下，还可以优化 withContext() 调用，使其超越基于回调的等效实现。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">testCoroutineContext</span><span class="params">()</span></span> = runBlocking &#123;</div><div class="line">    println(<span class="string">"runBlocking working thread <span class="subst">$&#123;Thread.currentThread().name&#125;</span>"</span>)</div><div class="line">    launch &#123; <span class="comment">// 运行在父协程的上下文中，即跟 runBlocking 运行的线程环境一样</span></div><div class="line">        println(<span class="string">"launch1 working thread <span class="subst">$&#123;Thread.currentThread().name&#125;</span>"</span>)</div><div class="line">        withContext(Dispatchers.IO) &#123;</div><div class="line">            println(<span class="string">"launch1 switched thread <span class="subst">$&#123;Thread.currentThread().name&#125;</span>"</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    launch(Dispatchers.Unconfined) &#123; <span class="comment">// 不受限的——将工作在主线程中</span></div><div class="line">        println(<span class="string">"launch2 working thread <span class="subst">$&#123;Thread.currentThread().name&#125;</span>"</span>)</div><div class="line">    &#125;</div><div class="line">    launch(Dispatchers.Default) &#123; <span class="comment">// 将会获取默认调度器</span></div><div class="line">        println(<span class="string">"launch3 working thread <span class="subst">$&#123;Thread.currentThread().name&#125;</span>"</span>)</div><div class="line">    &#125;</div><div class="line">    launch(newSingleThreadContext(<span class="string">"MyOwnThread"</span>)) &#123; <span class="comment">// 将使它获得一个新的线程</span></div><div class="line">        println(<span class="string">"launch4 working thread <span class="subst">$&#123;Thread.currentThread().name&#125;</span>"</span>)</div><div class="line">    &#125;    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<img src="/2020/06/04/kotlin-coroutine-basic/coroutine_context.png" alt="coroutine_context.png" title="">
+<h2 id="4-协程上下文"><a href="#4-协程上下文" class="headerlink" title="4. 协程上下文"></a>4. 协程上下文</h2><p>在定义协程时还必须指定其上下文CoroutineScope。CoroutineScope 可管理一个或多个相关的协程。还可以使用 CoroutineScope 在该范围内启动新的协程。不过，与调度程序不同，CoroutineScope 不运行协程。</p>
+<p>CoroutineScope 的一项重要功能就是在用户离开你的应用时停止执行协程，确保所有正在运行的操作都能正确停止。比如在 Android 的 activity 上下文中启动了一组协程来使用异步拉取并更新数据，所有这些协程必须在这个 activity 销毁的时候停止以避免内存泄漏。</p>
+<p>CoroutineScope 可以通过 CoroutineScope() 创建或者通过MainScope() 工厂函数。前者创建了一个通用作用域，而后者为使用 Dispatchers.Main 作为默认调度器的 UI 应用程序 创建作用域：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Activity</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">val</span> scop = CoroutineScope(Dispatchers.IO)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">refreshData</span><span class="params">()</span></span> = runBlocking &#123;</div><div class="line">          scope.launch &#123;</div><div class="line">              <span class="keyword">val</span> <span class="keyword">data</span> = fetchData()</div><div class="line">              withContext(Dispatchers.Main) &#123;</div><div class="line">                  updateViews(<span class="keyword">data</span>)</div><div class="line">              &#125;</div><div class="line">          &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">destroy</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="comment">// 在activity销毁时，协程也能正确停止</span></div><div class="line">        scope.cancel()</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 继续运行……</span></div></pre></td></tr></table></figure>
+<p>或者，我们可以在这个 Activity 类中实现 CoroutineScope 接口，使协程上下文与 activity 的生命周期相关联，方法如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Activity</span> : <span class="type">CoroutineScope by CoroutineScope</span></span>(Dispatchers.Default) &#123;</div><div class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">refreshData</span><span class="params">()</span></span> = runBlocking &#123;</div><div class="line">          <span class="comment">// 这样我们在launch启动协程时不用指定协程上下文</span></div><div class="line">          launch &#123;</div><div class="line">              <span class="keyword">val</span> <span class="keyword">data</span> = fetchData()</div><div class="line">              withContext(Dispatchers.Main) &#123;</div><div class="line">                  updateViews(<span class="keyword">data</span>)</div><div class="line">              &#125;</div><div class="line">          &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">destroy</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="comment">// 在activity销毁时，协程也能正确停止</span></div><div class="line">        cancel()</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 继续运行……</span></div></pre></td></tr></table></figure>
+<h2 id="5-实际案例"><a href="#5-实际案例" class="headerlink" title="5. 实际案例"></a>5. 实际案例</h2><p>在项目开发中遇到这个一个场景：</p>
+<p>搜索设备这个操作是阻塞的，在搜索时，需要在UI上展示一个loading弹框，搜索结束后关闭弹窗。如果搜索结果返回太快，loading弹窗一闪而过，体验不好；如果搜索很长时间都不返回，需要加一个超时时间。搜索接口是不提供设置最短时间或超时时间，需要自己另外实现。</p>
+<p>用协程实现起来就比较方便了，如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">refreshDevice</span><span class="params">()</span></span> = runBlocking &#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="comment">// 设置10s超时</span></div><div class="line">        withTimeout(<span class="number">10000</span>) &#123;</div><div class="line">            <span class="keyword">val</span> scanDevices = async &#123; scanDevices() &#125;</div><div class="line">            <span class="comment">// 最短时间不小于3s</span></div><div class="line">            <span class="keyword">val</span> taskMinTime = async &#123; delay(<span class="number">3000</span>) &#125;</div><div class="line">            <span class="comment">// 两个async 启动的协程是并行的，同时await是阻塞的，这样就保证了执行scanDevices最少需要3s，否则会阻塞在这里</span></div><div class="line">            taskMinTime.await()</div><div class="line">            <span class="keyword">val</span> deviceList = scanDevices.await()</div><div class="line">            ...</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">catch</span> (e: TimeoutCancellationException) &#123;</div><div class="line">        <span class="comment">// 超时逻辑处理</span></div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/kotlin/" rel="tag">#kotlin</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/03/how-to-deal-with-touch-event-conflict/" rel="next" title="如何解决view嵌套时的滑动冲突问题">
+                <i class="fa fa-chevron-left"></i> 如何解决view嵌套时的滑动冲突问题
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/04/android-system-stuck/" rel="prev" title="Android系统卡顿如何优化">
+                Android系统卡顿如何优化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2020/06/04/kotlin-coroutine-basic/"
+           data-title="kotlin协程入门" data-url="http://taolin.me/2020/06/04/kotlin-coroutine-basic/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Taolin" />
+          <p class="site-author-name" itemprop="name">Taolin</p>
+          <p class="site-description motion-element" itemprop="description">生命不息 奋斗不止</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/taolin2107" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/215978968" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-认识协程"><span class="nav-text">1. 认识协程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-进程"><span class="nav-text">1.1 进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-线程"><span class="nav-text">1.2 线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-协程"><span class="nav-text">1.3 协程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-举例：用户登录"><span class="nav-text">1.4 举例：用户登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-举例：对比线程的执行效率"><span class="nav-text">1.5 举例：对比线程的执行效率</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-启动一个协程"><span class="nav-text">2. 启动一个协程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-协程调度器"><span class="nav-text">3. 协程调度器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-协程上下文"><span class="nav-text">4. 协程上下文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-实际案例"><span class="nav-text">5. 实际案例</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Taolin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"taolin"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

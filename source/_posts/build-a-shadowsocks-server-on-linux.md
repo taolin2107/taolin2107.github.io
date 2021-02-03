@@ -3,6 +3,7 @@ title: 如何搭建Shadowsocks服务器
 date: 2017-10-30 15:04:16
 tags: [shadowsocks, proxy, 代理]
 categories: network
+published: false
 ---
 
 想要科学上网，就需要有个代理账号，账号怎么来，要么去买一个代理账号，便宜方便，缺点是同一个IP用的人多，容易被gfw封，不够稳定；要么自己买服务器搭建一个代理服务器，服务相对稳定些，但需要一点技术基础。

@@ -86,15 +86,17 @@
 
 
 <meta name="description" content="本文记录在flutter中嵌入原生系统时view遇到的刷新问题和尝试过的解决方案。
-1. 什么是platform view ？
+1. 什么是Platform view ？
 由于 Flutter 诞生于 Android 、iOS 非常成熟的时代背景，为了能让一些现有的 native 控件直接引用到 Flutter app 中，Flutter 团队提供了 AndroidView 、UIKitView 两个 widget 来满足需求，比如说 Fl">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flutter PlatformView避坑指南 —— UI刷新">
 <meta property="og:url" content="http://taolin.me/2022/02/25/flutter-platformview-refresh-issue/index.html">
 <meta property="og:site_name" content="Taolin的博客">
 <meta property="og:description" content="本文记录在flutter中嵌入原生系统时view遇到的刷新问题和尝试过的解决方案。
-1. 什么是platform view ？
+1. 什么是Platform view ？
 由于 Flutter 诞生于 Android 、iOS 非常成熟的时代背景，为了能让一些现有的 native 控件直接引用到 Flutter app 中，Flutter 团队提供了 AndroidView 、UIKitView 两个 widget 来满足需求，比如说 Fl">
+<meta property="og:image" content="http://taolin.me/2022/02/25/flutter-platformview-refresh-issue/01.jpg">
+<meta property="og:image" content="http://taolin.me/2022/02/25/flutter-platformview-refresh-issue/02.jpg">
 <meta property="og:image" content="http://taolin.me/2022/02/25/flutter-platformview-refresh-issue/03.png">
 <meta property="og:image" content="http://taolin.me/2022/02/25/flutter-platformview-refresh-issue/04.png">
 <meta property="og:image" content="http://taolin.me/2022/02/25/flutter-platformview-refresh-issue/05.png">
@@ -102,13 +104,13 @@
 <meta property="og:image" content="http://taolin.me/2022/02/25/flutter-platformview-refresh-issue/07.png">
 <meta property="og:image" content="http://taolin.me/2022/02/25/flutter-platformview-refresh-issue/08.png">
 <meta property="og:image" content="http://taolin.me/2022/02/25/flutter-platformview-refresh-issue/09.png">
-<meta property="og:updated_time" content="2022-02-25T11:18:12.728Z">
+<meta property="og:updated_time" content="2022-02-25T11:43:11.242Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flutter PlatformView避坑指南 —— UI刷新">
 <meta name="twitter:description" content="本文记录在flutter中嵌入原生系统时view遇到的刷新问题和尝试过的解决方案。
-1. 什么是platform view ？
+1. 什么是Platform view ？
 由于 Flutter 诞生于 Android 、iOS 非常成熟的时代背景，为了能让一些现有的 native 控件直接引用到 Flutter app 中，Flutter 团队提供了 AndroidView 、UIKitView 两个 widget 来满足需求，比如说 Fl">
-<meta name="twitter:image" content="http://taolin.me/2022/02/25/flutter-platformview-refresh-issue/03.png">
+<meta name="twitter:image" content="http://taolin.me/2022/02/25/flutter-platformview-refresh-issue/01.jpg">
 
 
 
@@ -338,15 +340,15 @@
 
       
         <p>本文记录在flutter中嵌入原生系统时view遇到的刷新问题和尝试过的解决方案。</p>
-<h3 id="1-什么是platform-view-？"><a href="#1-什么是platform-view-？" class="headerlink" title="1. 什么是platform view ？"></a>1. 什么是platform view ？</h3><blockquote>
+<h3 id="1-什么是Platform-view-？"><a href="#1-什么是Platform-view-？" class="headerlink" title="1. 什么是Platform view ？"></a>1. 什么是Platform view ？</h3><blockquote>
 <p>由于 Flutter 诞生于 Android 、iOS 非常成熟的时代背景，为了能让一些现有的 native 控件直接引用到 Flutter app 中，Flutter 团队提供了 AndroidView 、UIKitView 两个 widget 来满足需求，比如说 Flutter 中的 Webview、MapView，这样无需使用 Flutter 重新开发一套。 </p>
 </blockquote>
-<p>其实 platform view 就是 AndroidView 和 UIKitView 的总称，允许将 native view 嵌入到了 flutter widget 体系中，完成 Dart 代码对 native view 的控制。</p>
+<p>其实 Platform view 就是 AndroidView 和 UIKitView 的总称，允许将 native view 嵌入到了 flutter widget 体系中，完成 Dart 代码对 native view 的控制。</p>
 <h3 id="2-使用Platform-view遇到的问题"><a href="#2-使用Platform-view遇到的问题" class="headerlink" title="2. 使用Platform view遇到的问题"></a>2. 使用Platform view遇到的问题</h3><p>项目中需要实现视频通话的功能，效果见下图。由于使用的视频通话sdk没有flutter版本的，且sdk只提供渲染后的视图view，不提供视频数据。所以只能考虑在flutter中嵌入原生系统Platform view。</p>
-
+<p><img src="/2022/02/25/flutter-platformview-refresh-issue/01.jpg" width="300" height="627"></p>
 <p>实现步骤以Android平台为例，我们需要先对视频通话sdk进行一次封装以便flutter层能调用。<br>首先在原生系统层将视频通话视图列表缓存到一个列表中，列表的每个item包含一个通话视图、视图id及其他信息，通话视图通过Platformview的方式暴露给flutter层。<br>然后把每个视图的id列表，通过MethodChannel的方式传递给flutter层。flutter层获取到视图的id列表，通过给Platformview传递视图id来获取某个item的通话视图，再将该视图显示到具体的位置。</p>
 <p>实际测试发现，视频通话列表可以正常显示，但在列表数量变化时（比如有人加入了视频通话），视图列表出现错乱。</p>
-
+<p><img src="/2022/02/25/flutter-platformview-refresh-issue/02.jpg" width="300" height="627"></p>
 <p>异常log如下：</p>
 <img src="/2022/02/25/flutter-platformview-refresh-issue/03.png" alt="03.png" title="">
 <p>从log可以看到，报错是因为flutter加载原生view时，该原生view还被另一个父view引用；Android中规定一个view只能有一个父view，所以这里报错。</p>
@@ -357,15 +359,15 @@
 <h4 id="3-2-解决方案二"><a href="#3-2-解决方案二" class="headerlink" title="3.2 解决方案二"></a>3.2 解决方案二</h4><p>分析：报错是因为flutter加载原生view时，该原生view还被另一个父view引用。所以尝试在获取原生view时，先判断该view是否有父view，如果有就先移除该view，(view.getParent()).removeView(view)，确保该view没有被其他父view引用。<br>实际测试发现，flutter在加载原生view时，会2次获取原生view，第2次获取时，原生view有父view，此时移除有父view后，flutter会显示异常。</p>
 <p>修改方案，当第一个加载原生view时，移除其父view，第2次加载不移除。<br>测试发现，flutter会显示异常，而且flutter层会不停的获取原生view，进入死循环。<br>此方案破坏了flutter视图绘制的流程，不可行。</p>
 <h4 id="3-3-解决方案三"><a href="#3-3-解决方案三" class="headerlink" title="3.3 解决方案三"></a>3.3 解决方案三</h4><p>从flutter widget生命周期着手分析，根据官方文档提供的widget生命周期如下，widget在deactivate时从渲染树中移除，但不会马上销毁，framework可能会根据情况重新复用这个widget；widget在dispose后，就会被彻底移除然后销毁。</p>
-<img src="/2022/02/25/flutter-platformview-refresh-issue/04.png" alt="04.png" title="">
-<img src="/2022/02/25/flutter-platformview-refresh-issue/05.png" alt="05.png" title="">
-<img src="/2022/02/25/flutter-platformview-refresh-issue/06.png" alt="06.png" title="">
+<p><img src="/2022/02/25/flutter-platformview-refresh-issue/04.png" width="400" height="581"></p>
+<p><img src="/2022/02/25/flutter-platformview-refresh-issue/05.png" width="500" height="260"></p>
+<p><img src="/2022/02/25/flutter-platformview-refresh-issue/06.png" width="500" height="260"></p>
 <p>写一个demo验证widget刷新时，生命周期的变化。</p>
-<img src="/2022/02/25/flutter-platformview-refresh-issue/07.png" alt="07.png" title="">
-<img src="/2022/02/25/flutter-platformview-refresh-issue/08.png" alt="08.png" title="">
+<p><img src="/2022/02/25/flutter-platformview-refresh-issue/07.png" width="381" height="210"></p>
+<p><img src="/2022/02/25/flutter-platformview-refresh-issue/08.png" width="400" height="100"></p>
 <p>根据log可以看出Flutter widget刷新时，后一个widget和前一个widget的生命周期存在部分重叠。<br>由此可知，如果刷新前后两个widget都引用了同一个原生view时，就会出现上面的异常。</p>
 <img src="/2022/02/25/flutter-platformview-refresh-issue/09.png" alt="09.png" title="">
-<h4 id="4-最终结论"><a href="#4-最终结论" class="headerlink" title="4. 最终结论"></a>4. 最终结论</h4><p>在Flutter中如果嵌入原生系统Platform view，要确保widget刷新前后，引用的原生view能复用，否则会出现原生view被2个parent引用而出现的异常。</p>
+<h3 id="4-最终结论"><a href="#4-最终结论" class="headerlink" title="4. 最终结论"></a>4. 最终结论</h3><p>在Flutter中如果嵌入原生系统Platform view，要确保widget刷新前后，引用的原生view能复用，否则会出现原生view被2个parent引用而出现的异常。</p>
 
       
     </div>
@@ -541,7 +543,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-什么是platform-view-？"><span class="nav-text">1. 什么是platform view ？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-使用Platform-view遇到的问题"><span class="nav-text">2. 使用Platform view遇到的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-尝试过的解决方案"><span class="nav-text">3. 尝试过的解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-解决方案一"><span class="nav-text">3.1 解决方案一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-解决方案二"><span class="nav-text">3.2 解决方案二</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-解决方案三"><span class="nav-text">3.3 解决方案三</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-最终结论"><span class="nav-text">4. 最终结论</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-什么是Platform-view-？"><span class="nav-text">1. 什么是Platform view ？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-使用Platform-view遇到的问题"><span class="nav-text">2. 使用Platform view遇到的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-尝试过的解决方案"><span class="nav-text">3. 尝试过的解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-解决方案一"><span class="nav-text">3.1 解决方案一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-解决方案二"><span class="nav-text">3.2 解决方案二</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-解决方案三"><span class="nav-text">3.3 解决方案三</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-最终结论"><span class="nav-text">4. 最终结论</span></a></li></ol></div>
             
           </div>
         </section>
